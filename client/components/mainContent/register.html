@@ -1,0 +1,32 @@
+<h1>Register</h1>
+<md-content class="autoScroll">
+    <md-input-container class="md-icon-float md-block">
+        <md-icon md-svg-src="components/images/icons/ic_person_24px.svg" class="name"></md-icon>
+    <input ng-model="user.username" type="text" placeholder="Username" ng-required="true">
+    </md-input-container>
+    <md-input-container class="md-icon-float md-block">
+        <md-icon md-svg-src="components/images/icons/ic_visibility_24px.svg"></md-icon>
+        <input ng-model="user.password" type="password" placeholder="Password" ng-required="true">
+    </md-input-container>
+    <md-input-container class="md-block">
+        <!-- Use floating placeholder instead of label -->
+        <md-icon md-svg-src="components/images/icons/ic_email_24px.svg" class="email"></md-icon>
+        <input ng-model="user.email" type="email" placeholder="Email (required)" ng-required="true">
+    </md-input-container>
+    <md-input-container class="md-icon-float md-block">
+        <!-- Use floating label instead of placeholder -->
+        <label>Name</label>
+        <md-icon md-svg-src="components/images/icons/ic_person_24px.svg" class="name"></md-icon>
+        <input ng-model="user.name" type="text">
+    </md-input-container>
+    <md-input-container class="md-icon-float md-block">
+        <!-- Use floating label instead of placeholder -->
+        <label>Lastname</label>
+        <md-icon md-svg-src="components/images/icons/ic_person_24px.svg" class="name"></md-icon>
+        <input ng-model="user.name" type="text">
+    </md-input-container>
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+    <md-button class="md-raised">Button</md-button>
+        </section>
+
+</md-content>

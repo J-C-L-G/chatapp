@@ -1,0 +1,8 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea
+node_modules
+client/bower_components
+server/config/ssl/certificate.crt
+server/config/ssl/privatekey.pem
+server/config/environment/secretword.pem
+mongodb

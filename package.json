@@ -1,0 +1,43 @@
+{
+  "name": "chatapp",
+  "version": "1.0.0",
+  "description": "A chat application that use websockets and a REST API",
+  "main": "server/app.js",
+  "scripts": {
+    "start": "node server/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/J-C-L-G/chatapp.git"
+  },
+  "keywords": [
+    "Chat"
+  ],
+  "author": "JCLG",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/J-C-L-G/chatapp/issues"
+  },
+  "homepage": "https://github.com/J-C-L-G/chatapp#readme",
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "composable-middleware": "^0.3.0",
+    "compression": "^1.6.0",
+    "connect-mongo": "^1.1.0",
+    "cookie-parser": "^1.4.1",
+    "ejs": "^2.3.4",
+    "errorhandler": "^1.4.2",
+    "express": "^4.13.3",
+    "express-jwt": "^3.3.0",
+    "express-session": "^1.13.0",
+    "jsonwebtoken": "^5.5.4",
+    "lodash": "^3.10.1",
+    "method-override": "^2.3.5",
+    "mongoose": "^4.3.5",
+    "morgan": "^1.6.1",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "serve-favicon": "^2.3.0"
+  }
+}

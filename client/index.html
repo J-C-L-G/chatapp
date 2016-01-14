@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html ng-app="chatApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <!-- ..:: CSS ::.. -->
+        <!-- >> AngularMaterial CSS <<-->
+        <link href="bower_components/angular-material/angular-material.css" rel="stylesheet" />
+        <link href="bower_components/angular-material/angular-material.layouts.css" rel="stylesheet" />
+        <!-- >> Custom CSS << -->
+        <link href="static/css/index.css" rel="stylesheet" />
+        <link href="components/header/header.css" rel="stylesheet" />
+        <link href="components/footer/footer.css" rel="stylesheet" />
+</head>
+
+<body>
+
+<!-- >> Main Page Content << -->
+    <div layout="row" class="headerLayout">
+        <div flex="100">
+            <div ui-view="header"></div>
+        </div>
+    </div>
+
+    <div layout="row" class="contentLayout">
+        <div flex="20">
+            <div ui-view="leftNav"></div>
+        </div>
+        <div flex="80">
+            <div ui-view="mainContent"></div>
+        </div>
+        <!--<div flex="20">-->
+        <!--<div ui-view="rightNav" hide-gt-xs></div>-->
+        <!--</div>-->
+    </div>
+
+    <div layout="row" class="footerLayout footerStyle">
+        <div flex="100">
+            <div ui-view="footer"></div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Scripts -->
+    <!-- >> AngularJS << -->
+    <script src="bower_components/angular/angular.js"></script>
+    <!-- >> AngularMaterials << -->
+    <script src="bower_components/angular-material/angular-material.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <!-- >> Angular Material Icons v0.6.0 << -->
+    <script src="bower_components/angular-material-icons/angular-material-icons.js"></script>
+    <!-- >> UI-Router << -->
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <!-- AngularJS Resource -->
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <!-- Main Application - ChatApp -->
+        <!-- Main Application -->
+        <script src="app/chatApp.Module.js"></script>
+        <script src="app/chatApp.uiRoutes.js"></script>
+        <!-- Controllers -->
+        <script src="components/header/header.Controller.js"></script>
+        <script src="components/mainContent/login.Controller.js"></script>
+</body>
+</html>

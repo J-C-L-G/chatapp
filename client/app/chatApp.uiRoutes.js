@@ -1,0 +1,51 @@
+angular.module('chatApp')
+    //Define the routes for the main entry point of the application
+    .config(['$stateProvider','$urlRouterProvider',
+             function($stateProvider, $urlRouterProvider){
+
+                 $urlRouterProvider.otherwise('/');
+
+                 $stateProvider
+                     .state('landing',{
+                         url:'/',
+                         views:{
+                             'header':{
+                                 templateUrl:'components/header/header.html',
+                                 controller:'header.Controller'
+                             },
+                             'leftNav':{
+                                 //templateUrl:'components/leftNav/leftNav.html'
+                                 //templateUrl:'app/test/test2.html'
+                             },
+                             'mainContent':{
+                                 templateUrl:'components/mainContent/mainContent.html',
+                                 controller:'login.Controller'
+                             },
+                             'rightNav':{
+                                 //templateUrl:'components/rightNav/rightNav.html'
+                                 //templateUrl:'app/test/test.html',
+                                 //controller:'AppCtrl'
+                             },
+                             'footer':{
+                                 templateUrl:'components/footer/footer.html'
+                             }
+                         }
+                     })
+                     .state('landing.register',{
+                         url:'register',
+                         views:{
+                             'mainContent@':{
+                                 templateUrl:'components/mainContent/register.html'
+                             }
+                         }
+                     })
+                     .state('landing.about',{
+                         url:'about',
+                         views:{
+                             'mainContent@':{
+                                 templateUrl:'components/mainContent/about.html'
+                             }
+                         }
+                     });
+             }
+    ]);
