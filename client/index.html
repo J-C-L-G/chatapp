@@ -2,6 +2,7 @@
 <html ng-app="chatApp">
 <head lang="en">
     <meta charset="UTF-8">
+    <base href="/">
     <title></title>
     <!-- ..:: CSS ::.. -->
         <!-- >> AngularMaterial CSS <<-->
@@ -9,8 +10,9 @@
         <link href="bower_components/angular-material/angular-material.layouts.css" rel="stylesheet" />
         <!-- >> Custom CSS << -->
         <link href="static/css/index.css" rel="stylesheet" />
-        <link href="components/header/header.css" rel="stylesheet" />
-        <link href="components/footer/footer.css" rel="stylesheet" />
+        <!-- >>General Part of the Application 'app/general' << -->
+        <link href="app/general/header/header.css" rel="stylesheet" />
+        <link href="app/general/footer/footer.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -56,12 +58,14 @@
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <!-- AngularJS Resource -->
     <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <!-- Main Application - ChatApp -->
         <!-- Main Application -->
         <script src="app/chatApp.Module.js"></script>
         <script src="app/chatApp.uiRoutes.js"></script>
         <!-- Controllers -->
-        <script src="components/header/header.Controller.js"></script>
-        <script src="components/mainContent/login.Controller.js"></script>
+        <!-- >>General Part of the Application 'app/general' << -->
+        <script src="app/general/header/header.Controller.js"></script>
+        <script src="app/general/mainContent/login.Controller.js"></script>
 </body>
 </html>

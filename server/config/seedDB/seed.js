@@ -22,7 +22,9 @@ User.find({}).remove(function() {
             email: 'admin@admin.com',
             password: 'admin'
         }, function() {
-            console.log('finished populating users');
+            console.log('\n************ ...::::::: MONGODB DEV INFORMATION :::::::::::... ************');
+            console.log('Finished Populating Users ');
+            console.log('************ ...:::::::::::::::::::::::::::::::::::::::::::... ************');
         }
     );
 });

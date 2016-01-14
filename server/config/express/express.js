@@ -61,7 +61,6 @@ module.exports = function(app){
         })
     }));
 
-    console.log(env);
     /* ..:: Specific Middleware Used for Specific Environment ::.. */
     if( env == 'production' ){
         app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));

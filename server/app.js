@@ -57,11 +57,13 @@ if(config.https){
     http.createServer(function (req, res) {
         res.writeHead(301, { "Location": "https://"+config.ip+":"+config.port});
         res.end();
-    }).listen(80);
+    }).listen(config.port);
 }
 
 server.listen(config.port, config.ip, function(){
-    console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
+    console.log('\n************ ...::::::::: SERVER INFORMATION ::::::::::::::... ************');
+    console.log('Express Server Listening  \nPORT: %d \nENVIRONMENT: %s \nHTTPS: %s ', config.port, app.get('env'), config.https);
+    console.log('************ ...:::::::::::::::::::::::::::::::::::::::::::... ************');
 });
 
 

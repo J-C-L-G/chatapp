@@ -25,15 +25,15 @@ var defaultOptions = {
     https : false,
 
     //Server IP
-    ip : process.env.IP || '0.0.0.0', // will listen for all network interface
-                                      // 127.0.0.1 - localhost - 0.0.0.0
+    ip : process.env.IP || '127.0.0.1', // will listen for all network interface
+                                        // 127.0.0.1 - localhost - 0.0.0.0
 
     // List of user roles
     userRoles: ['guest', 'user', 'admin'],
 
     //Secret for Session
     secrets : {
-        session : process.env.SECRET || fs.readFileSync('./config/environment/secretword.pem')
+        session : process.env.SECRET || fs.readFileSync('./config/environment/secretword.pem').toString()
     },
 
     // MongoDB connection options

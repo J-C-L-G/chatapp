@@ -6,6 +6,4 @@ angular.module('chatApp')
             count: 0,
             selectedDirection: 'right'
         };
-        console.log($scope.demo.selectedDirection);
-        //$scope.demo.clickOutsideToClose = false;
     }]);

@@ -1,33 +1,31 @@
 angular.module('chatApp')
     //Define the routes for the main entry point of the application
-    .config(['$stateProvider','$urlRouterProvider',
-             function($stateProvider, $urlRouterProvider){
+    .config(['$stateProvider','$urlRouterProvider','$locationProvider',
+             function($stateProvider, $urlRouterProvider, $locationProvider){
 
+                 //Enable HTML5 Navigation to remove # from the URL
+                 $locationProvider.html5Mode(true);
+
+                 //Default route if the state is not recognized
                  $urlRouterProvider.otherwise('/');
 
+                 //States for the landing page
                  $stateProvider
                      .state('landing',{
                          url:'/',
                          views:{
                              'header':{
-                                 templateUrl:'components/header/header.html',
+                                 templateUrl:'app/general/header/header.html',
                                  controller:'header.Controller'
                              },
-                             'leftNav':{
-                                 //templateUrl:'components/leftNav/leftNav.html'
-                                 //templateUrl:'app/test/test2.html'
-                             },
+                             'leftNav':{},
                              'mainContent':{
-                                 templateUrl:'components/mainContent/mainContent.html',
+                                 templateUrl:'app/general/mainContent/login.html',
                                  controller:'login.Controller'
                              },
-                             'rightNav':{
-                                 //templateUrl:'components/rightNav/rightNav.html'
-                                 //templateUrl:'app/test/test.html',
-                                 //controller:'AppCtrl'
-                             },
+                             'rightNav':{},
                              'footer':{
-                                 templateUrl:'components/footer/footer.html'
+                                 templateUrl:'app/general/footer/footer.html'
                              }
                          }
                      })
@@ -35,7 +33,7 @@ angular.module('chatApp')
                          url:'register',
                          views:{
                              'mainContent@':{
-                                 templateUrl:'components/mainContent/register.html'
+                                 templateUrl:'app/general/mainContent/register.html'
                              }
                          }
                      })
@@ -43,7 +41,7 @@ angular.module('chatApp')
                          url:'about',
                          views:{
                              'mainContent@':{
-                                 templateUrl:'components/mainContent/about.html'
+                                 templateUrl:'app/general/mainContent/about.html'
                              }
                          }
                      });
