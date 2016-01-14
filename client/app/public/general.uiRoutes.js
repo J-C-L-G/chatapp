@@ -8,17 +8,17 @@ angular.module('chatApp')
                     url:'/',
                     views:{
                         'header':{
-                            templateUrl:'app/general/header/header.html',
+                            templateUrl:'app/public/header/header.html',
                             controller:'header.Controller'
                         },
                         'leftNav':{},
                         'mainContent':{
-                            templateUrl:'app/general/mainContent/login.html',
+                            templateUrl:'app/public/mainContent/login.html',
                             controller:'login.Controller'
                         },
                         'rightNav':{},
                         'footer':{
-                            templateUrl:'app/general/footer/footer.html'
+                            templateUrl:'app/public/footer/footer.html'
                         }
                     }
                 })
@@ -26,7 +26,7 @@ angular.module('chatApp')
                     url:'register',
                     views:{
                         'mainContent@':{
-                            templateUrl:'app/general/mainContent/register.html'
+                            templateUrl:'app/public/mainContent/register.html'
                         }
                     }
                 })
@@ -34,7 +34,7 @@ angular.module('chatApp')
                     url:'about',
                     views:{
                         'mainContent@':{
-                            templateUrl:'app/general/mainContent/about.html'
+                            templateUrl:'app/public/mainContent/about.html'
                         }
                     }
                 });
