@@ -1,18 +1,15 @@
 angular.module('chatApp')
-.controller('login.Controller',['$scope', '$http','$cookieStore',function($scope, $http, $cookieStore){
+.controller('login.Controller',['$scope', '$http','$cookieStore','Auth',function($scope, $http, $cookieStore, Auth){
         $scope.user = {
             username:'',
             password:''
         };
-        $scope.login = function(){
-            $http.post('/auth/local/login',{
-                username: $scope.user.username,
-                password: $scope.user.password
-            }).success(function(data){
-                $cookieStore.put('token', data.token);
-                console.log(data);
-            }).error(function(error){
-                console.log(error);
-            });
-        };
+        $scope.login = function(user){
+            Auth.login(user).then(
+                function(data){
+                    console.log(data);
+                },function(error){
+                    console.log(error);
+                });
+        }
     }]);

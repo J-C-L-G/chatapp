@@ -10,13 +10,15 @@ angular.module('chatApp',['ui.router',
         $mdThemingProvider.theme('default')
             .primaryPalette('blue-grey')
             .accentPalette('grey');
-    })
+    });
 
+    /*
     .config(function ($httpProvider) {
         $httpProvider.interceptors.push('authInterceptor');
-    })
+    });
+/*
+.factory('authInterceptor',function($rootScope, $q, $cookieStore, $location, Auth){
 
-.factory('authInterceptor',function($rootScope, $q, $cookieStore, $location){
         return{
             // Add authorization token to headers
             request: function (config) {
@@ -38,6 +40,10 @@ angular.module('chatApp',['ui.router',
                 console.log(response);
                 console.log('Token: ');
                 console.log($cookieStore.get('token'));
+                if(response.data.activeUser){
+                    Auth.setActiveUser(response.data.activeUser);
+                    console.log(response.data.activeUser, 'SET');
+                }
                 return response;
             },
 
@@ -53,5 +59,6 @@ angular.module('chatApp',['ui.router',
                     return $q.reject(response);
                 }
             }
-        }
+
     });
+        */
