@@ -22,7 +22,7 @@ var defaultOptions = {
     port : process.env.PORT || 5000,
 
     //Server Protocol
-    https : false,
+    https : false, //set to true to enable HTTPS protocol
 
     //Server IP
     ip : process.env.IP || '127.0.0.1', // will listen for all network interface
@@ -33,7 +33,8 @@ var defaultOptions = {
 
     //Secret for Session
     secrets : {
-        session : process.env.SECRET || fs.readFileSync('./config/environment/secretword.pem').toString()
+        session : process.env.SECRET ||
+                  fs.readFileSync('./config/environment/secretword.pem').toString() //secret file to build the tokens and sessions
     },
 
     // MongoDB connection options
