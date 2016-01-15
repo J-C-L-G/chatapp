@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('chatApp')
-    .factory('Auth',['$http','$q','$cookieStore',function($http, $q ,$cookieStore){
+    .factory('Auth',['$http','$q','$cookieStore','User',function($http, $q ,$cookieStore, User){
         var activeUser = {};
-        return {
+        var serviceDefinition =  {
             /**
              * Authenticate User and Save Token
              * @return promise
@@ -11,7 +11,6 @@ angular.module('chatApp')
             login : function(user){
                 //Obtain deferred object
                 var deferred = $q.defer();
-                console.log(user);
 
                 $http.post('/auth/local/login',{
                         username: user.username,
@@ -19,6 +18,7 @@ angular.module('chatApp')
                     })
                      .success(function(data) {
                         $cookieStore.put('token', data.token);
+                        activeUser = data.activeUser;
                         deferred.resolve(data);
                     })
                     .error(function(error){
@@ -71,11 +71,33 @@ angular.module('chatApp')
                 return $cookieStore.get('token')  ;
             },
 
-            createUser : function(){
-                var deferred = $q.defer();
+            createUser : function(user){
+                return User.save(user,
+                    function(data){
+                        //After a successful register we append the password once again to login
+                        //since the object returning from the server doesnt provide this field.
+                        data.newUser.password = user.password;
+                        //We Login into the application using the designed credentials
+                        var promiseLogin = serviceDefinition.login(data.newUser);
+                        promiseLogin.then(
+                            function(data){
+                                console.log('logged in after create User');
+                                console.log(data);
+                            },
+                            function(error){
+                                console.log('failed in after create User');
+                                console.log(error);
+                            }
+                        );
+                    },
+                    function(error){
+                        console.log(error);
+                        //error
+                        serviceDefinition.logout();
+                    }
+                );
 
             }
-
-
-        }
+        };
+        return serviceDefinition;
     }]);

@@ -13,7 +13,7 @@ angular.module('chatApp')
                         },
                         'leftNav':{},
                         'mainContent':{
-                            templateUrl:'app/public/mainContent/login.html',
+                            templateUrl:'app/public/mainContent/login/login.html',
                             controller:'login.Controller'
                         },
                         'rightNav':{},
@@ -26,7 +26,8 @@ angular.module('chatApp')
                     url:'register',
                     views:{
                         'mainContent@':{
-                            templateUrl:'app/public/mainContent/register.html'
+                            templateUrl:'app/public/mainContent/register/register.html',
+                            controller:'register.Controller'
                         }
                     }
                 })
@@ -34,7 +35,7 @@ angular.module('chatApp')
                     url:'about',
                     views:{
                         'mainContent@':{
-                            templateUrl:'app/public/mainContent/about.html'
+                            templateUrl:'app/public/mainContent/about/about.html'
                         }
                     }
                 });

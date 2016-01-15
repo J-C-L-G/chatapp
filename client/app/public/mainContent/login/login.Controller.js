@@ -1,5 +1,5 @@
 angular.module('chatApp')
-.controller('login.Controller',['$scope', '$http','$cookieStore','Auth',function($scope, $http, $cookieStore, Auth){
+.controller('login.Controller',['$scope','Auth',function($scope, Auth){
         $scope.user = {
             username:'',
             password:''

@@ -35,7 +35,10 @@ var UserSchema = new Schema({
         data: Buffer,
         contentType: String //https://gist.github.com/aheckmann/2408370
     },
-    provider:String,
+    provider:{
+        type:String,
+        default:'local'
+    },
     salt:String
 });
 

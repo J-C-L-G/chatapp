@@ -7,8 +7,13 @@
 var path = require('path');
 
 module.exports = function(app){
-    /*App Routes*/
+
+    /*** ..:: App Routes ::.. ****/
+    //Auth routes
     app.use('/auth', require('./auth'));
+    //User routes
+    app.use('/api/users', require('../api/user'));
+
 
     // All other routes should redirect to the index.html
     app.route('/*')
