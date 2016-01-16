@@ -12,6 +12,8 @@ angular.module('chatApp',['ui.router',
             .accentPalette('grey');
     });
 
+//http://stackoverflow.com/questions/30345446/how-to-trigger-a-function-on-window-close-using-angularjs
+
     /*
     .config(function ($httpProvider) {
         $httpProvider.interceptors.push('authInterceptor');

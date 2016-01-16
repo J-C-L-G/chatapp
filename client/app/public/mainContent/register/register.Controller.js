@@ -8,9 +8,6 @@ angular.module('chatApp')
 
         $scope.register = function(user){
             var result = Auth.createUser(user);
-            console.log(result);
-            if(result){
-                $state.go('main');
-            }
+            result.then(function(data){$state.go('main');},function(error){console.log(error)})
         };
     }]);

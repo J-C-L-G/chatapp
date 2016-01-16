@@ -4,6 +4,8 @@ angular.module('chatApp')
         $scope.demo = {
             isOpen: false,
             count: 0,
-            selectedDirection: 'right'
+            selectedDirection: 'right',
+            showTooltip:true,
+            tipDirection : ''
         };
     }]);

@@ -94,8 +94,7 @@ angular.module('chatApp')
                         //error
                         serviceDefinition.logout();
                     }
-                );
-
+                ).$promise;
             }
         };
         return serviceDefinition;

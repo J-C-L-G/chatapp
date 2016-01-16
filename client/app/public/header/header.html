@@ -9,13 +9,22 @@
             <a>ChatApp &reg;</a>
             <md-button ui-sref="landing" aria-label="login" class="md-icon-button">
                 <ng-md-icon icon="vpn_key" class="whiteIcon" size="28"></ng-md-icon>
+                <md-tooltip md-visible="demo.showTooltip" md-direction="{{demo.tipDirection}}">
+                    toolbar
+                </md-tooltip>
             </md-button>
-            <md-button ui-sref=".register" aria-label="register" class="md-icon-button">
+            <md-button ui-sref=".register" aria-label="register" class="md-icon-button" alt="Register">
                 <ng-md-icon icon="add_box" class="whiteIcon" size="28"></ng-md-icon>
             </md-button>
-            <md-button ui-sref=".about" aria-label="about" class="md-icon-button">
+            <md-button ui-sref=".about" aria-label="about" class="md-icon-button" alt="About">
                 <ng-md-icon icon="info" class="whiteIcon" size="28"></ng-md-icon>
             </md-button>
         </md-fab-actions>
+        <md-button class="md-fab md-fab-top-left left" aria-label="Insert Drive">
+            <md-icon md-svg-src="static/assets/images/icons/ic_insert_drive_file_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+            <md-tooltip md-visible="demo.showTooltip" md-direction="{{demo.tipDirection}}">
+                Insert Drive
+            </md-tooltip>
+        </md-button>
     </md-toolbar>
 </md-fab-toolbar>
