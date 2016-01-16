@@ -8,7 +8,23 @@
 //- lodash is a module with built in functions
 var _ = require('lodash'),
     path = require('path'),
-    fs = require('fs');
+    fs = require('fs'),
+    os = require('os');
+
+/*****************************************************
+ * Get the local ip to redirect from HTTP to HTTPS   *
+ *****************************************************/
+function getLocalIP(){
+    var netInterfaces = os.networkInterfaces()['Wi-Fi'];
+    var localIP = '0.0.0.0';
+    Object.keys(netInterfaces).forEach(function (index) {
+            if (netInterfaces[index].family == 'IPv4' &&
+                netInterfaces[index].internal == false) {
+                localIP = netInterfaces[index].address;
+            }
+    });
+    return localIP;
+}
 
 // Default initial configuration
 var defaultOptions = {
@@ -22,11 +38,14 @@ var defaultOptions = {
     port : process.env.PORT || 5000,
 
     //Server Protocol
-    https : false, //set to true to enable HTTPS protocol
+    https : process.env.HTTPS_ENABLED || true, //set to true to enable HTTPS protocol
 
     //Server IP
-    ip : process.env.IP || '127.0.0.1', // will listen for all network interface
+    ip : process.env.IP || '0.0.0.0', // will listen for all network interface
                                         // 127.0.0.1 - localhost - 0.0.0.0
+
+    //Check the network interfaces and obtain the IP assigned by the Router
+    localIp : getLocalIP(),
 
     // List of user roles
     userRoles: ['guest', 'user', 'admin'],

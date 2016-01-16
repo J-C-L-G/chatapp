@@ -56,10 +56,9 @@ angular.module('chatApp')
             /**
              * Gets all available info on authenticated user
              *
-             * @param user
              */
-            getActiveUser : function(user){
-                activeUser = user;
+            getActiveUser : function(){
+                return activeUser;
             },
 
             /**

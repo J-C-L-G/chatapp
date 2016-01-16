@@ -52,19 +52,26 @@ app.use(function(req, res, next){
 require('./routes/routes')(app);
 
 
-/*** ..:: Start the Servers ::.. ***/
+/*** ..:: Start the Server ::.. ***/
+console.log('\n************ ...::::::::: SERVER INFORMATION ::::::::::::::... ************');
 if(config.https){
-    http.createServer(function (req, res) {
-        res.writeHead(301, { "Location": "https://"+config.ip+":"+config.port});
-        res.end();
-    }).listen(config.port);
+    server.listen(config.port, config.localIp, function(){
+        console.log('Express Server Listening  ' +
+                    '\nPORT: %d ' +
+                    '\nENVIRONMENT: %s ' +
+                    '\nHTTPS: %s ', config.port,app.get('env'), config.https);
+        console.log('\nhttps://'+config.localIp+':'+config.port);
+    });
+}else{
+    server.listen(config.port, function(){
+        console.log('Express Server Listening  ' +
+                    '\nPORT: %d ' +
+                    '\nENVIRONMENT: %s ' +
+                    '\nHTTPS: %s ', config.port,app.get('env'), config.https);
+        console.log('\nhttp://'+config.localIp+':'+config.port+'\n');
+    });
+console.log('************ ...:::::::::::::::::::::::::::::::::::::::::::... ************');
 }
-
-server.listen(config.port, config.ip, function(){
-    console.log('\n************ ...::::::::: SERVER INFORMATION ::::::::::::::... ************');
-    console.log('Express Server Listening  \nPORT: %d \nENVIRONMENT: %s \nHTTPS: %s ', config.port, app.get('env'), config.https);
-    console.log('************ ...:::::::::::::::::::::::::::::::::::::::::::... ************');
-});
 
 
 /*** ..:: Expose App as Module ::.. ****/

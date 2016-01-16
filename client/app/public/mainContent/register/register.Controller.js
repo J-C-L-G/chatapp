@@ -1,5 +1,5 @@
 angular.module('chatApp')
-.controller('register.Controller',['$scope','Auth',function($scope, Auth){
+.controller('register.Controller',['$scope','Auth','$state',function($scope, Auth, $state){
         $scope.user = {
             username:'',
             password:'',
@@ -7,6 +7,10 @@ angular.module('chatApp')
         };
 
         $scope.register = function(user){
-            Auth.createUser(user);
+            var result = Auth.createUser(user);
+            console.log(result);
+            if(result){
+                $state.go('main');
+            }
         };
     }]);

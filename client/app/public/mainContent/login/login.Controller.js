@@ -1,5 +1,5 @@
 angular.module('chatApp')
-.controller('login.Controller',['$scope','Auth',function($scope, Auth){
+.controller('login.Controller',['$scope','Auth','$state',function($scope, Auth, $state){
         $scope.user = {
             username:'',
             password:''
@@ -8,6 +8,7 @@ angular.module('chatApp')
             Auth.login(user).then(
                 function(data){
                     console.log(data);
+                    $state.go('main');
                 },function(error){
                     console.log(error);
                 });
