@@ -6,6 +6,10 @@ angular.module('chatApp',['ui.router',
                           'ngResource',
                           'ngCookies',
                           'ngMdIcons'])
+    .run(function(Auth,$window){
+        //if the browser close the window or tab, remove the token
+        $window.onbeforeunload =  Auth.logout();
+    })
     .config(function($mdThemingProvider) {
         $mdThemingProvider.theme('default')
             .primaryPalette('blue-grey')

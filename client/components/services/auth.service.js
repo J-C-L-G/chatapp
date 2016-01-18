@@ -71,21 +71,26 @@ angular.module('chatApp')
             },
 
             createUser : function(user){
-                return User.save(user,
+                //Create a promise so we can notify when the data is loaded in the
+                //service  after the Register -> login process is completed
+                var regLogPromise = $q.defer();
+
+                User.save(user,
                     function(data){
                         //After a successful register we append the password once again to login
-                        //since the object returning from the server doesnt provide this field.
+                        //since the object returning from the server doesn't provide this field.
                         data.newUser.password = user.password;
+
                         //We Login into the application using the designed credentials
                         var promiseLogin = serviceDefinition.login(data.newUser);
                         promiseLogin.then(
                             function(data){
                                 console.log('logged in after create User');
-                                console.log(data);
+                                regLogPromise.resolve(data);
                             },
                             function(error){
                                 console.log('failed in after create User');
-                                console.log(error);
+                                regLogPromise.reject(error);
                             }
                         );
                     },
@@ -94,8 +99,11 @@ angular.module('chatApp')
                         //error
                         serviceDefinition.logout();
                     }
-                ).$promise;
+                );
+
+                return regLogPromise.promise;
             }
         };
+
         return serviceDefinition;
     }]);
