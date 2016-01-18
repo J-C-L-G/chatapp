@@ -11,15 +11,15 @@ angular.module('chatApp')
                 },
                 'leftNav':{
                     templateUrl:'app/private/leftNav/leftNav.html',
-                    controller:'mainContent.Controller'
+                    controller:'leftNav.Controller'
                 },
                 'mainContent':{
                     templateUrl:'app/private/mainContent/mainContent.html',
-                    controller:'mainContent.Controller'
+                    //controller:'mainContent.Controller'
                 },
                 'rightNav':{
                     templateUrl:'app/private/rightNav/rightNav.html',
-                    controller:'mainContent.Controller'
+                    //controller:'mainContent.Controller'
                 }
             }
         });

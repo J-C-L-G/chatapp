@@ -1,14 +1,21 @@
 <md-toolbar>
     <div class="md-toolbar-tools">
-        <h2>
-            <span>Welcome {{user.username}}</span>
-        </h2>
-        <span flex></span>
-        <md-button class="md-icon-button" aria-label="Favorite" ng-click="refreshName()">
-            <md-icon md-svg-icon="static/assets/images/icons/ic_refresh_24px.svg" class="whiteIcon"></md-icon>
+        <md-button class="md-icon-button" aria-label="" ng-click="">
+            <ng-md-icon icon="person" class="whiteIcon" size="32"></ng-md-icon>
+            <md-tooltip md-direction="bottom">{{user.username}}</md-tooltip>
         </md-button>
-        <md-button class="md-icon-button" aria-label="Favorite" ng-click="logout()">
-            <md-icon md-svg-icon="static/assets/images/icons/ic_close_24px.svg" class="whiteIcon"></md-icon>
+        <span flex></span>
+        <md-button class="md-icon-button" aria-label="Contacts" ng-click="toggleLeft()">
+            <ng-md-icon icon="people" class="whiteIcon" size="32"></ng-md-icon>
+            <md-tooltip md-direction="bottom">Contacts</md-tooltip>
+        </md-button>
+        <md-button class="md-icon-button" aria-label="Notifications" ng-click="toggleRight()">
+            <ng-md-icon icon="notifications" class="whiteIcon" size="32"></ng-md-icon>
+            <md-tooltip md-direction="bottom">Notifications</md-tooltip>
+        </md-button>
+        <md-button class="md-icon-button" aria-label="Exit" ng-click="logout()">
+            <ng-md-icon icon="logout" class="whiteIcon" size="32"></ng-md-icon>
+            <md-tooltip md-direction="bottom">Loggout</md-tooltip>
         </md-button>
     </div>
 </md-toolbar>
