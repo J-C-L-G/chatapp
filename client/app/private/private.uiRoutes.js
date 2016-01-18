@@ -9,10 +9,18 @@ angular.module('chatApp')
                     templateUrl:'app/private/header/navbar.html',
                     controller:'navbar.Controller'
                 },
-                'leftNav':{},
-                'mainContent':{},
-                'rightNav':{},
-                'footer':{}
+                'leftNav':{
+                    templateUrl:'app/private/leftNav/leftNav.html',
+                    controller:'mainContent.Controller'
+                },
+                'mainContent':{
+                    templateUrl:'app/private/mainContent/mainContent.html',
+                    controller:'mainContent.Controller'
+                },
+                'rightNav':{
+                    templateUrl:'app/private/rightNav/rightNav.html',
+                    controller:'mainContent.Controller'
+                }
             }
         });
     }]);

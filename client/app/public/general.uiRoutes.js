@@ -16,10 +16,7 @@ angular.module('chatApp')
                             templateUrl:'app/public/mainContent/login/login.html',
                             controller:'login.Controller'
                         },
-                        'rightNav':{},
-                        'footer':{
-                            templateUrl:'app/public/footer/footer.html'
-                        }
+                        'rightNav':{}
                     }
                 })
                 .state('landing.register',{

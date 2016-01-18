@@ -1,7 +1,5 @@
 <h1>Login</h1>
-<div layout="column">
-    <div layout="row">
-        <md-content class="autoScroll" flex="40">
+        <md-content class="autoScroll">
             <md-input-container class="md-icon-float md-block">
                 <md-icon md-svg-src="static/assets/images/icons/ic_person_24px.svg" class="name"></md-icon>
                 <input ng-model="user.username" type="text" placeholder="Username" ng-required="true">
@@ -14,5 +12,3 @@
                 <md-button class="md-raised" ng-click="login(user)">Login</md-button>
             </section>
         </md-content>
-    </div>
-</div>

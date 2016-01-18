@@ -1,3 +1,17 @@
-<p>Welcome {{user.username}}</p>
-<button ng-click="logout()">Logout</button>
-<button ng-click="refreshName()">Refresh User?</button>
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Settings">
+            <md-icon md-svg-icon="static/assets/images/icons/menu.svg"></md-icon>
+        </md-button>
+        <h2>
+            <span>Welcome {{user.username}}</span>
+        </h2>
+        <span flex></span>
+        <md-button class="md-icon-button" aria-label="Favorite" ng-click="refreshName()">
+            <md-icon md-svg-icon="static/assets/images/icons/ic_refresh_24px.svg" class="whiteIcon"></md-icon>
+        </md-button>
+        <md-button class="md-icon-button" aria-label="Favorite" ng-click="logout()">
+            <md-icon md-svg-icon="static/assets/images/icons/ic_close_24px.svg" class="whiteIcon"></md-icon>
+        </md-button>
+    </div>
+</md-toolbar>

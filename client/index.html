@@ -12,36 +12,25 @@
         <link href="static/css/index.css" rel="stylesheet" />
         <!-- >>General Part of the Application 'app/general' << -->
         <link href="app/public/header/header.css" rel="stylesheet" />
-        <link href="app/public/footer/footer.css" rel="stylesheet" />
 </head>
 
 <body>
 
 <!-- >> Main Page Content << -->
-    <div layout="row" class="headerLayout">
-        <div flex="100">
+<div layout="column">
+    <div layout="row">
+        <div flex>
             <div ui-view="header"></div>
         </div>
     </div>
 
-    <div layout="row" class="contentLayout">
-        <div flex="20">
-            <div ui-view="leftNav"></div>
-        </div>
-        <div flex="80">
-            <div ui-view="mainContent"></div>
-        </div>
-        <!--<div flex="20">-->
-        <!--<div ui-view="rightNav" hide-gt-xs></div>-->
-        <!--</div>-->
-    </div>
-
-    <div layout="row" class="footerLayout footerStyle">
-        <div flex="100">
-            <div ui-view="footer"></div>
+    <div layout="column">
+        <div layout="row">
+                <div ui-view="leftNav" flex="0"></div>
+                <div ui-view="mainContent" flex="grow"></div>
+                <div ui-view="rightNav" flex="0"></div>
         </div>
     </div>
-
 </div>
 
 <!-- Scripts -->
@@ -73,6 +62,7 @@
         <script src="app/public/mainContent/register/register.Controller.js"></script>
         <!-- >>Private Part of the Application 'app/private' << -->
         <script src="app/private/header/navbar.Controller.js"></script>
+        <script src="app/private/mainContent/mainContent.Controller.js"></script>
         <!-- Services -->
         <script src="components/services/auth.service.js"></script>
         <script src="components/services/user.service.js"></script>

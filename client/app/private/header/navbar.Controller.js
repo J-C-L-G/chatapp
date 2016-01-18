@@ -9,5 +9,11 @@ angular.module('chatApp')
             function(){
                 Auth.logout();
                 $state.go('landing');
-            }
+            };
+        $scope.isOpen = false;
+        $scope.demo = {
+            isOpen: false,
+            count: 0,
+            selectedDirection: 'left'
+        };
     }]);
