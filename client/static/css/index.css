@@ -8,3 +8,9 @@
 .contentLayout{ height: 80%; }
 .footerLayout{ height: 10%; }
 */
+
+.face {
+    border-radius: 30px;
+    border: 1px solid #ddd;
+    width: 48px;
+    margin: 16px; }
