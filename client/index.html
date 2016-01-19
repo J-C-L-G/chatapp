@@ -10,8 +10,9 @@
         <link href="bower_components/angular-material/angular-material.layouts.css" rel="stylesheet" />
         <!-- >> Custom CSS << -->
         <link href="static/css/index.css" rel="stylesheet" />
+        <link href="static/css/iconStyles.css" rel="stylesheet" />
         <!-- >>General Part of the Application 'app/general' << -->
-        <link href="app/public/header/header.css" rel="stylesheet" />
+
 </head>
 
 <body>
@@ -57,7 +58,6 @@
         <script src="app/private/private.uiRoutes.js"></script>
         <!-- Controllers -->
         <!-- >>Public Part of the Application 'app/public' << -->
-        <script src="app/public/header/header.Controller.js"></script>
         <script src="app/public/mainContent/login/login.Controller.js"></script>
         <script src="app/public/mainContent/register/register.Controller.js"></script>
         <!-- >>Private Part of the Application 'app/private' << -->
@@ -67,6 +67,10 @@
         <!-- Services -->
         <script src="components/services/auth.service.js"></script>
         <script src="components/services/user.service.js"></script>
+        <!-- Directives -->
+        <script src="components/directives/valueMatch.directive.js"></script>
+        <script src="components/directives/customErrorMessage.directive.js"></script>
+        <script src="components/directives/ensureType.directive.js"></script>
 
 </body>
 </html>

@@ -10,8 +10,12 @@ var User = require('./user.model'),
  * Utility Function                   *
  **************************************/
 
-var validationError = function(res, err) {
-    return res.status(422).json(err);
+var validationError = function(res, error) {
+    var errorList = [];
+    for(var prop in error.errors){
+        errorList.push(error.errors[prop].message)
+    }
+    return res.status(422).json({'errors':errorList});
 };
 
 /**
@@ -22,8 +26,10 @@ var validationError = function(res, err) {
 exports.create = function(req, res, next){
     var newUser = new User(req.body);
     newUser.save(function(error, user){
-        if(error) return validationError(res, error);
-        var token = jwt.sign({_id : user._id},config.secrets.session,{expiresIn: 60*5});
+        if(error) {
+            return validationError(res, error);
+        }
+        var token = jwt.sign({_id : user._id},config.secrets.session,{expiresIn: 30});
         res.json({'token':token, 'newUser':user.profile});
     });
 };

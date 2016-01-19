@@ -3,18 +3,27 @@
     </div>
     <div flex="30">
         <h1>Login</h1>
-        <md-content class="autoScroll">
-            <md-input-container class="md-icon-float md-block">
-                <md-icon md-svg-src="static/assets/images/icons/ic_person_24px.svg" class="name"></md-icon>
-                <input ng-model="user.username" type="text" placeholder="Username" ng-required="true">
-            </md-input-container>
-            <md-input-container class="md-icon-float md-block">
-                <md-icon md-svg-src="static/assets/images/icons/ic_visibility_24px.svg"></md-icon>
-                <input ng-model="user.password" type="password" placeholder="Password" ng-required="true">
-            </md-input-container>
-            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-                <md-button class="md-raised" ng-click="login(user)">Login</md-button>
-            </section>
-        </md-content>
+        <ul ng-show="error">
+            <li class="error">{{error}}</li>
+        </ul>
+        <form name="loginForm" novalidate>
+            <md-content class="autoScroll">
+                <md-input-container class="md-icon-float md-block" layout="row">
+                    <md-icon>
+                        <ng-md-icon icon="account_circle" class="blackIcon" size="28"></ng-md-icon>
+                    </md-icon>
+                    <input ng-model="user.username" type="text" placeholder="username" ng-required="true">
+                </md-input-container>
+                <md-input-container class="md-icon-float md-block" layout="row">
+                    <md-icon>
+                        <ng-md-icon icon="vpn_key" class="blackIcon" size="28"></ng-md-icon>
+                    </md-icon>
+                    <input ng-model="user.password" type="password" placeholder="password" ng-required="true">
+                </md-input-container>
+                <md-input-container layout="row" layout-align="center center">
+                    <md-button class="md-raised md-cornered" ng-disabled="loginForm.$invalid" ng-click="login(user)">Login</md-button>
+                </md-input-container>
+            </md-content>
+        </form>
     </div>
 </div>

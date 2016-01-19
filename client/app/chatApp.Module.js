@@ -6,65 +6,63 @@ angular.module('chatApp',['ui.router',
                           'ngResource',
                           'ngCookies',
                           'ngMdIcons'])
+    //If the browser close the window or tab, remove the auth token
     .run(function(Auth,$window){
-        //if the browser close the window or tab, remove the token
         $window.onbeforeunload =  Auth.logout();
     })
+    //Theme Configuration for AngularMaterials
     .config(function($mdThemingProvider) {
         $mdThemingProvider.theme('default')
             .primaryPalette('blue-grey')
             .accentPalette('grey');
     });
 
-//http://stackoverflow.com/questions/30345446/how-to-trigger-a-function-on-window-close-using-angularjs
+/* Interceptor to use firther in the application*/
+        /*
+        .config(function ($httpProvider) {
+            $httpProvider.interceptors.push('authInterceptor');
+        })
+        .factory('authInterceptor',function($rootScope, $q, $cookieStore, $location, Auth){
+            return{
+                // Add authorization token to headers
+                request: function (config) {
+                    console.log('Intercepting Request...');
+                    console.log(config);
+                    console.log('Token: ');
+                    console.log($cookieStore.get('token'));
 
-    /*
-    .config(function ($httpProvider) {
-        $httpProvider.interceptors.push('authInterceptor');
-    });
-/*
-.factory('authInterceptor',function($rootScope, $q, $cookieStore, $location, Auth){
+                    config.headers = config.headers || {};
+                    if ($cookieStore.get('token')) {
+                        config.headers.Authorization = 'Bearer ' + $cookieStore.get('token');
+                        console.log(config.headers.Authorization);
+                    }
+                    return config;
+                },
 
-        return{
-            // Add authorization token to headers
-            request: function (config) {
-                console.log('Intercepting Request...');
-                console.log(config);
-                console.log('Token: ');
-                console.log($cookieStore.get('token'));
+                response : function(response){
+                    console.log('Intercepting Response: ');
+                    console.log(response);
+                    console.log('Token: ');
+                    console.log($cookieStore.get('token'));
+                    if(response.data.activeUser){
+                        Auth.setActiveUser(response.data.activeUser);
+                        console.log(response.data.activeUser, 'SET');
+                    }
+                    return response;
+                },
 
-                config.headers = config.headers || {};
-                if ($cookieStore.get('token')) {
-                    config.headers.Authorization = 'Bearer ' + $cookieStore.get('token');
-                    console.log(config.headers.Authorization);
+                // Intercept 401s and redirect you to login
+                responseError: function(response) {
+                    if(response.status === 401) {
+                        $location.path('/');
+                        // remove any stale tokens
+                        $cookieStore.remove('token');
+                        return $q.reject(response);
+                    }
+                    else {
+                        return $q.reject(response);
+                    }
                 }
-                return config;
-            },
 
-            response : function(response){
-                console.log('Intercepting Response: ');
-                console.log(response);
-                console.log('Token: ');
-                console.log($cookieStore.get('token'));
-                if(response.data.activeUser){
-                    Auth.setActiveUser(response.data.activeUser);
-                    console.log(response.data.activeUser, 'SET');
-                }
-                return response;
-            },
-
-            // Intercept 401s and redirect you to login
-            responseError: function(response) {
-                if(response.status === 401) {
-                    $location.path('/');
-                    // remove any stale tokens
-                    $cookieStore.remove('token');
-                    return $q.reject(response);
-                }
-                else {
-                    return $q.reject(response);
-                }
-            }
-
-    });
+        });
         */

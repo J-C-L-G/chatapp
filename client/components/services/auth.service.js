@@ -85,19 +85,20 @@ angular.module('chatApp')
                         var promiseLogin = serviceDefinition.login(data.newUser);
                         promiseLogin.then(
                             function(data){
-                                console.log('logged in after create User');
+                                //We resolve the promise returned from the createUser method
+                                //to proceed with the redirect in the controller
                                 regLogPromise.resolve(data);
                             },
                             function(error){
-                                console.log('failed in after create User');
+                                //Promise rejected after create the user login failed
                                 regLogPromise.reject(error);
                             }
                         );
                     },
                     function(error){
-                        console.log(error);
-                        //error
+                        //Error while saving a user in the database
                         serviceDefinition.logout();
+                        regLogPromise.reject(error);
                     }
                 );
 

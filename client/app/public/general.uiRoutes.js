@@ -8,8 +8,7 @@ angular.module('chatApp')
                     url:'/',
                     views:{
                         'header':{
-                            templateUrl:'app/public/header/header.html',
-                            controller:'header.Controller'
+                            templateUrl:'app/public/header/header.html'
                         },
                         'leftNav':{},
                         'mainContent':{

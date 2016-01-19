@@ -3,10 +3,6 @@
     border: 1px solid black;
     box-sizing: border-box;
 }
-/*
-.headerLayout{ min-height: 10%; }
-.contentLayout{ height: 80%; }
-.footerLayout{ height: 10%; }
 */
 
 .face {
@@ -14,3 +10,14 @@
     border: 1px solid #ddd;
     width: 48px;
     margin: 16px; }
+
+
+.errorMessage{
+    color: red;
+    font-style: italic;
+}
+
+.error{
+    color: red;
+    font-size: 75%;
+}
