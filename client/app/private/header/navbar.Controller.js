@@ -9,7 +9,7 @@ angular.module('chatApp')
             };
 
         $scope.toggleLeft = buildToggler('left');
-        $scope.toggleRight = buildToggler('right');
+        $scope.toggleRight = buildToggler('notifications');
 
         /**
          * Build handler to open/close a SideNav; when animation finishes

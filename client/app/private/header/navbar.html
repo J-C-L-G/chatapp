@@ -1,6 +1,6 @@
 <md-toolbar>
     <div class="md-toolbar-tools">
-        <md-button class="md-icon-button" aria-label="" ng-click="">
+        <md-button class="md-icon-button" aria-label="" ui-sref="main.userInfo">
             <ng-md-icon icon="person" class="whiteIcon" size="32"></ng-md-icon>
             <md-tooltip md-direction="bottom">{{user.username}}</md-tooltip>
         </md-button>
@@ -20,3 +20,4 @@
         </md-button>
     </div>
 </md-toolbar>
+<div class="userInfo" ui-view flex="30"></div>

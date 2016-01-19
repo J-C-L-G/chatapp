@@ -7,3 +7,20 @@
     <p>From a nested view</p>
     ...
 </div>
+
+<div layout="row">
+    <div flex="80">
+        <md-input-container class="md-block">
+            <!-- Use floating placeholder instead of label -->
+            <md-icon md-svg-src="img/icons/ic_email_24px.svg" class="email"></md-icon>
+            <textarea ng-model="message" type="text" placeholder="Message"></textarea>
+        </md-input-container>
+    </div>
+    <div flex="20">
+        <md-button class="md-icon-button" aria-label="Exit" ng-click="">
+            <ng-md-icon icon="send"  size="32"></ng-md-icon>
+            <md-tooltip md-direction="bottom">Send</md-tooltip>
+        </md-button>
+
+    </div>
+</div>

@@ -7,106 +7,21 @@ angular.module('chatApp')
             face : imagePath,
             what: 'Brunch this weekend?',
             who: 'Min Li Chan',
-            when: '3:08PM',
-            notes: " I'll be in your neighborhood doing errands"
+            when: '3:58PM',
+            notes: " I'll be in a home"
         }, {
             face : imagePath,
-            what: 'Brunch this weekend?',
-            who: 'Min Li Chan',
-            when: '3:08PM',
-            notes: " I'll be in your neighborhood doing errands"
+            what: 'Church this weekend?',
+            who: 'Hohn Miller',
+            when: '13:08PM',
+            notes: " I'll be in your  doing houses"
         },
-            {
-                face : imagePath,
-                what: 'Brunch this weekend?',
-                who: 'Min Li Chan',
-                when: '3:08PM',
-                notes: " I'll be in your neighborhood doing errands"
-            },{
-                face : imagePath,
-                what: 'Brunch this weekend?',
-                who: 'Min Li Chan',
-                when: '3:08PM',
-                notes: " I'll be in your neighborhood doing errands"
-            },{
-                face : imagePath,
-                what: 'Brunch this weekend?',
-                who: 'Min Li Chan',
-                when: '3:08PM',
-                notes: " I'll be in your neighborhood doing errands"
-            },{
-                face : imagePath,
-                what: 'Brunch this weekend?',
-                who: 'Min Li Chan',
-                when: '3:08PM',
-                notes: " I'll be in your neighborhood doing errands"
-            },{
-                face : imagePath,
-                what: 'Brunch this weekend?',
-                who: 'Min Li Chan',
-                when: '3:08PM',
-                notes: " I'll be in your neighborhood doing errands"
-            },{
-                face : imagePath,
-                what: 'Brunch this weekend?',
-                who: 'Min Li Chan',
-                when: '3:08PM',
-                notes: " I'll be in your neighborhood doing errands"
-            },{
-                face : imagePath,
-                what: 'Brunch this weekend?',
-                who: 'Min Li Chan',
-                when: '3:08PM',
-                notes: " I'll be in your neighborhood doing errands"
-            },{
-                face : imagePath,
-                what: 'Brunch this weekend?',
-                who: 'Min Li Chan',
-                when: '3:08PM',
-                notes: " I'll be in your neighborhood doing errands"
-            },{
-                face : imagePath,
-                what: 'Brunch this weekend?',
-                who: 'Min Li Chan',
-                when: '3:08PM',
-                notes: " I'll be in your neighborhood doing errands"
-            },{
-                face : imagePath,
-                what: 'Brunch this weekend?',
-                who: 'Min Li Chan',
-                when: '3:08PM',
-                notes: " I'll be in your neighborhood doing errands"
-            },{
-                face : imagePath,
-                what: 'Brunch this weekend?',
-                who: 'Min Li Chan',
-                when: '3:08PM',
-                notes: " I'll be in your neighborhood doing errands"
-            },{
-                face : imagePath,
-                what: 'Brunch this weekend?',
-                who: 'Min Li Chan',
-                when: '3:08PM',
-                notes: " I'll be in your neighborhood doing errands"
-            },
-            {
+         {
             face : imagePath,
-            what: 'Brunch this weekend?',
-            who: 'Min Li Chan',
-            when: '3:08PM',
-            notes: " I'll be in your neighborhood doing errands"
-        }, {
-            face : imagePath,
-            what: 'Brunch this weekend?',
-            who: 'Min Li Chan',
-            when: '3:08PM',
-            notes: " I'll be in your neighborhood doing errands"
-        }, {
-            face : imagePath,
-            what: 'Brunch this weekend?',
-            who: 'Min Li Chan',
-            when: '3:08PM',
-            notes: " I'll be in your neighborhood doing errands"
+            what: 'Breakfast this weekend?',
+            who: 'Anton Chan',
+            when: '23:18PM',
+            notes: " I'll be in a top po box"
         }];
 
 });

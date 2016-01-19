@@ -30,12 +30,10 @@ angular.module('chatApp')
                     templateUrl:'app/private/mainContent/activeConversation.html'
                 }
             }
-        });
-
-            /*
-            .state('main.activeConversation',{
-                url:'/active/:who',
-                templateUrl: 'app/private/mainContent/activeConversation.html'
+        })
+            .state('main.userInfo', {
+                url: '',
+                templateUrl: 'app/private/header/userInfo.html'
             });
-            */
+
     }]);
