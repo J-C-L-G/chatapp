@@ -8,7 +8,7 @@ angular.module('chatApp')
                 $state.go('landing');
             };
 
-        $scope.toggleContacts = UserInterface.buildToggler('contacts');
+        $scope.toggleContacts = UserInterface.buildToggler('contacts',function(){console.log('callback executed')});
         $scope.toggleNotiofications = UserInterface.buildToggler('notifications');
 
     }]);
