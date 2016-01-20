@@ -6,13 +6,17 @@
     ...
     <p>From a nested view</p>
     ...
+    https://joelennon.com/file-uploads-with-express-4-0/
 </div>
 
 <div layout="row">
-    <div flex="80">
+    <div flex="10"></div>
+    <div flex="70">
         <md-input-container class="md-block">
             <!-- Use floating placeholder instead of label -->
-            <md-icon md-svg-src="img/icons/ic_email_24px.svg" class="email"></md-icon>
+            <md-icon>
+                <ng-md-icon icon="sms" class="blackIcon" size="32"></ng-md-icon>
+            </md-icon>
             <textarea ng-model="message" type="text" placeholder="Message"></textarea>
         </md-input-container>
     </div>

@@ -1,15 +1,9 @@
-<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left">
+<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="contacts">
     <md-toolbar class="md-theme-indigo">
-        <h1 class="md-toolbar-tools">Sidenav Left</h1>
+        <h1 class="md-toolbar-tools">Contacts</h1>
     </md-toolbar>
     <md-content layout-padding>
-        <md-button ng-click="close()" class="md-primary">
-            Close Sidenav Left
-        </md-button>
-        <md-button ng-click="openContactInfo()" class="md-primary">
-            Open Contact Info
-        </md-button>
-        <md-button ng-click="closeContactInfo()" class="md-primary">
+        <md-button ng-click="toggleContactInfo()" class="md-primary">
             Close Contact Info
         </md-button>
         <p hide-md show-gt-md>

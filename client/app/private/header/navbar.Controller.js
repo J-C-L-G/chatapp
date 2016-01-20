@@ -1,5 +1,5 @@
 angular.module('chatApp')
-    .controller('navbar.Controller', ['$scope','Auth','$state','$mdSidenav','$log',function($scope, Auth, $state, $mdSidenav,$log ) {
+    .controller('navbar.Controller', ['$scope','Auth','$state','UserInterface',function($scope, Auth, $state, UserInterface ) {
         $scope.user = Auth.getActiveUser();
 
         $scope.logout =
@@ -8,21 +8,7 @@ angular.module('chatApp')
                 $state.go('landing');
             };
 
-        $scope.toggleLeft = buildToggler('left');
-        $scope.toggleRight = buildToggler('notifications');
-
-        /**
-         * Build handler to open/close a SideNav; when animation finishes
-         * report completion in console
-         */
-        function buildToggler(navID) {
-            return function() {
-                $mdSidenav(navID)
-                    .toggle()
-                    .then(function () {
-                        $log.debug("toggle " + navID + " is done");
-                    });
-            }
-        }
+        $scope.toggleContacts = UserInterface.buildToggler('contacts');
+        $scope.toggleNotiofications = UserInterface.buildToggler('notifications');
 
     }]);
