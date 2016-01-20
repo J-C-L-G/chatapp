@@ -1,5 +1,5 @@
 angular.module('chatApp')
-.controller('rightNav.Controller',['$rootScope','$scope','UserInterface',function($rootScope,$scope,UserInterface){
+.controller('rightNav.Controller',['$rootScope','$scope','UserInterface','Toast',function($rootScope,$scope,UserInterface,Toast){
 
         $scope.toggleContactInfo = UserInterface.buildToggler('contactInfo');
         $scope.toggleNotifications = UserInterface.buildToggler('notifications');
@@ -11,5 +11,9 @@ angular.module('chatApp')
         $scope.$on("TOGGLE_NOTIFICATIONS",function(){
             $scope.toggleNotifications();
         });
+
+        $scope.testNotification = function(){
+            Toast.notify('Jesus trae el poop');
+        }
 
     }]);

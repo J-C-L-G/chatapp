@@ -1,5 +1,5 @@
 angular.module('chatApp')
-    .controller('navbar.Controller', ['$rootScope','$scope','Auth','$state','UserInterface',function($rootScope, $scope, Auth, $state, UserInterface ) {
+    .controller('navbar.Controller', ['$rootScope','$scope','Auth','$state','UserInterface','$mdToast',function($rootScope, $scope, Auth, $state, UserInterface,$mdToast ) {
         $scope.user = Auth.getActiveUser();
 
         $scope.logout =
