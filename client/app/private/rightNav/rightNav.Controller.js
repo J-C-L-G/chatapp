@@ -13,7 +13,7 @@ angular.module('chatApp')
         });
 
         $scope.testNotification = function(){
-            Toast.notify('Jesus trae el poop');
+            Toast.notify('Testing a notification');
         }
 
     }]);
