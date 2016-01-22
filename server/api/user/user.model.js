@@ -39,8 +39,18 @@ var UserSchema = new Schema({
         type:String,
         default:'local'
     },
-    salt:String
-});
+    salt:String,
+    contacts:[
+        {type: Schema.Types.ObjectId, ref:'User'}
+    ],
+    pendingContacts:[
+        {type: Schema.Types.ObjectId, ref:'User'}
+    ],
+    notifications:[
+        {type: Schema.Types.ObjectId, ref:'User'}
+    ]
+
+},{collection:'User'});
 
 /********************************************************
  * Virtual Fields                                       *
@@ -66,7 +76,10 @@ UserSchema
             'email' : this.email,
             'motto' : this.motto,
             'profileImage' : this.profileImage,
-            'role' : this.role
+            'role' : this.role,
+            'contacts':this.contacts,
+            'pendingContacts':this.pendingContacts,
+            'notifications':this.notifications
         }
     });
 
@@ -205,5 +218,8 @@ UserSchema.methods = {
         return crypto.pbkdf2Sync(password, salt, 10000, 64).toString('base64');
     }
 };
+
+//UserSchema.set('toJSON', {getters: true, virtuals: true });
+//UserSchema.set('toObject', { getters: true, virtuals: true });
 
 module.exports = mongoose.model('User',UserSchema);

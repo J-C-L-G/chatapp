@@ -12,12 +12,26 @@
     margin: 16px; }
 
 
-.errorMessage{
-    color: red;
-    font-style: italic;
-}
 
 .error{
     color: red;
     font-size: 75%;
+}
+
+/*Class to Style the subheading in the Navigation Menu*/
+.subHeading{
+    background-color: gray;
+    color: white;
+    border: 1px solid gray;
+    padding: 5px;
+    outline:none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    overflow: hidden;
+}
+
+.iconToRight{
+    float:right;
 }

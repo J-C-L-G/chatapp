@@ -12,17 +12,19 @@ var _ = require('lodash'),
     os = require('os');
 
 /*****************************************************
- * Get the local ip to redirect from HTTP to HTTPS   *
+ * Get the local ip assigned                         *
  *****************************************************/
 function getLocalIP(){
     var netInterfaces = os.networkInterfaces()['Wi-Fi'];
-    var localIP = '0.0.0.0';
-    Object.keys(netInterfaces).forEach(function (index) {
+    var localIP = '127.0.0.1';
+    if(netInterfaces){
+        Object.keys(netInterfaces).forEach(function (index) {
             if (netInterfaces[index].family == 'IPv4' &&
                 netInterfaces[index].internal == false) {
                 localIP = netInterfaces[index].address;
             }
-    });
+        });
+    }
     return localIP;
 }
 
@@ -45,7 +47,7 @@ var defaultOptions = {
                                         // 127.0.0.1 - localhost - 0.0.0.0
 
     //Check the network interfaces and obtain the IP assigned by the Router
-    localIp : getLocalIP(),
+    localIp : getLocalIP() || '127.0.0.1',
 
     // List of user roles
     userRoles: ['guest', 'user', 'admin'],

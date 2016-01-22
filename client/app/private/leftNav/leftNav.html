@@ -1,14 +1,91 @@
+<!-- Contacts Sidebar -->
 <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="contacts">
     <md-toolbar class="md-theme-indigo">
         <h1 class="md-toolbar-tools">Contacts</h1>
     </md-toolbar>
+
+    <!-- Contact Search Panel -->
+    <h3 class="subHeading md-subhead" layou="row" ng-click="toggleContactSearch()">
+        <span flex="80">Search</span>
+        <md-button aria-label="Show/Hide Contact Search" class="md-icon-button iconToRight"  flex="20">
+            <ng-md-icon icon="{{(panels.contactSearch) ? 'visibility_off':'search'}}" class="whiteIcon" size="25"></ng-md-icon>
+            <md-tooltip md-direction="bottom">{{(panels.contactSearch) ? 'Hide':'Show'}} Contact Search</md-tooltip>
+        </md-button>
+
+    </h3>
+
+    <md-cotent layour="row" ng-show="panels.contactSearch">
+        <md-input-container class="md-icon-float" flex="70">
+            <input ng-model="searchFor" name="searchFor" type="text" placeholder="username" ensure-type ensure="alphanumeric" custom-error-message >
+        </md-input-container>
+        <md-button class="md-icon-button" aria-label="Search" ng-click="search()" flex="20">
+            <ng-md-icon icon="search" class="blackIcon" size="32"></ng-md-icon>
+            <md-tooltip md-direction="bottom">Search</md-tooltip>
+        </md-button>
+
+        <md-list class="fixedRows" ng-show="(contactsResult.length > 0)">
+            <md-list-item class="md-2-line contact-item" ng-repeat="contact in contactsResult" layout="row">
+                <img ng-src="static/assets/60.jpeg" class="md-avatar" alt="{{contact.username}}" flex="15" />
+                <div class="md-list-item-text compact" flex="80">
+                    <h3>{{contact.username}}</h3>
+                    <p>{{contact.email}}</p>
+                </div>
+                <md-button ng-click="testAdd(contact)" flex="10" aria-label="Add">
+                    <ng-md-icon icon="person_add" class="blackIcon" size="25"></ng-md-icon>
+                </md-button>
+            </md-list-item>
+        </md-list>
+    </md-cotent>
+
+    <!-- Contacts -->
+    <h3 class="subHeading md-subhead" layou="row" ng-click="toggleShowContacts()">
+        <span flex="80">Your Contacts</span>
+        <md-button aria-label="Show/Hide Contacts" class="md-icon-button iconToRight"  flex="20">
+            <ng-md-icon icon="{{(panels.showContacts) ? 'visibility_off':'people'}}" class="whiteIcon" size="25"></ng-md-icon>
+            <md-tooltip md-direction="bottom">{{(panels.showContacts) ? 'Hide':'Show'}} Your Contacts</md-tooltip>
+        </md-button>
+    </h3>
+
+    <md-cotent layour="row" ng-show="panels.showContacts">
+        <md-list class="fixedRows">
+            <md-list-item class="md-2-line contact-item" ng-repeat="contact in contacts" layout="row">
+                <img ng-src="static/assets/60.jpeg" class="md-avatar" alt="{{contact.username}}" flex="15" />
+                <div class="md-list-item-text compact" flex="80">
+                    <h3>{{contact.username}}</h3>
+                    <p>{{contact.email}}</p>
+                </div>
+                <md-button ng-click="" flex="10" aria-label="Add">
+                    <ng-md-icon icon="chat" class="blackIcon" size="25"></ng-md-icon>
+                </md-button>
+            </md-list-item>
+        </md-list>
+    </md-cotent>
+
+    <!-- Pending Contacts -->
+    <h3 class="subHeading md-subhead" layou="row" ng-click="togglePendingContacts()">
+        <span flex="80">Pending Contact Request</span>
+        <md-button aria-label="Show/Hide Pending Contacts" class="md-icon-button iconToRight"  flex="20">
+            <ng-md-icon icon="{{(panels.pendingContacts) ? 'visibility_off':'access_time'}}" class="whiteIcon" size="25"></ng-md-icon>
+            <md-tooltip md-direction="bottom">{{(panels.pendingContacts) ? 'Hide':'Show'}} Pending Contacts</md-tooltip>
+        </md-button>
+    </h3>
+
+    <md-cotent layour="row" ng-show="panels.pendingContacts">
+        <md-list class="fixedRows">
+            <md-list-item class="md-2-line contact-item" ng-repeat="contact in pendingContacts" layout="row">
+                <img ng-src="static/assets/60.jpeg" class="md-avatar" alt="{{contact.username}}" flex="15" />
+                <div class="md-list-item-text compact" flex="80">
+                    <h3>{{contact.username}}</h3>
+                    <p>{{contact.email}}</p>
+                </div>
+            </md-list-item>
+        </md-list>
+    </md-cotent>
+
+
     <md-content layout-padding>
         <md-button ng-click="toggleContactInfo()" class="md-primary">
             Close Contact Info
         </md-button>
-        <p hide-md show-gt-md>
-            This sidenav is locked open on your device. To go back to the default behavior,
-            narrow your display.
-        </p>
     </md-content>
 </md-sidenav>

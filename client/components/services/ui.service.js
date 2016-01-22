@@ -32,10 +32,17 @@ angular.module('chatApp')
             }
         }
 
+        //Utility Function to Create a Toggle for a Panel in a View
+        function buildPanelToggler(object,property){
+            return function(){
+                object[property] = (object[property]) ? false : true;
+            }
+        }
 
             return {
                 buildOpen:buildOpen,
                 buildClose:buildClose,
-                buildToggler:buildToggler
+                buildToggler:buildToggler,
+                buildPanelToggler:buildPanelToggler
             }
         }]);

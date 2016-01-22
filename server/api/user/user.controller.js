@@ -33,3 +33,21 @@ exports.create = function(req, res, next){
         res.json({'token':token, 'newUser':user.profile});
     });
 };
+
+/**
+ *Search for a Contact(s)
+ *
+ * @return {array}
+ */
+
+exports.find = function(req, res, next){
+    console.log(req.query.names);
+    User.find({username:new RegExp('^'+req.query.names,'i')},{_id:false, hashedPassword:false, salt:false, __v:false, contacts:false },function(error, documents){
+        if(error) throw error;
+        if(documents){
+            res.json({'contacts':documents});
+        }else{
+            next();
+        }
+    })
+};
