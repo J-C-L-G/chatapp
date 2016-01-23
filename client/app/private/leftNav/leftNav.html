@@ -15,29 +15,31 @@
     </h3>
 
     <md-cotent layour="row" ng-show="panels.contactSearch">
-        <md-input-container class="md-icon-float" flex="70">
-            <input ng-model="searchFor" name="searchFor" type="text" placeholder="username" ensure-type ensure="alphanumeric" custom-error-message >
-        </md-input-container>
-        <md-button class="md-icon-button" aria-label="Search" ng-click="search()" flex="20">
-            <ng-md-icon icon="search" class="blackIcon" size="32"></ng-md-icon>
-            <md-tooltip md-direction="bottom">Search</md-tooltip>
-        </md-button>
-
-        <md-list class="fixedRows" ng-show="(contactsResult.length > 0)">
-            <md-list-item class="md-2-line contact-item" ng-repeat="contact in contactsResult" layout="row">
+        <form novalidate name="searchForm">
+            <md-input-container class="md-icon-float" flex="70">
+                <input ng-model="searchName" name="searchFor" type="text" placeholder="username" required="true" ensure-type ensure="alphanumeric" >
+            </md-input-container>
+            <md-button class="md-icon-button" aria-label="Search" ng-click="searchForContacts(searchName)" flex="20" ng-disabled="searchForm.$invalid">
+                <ng-md-icon icon="search" class="blackIcon" size="32"></ng-md-icon>
+                <md-tooltip md-direction="bottom">Search</md-tooltip>
+            </md-button>
+        </form>
+        <md-list class="fixedRows" ng-show="(searchResults.length > 0)">
+            <md-list-item class="md-2-line contact-item" ng-repeat="contact in searchResults" layout="row">
                 <img ng-src="static/assets/60.jpeg" class="md-avatar" alt="{{contact.username}}" flex="15" />
                 <div class="md-list-item-text compact" flex="80">
                     <h3>{{contact.username}}</h3>
                     <p>{{contact.email}}</p>
                 </div>
-                <md-button ng-click="testAdd(contact)" flex="10" aria-label="Add">
+                <md-button ng-click="addContact(contact)" flex="10" aria-label="Add">
                     <ng-md-icon icon="person_add" class="blackIcon" size="25"></ng-md-icon>
                 </md-button>
             </md-list-item>
         </md-list>
     </md-cotent>
 
-    <!-- Contacts -->
+
+    <!-- Panel Contacts -->
     <h3 class="subHeading md-subhead" layou="row" ng-click="toggleShowContacts()">
         <span flex="80">Your Contacts</span>
         <md-button aria-label="Show/Hide Contacts" class="md-icon-button iconToRight"  flex="20">
@@ -61,7 +63,8 @@
         </md-list>
     </md-cotent>
 
-    <!-- Pending Contacts -->
+
+    <!-- Panel Pending Contacts -->
     <h3 class="subHeading md-subhead" layou="row" ng-click="togglePendingContacts()">
         <span flex="80">Pending Contact Request</span>
         <md-button aria-label="Show/Hide Pending Contacts" class="md-icon-button iconToRight"  flex="20">
@@ -83,9 +86,9 @@
     </md-cotent>
 
 
-    <md-content layout-padding>
-        <md-button ng-click="toggleContactInfo()" class="md-primary">
-            Close Contact Info
-        </md-button>
-    </md-content>
+    <!--<md-content layout-padding>-->
+        <!--<md-button ng-click="toggleContactInfo()" class="md-primary">-->
+            <!--Close Contact Info-->
+        <!--</md-button>-->
+    <!--</md-content>-->
 </md-sidenav>

@@ -1,6 +1,7 @@
 'use strict';
 
 var User = require('./user.model'),
+    mongoose = require('mongoose'),
     passport = require('passport'),
     config = require('../../config/environment'),
     jwt = require('jsonwebtoken');
@@ -41,13 +42,51 @@ exports.create = function(req, res, next){
  */
 
 exports.find = function(req, res, next){
-    console.log(req.query.names);
-    User.find({username:new RegExp('^'+req.query.names,'i')},{_id:false, hashedPassword:false, salt:false, __v:false, contacts:false },function(error, documents){
-        if(error) throw error;
-        if(documents){
-            res.json({'contacts':documents});
-        }else{
-            next();
+    var usernameToFind = new RegExp('^'+req.query.names,'i'),
+        user = req.user;
+
+    User.find({'username':{$regex:usernameToFind,$ne:user.username}}, //Query to be Executed
+              {hashedPassword:false, salt:false, __v:false, contacts:false }, //Restrictions To Be Returned
+              function(error, documents){ //Procedure
+                if(error) throw error;
+                if(documents){
+                    res.json({'contactsFound':documents}); //Return documents matching the criteria
+                }else{
+                    res.json({'contactsFound':[]}); //Return an Empty Array
+                }
+              }
+    );
+};
+
+/**
+ * Add a contact to the user's pendindContacts array
+ * until confirmation is received
+ *
+ * @return {array}
+ */
+exports.addContact = function(req, res, next){
+    var user = req.user,
+        contact = req.body.contact;
+
+    //Add a Contact to the pendingContacts active user
+    User.findOneAndUpdate(
+        {_id: user._id},
+        {$addToSet: {pendingContacts: contact._id}},
+        {safe: true, upsert: true},
+        function(error, userUpdated) {
+            if(error) throw error;
+            //If the contact was successfully added
+            if(userUpdated){
+                User.findOne({_id: user._id})
+                    .populate({
+                        path:'pendingContacts',
+                        select:'_id username profileImage email'
+                    })
+                    .exec(function(error, userUpdatedWithpendingContactsUpdated) {
+                        if (error) throw error;
+                        res.json({'pendingContacts': userUpdatedWithpendingContactsUpdated.pendingContacts});
+                    });
+            }
         }
-    })
+    );
 };

@@ -12,15 +12,21 @@ var User = require('../../api/user/user.model');
 User.find({}).remove(function() {
     User.create({
             provider: 'local',
-            username: 'test',
-            email: 'test@test.com',
-            password: 'test',
+            username: 'user',
+            email: 'user@user.com',
+            password: 'user1',
+        }, {
+            provider: 'local',
+            role: 'user',
+            username: 'carlos',
+            email: 'carlos@carlos.com',
+            password: 'carlos1'
         }, {
             provider: 'local',
             role: 'admin',
-            username: 'Admin',
+            username: 'admin',
             email: 'admin@admin.com',
-            password: 'admin'
+            password: 'admin1'
         }, function() {
             console.log('\n************ ...::::::: MONGODB DEV INFORMATION :::::::::::... ************');
             console.log('Finished Populating Users ');

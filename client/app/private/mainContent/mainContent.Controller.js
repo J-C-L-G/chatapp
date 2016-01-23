@@ -1,6 +1,8 @@
 angular.module('chatApp')
 .controller('mainContent.Controller', function ($scope) {
 
+        //DUMMY IMPLEMENTATION
+
         var imagePath = 'static/assets/60.jpeg';
 
         $scope.messages = [{

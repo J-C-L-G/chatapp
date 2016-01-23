@@ -37,12 +37,13 @@ function isAuthenticated(){
         })
         //Attach user to request
         .use(function(req, res, next){
-            User.findById(req.user._id, 'profile', function(error, user){
+            User.findById(req.user._id, {hashedPassword:false, salt:false, __v:false}, function(error, user){
                 //If there was an error while querying the database
                 if(error) return next(error);
                 //If the user was not found in the database
                 if(!user) return res.status(401).send('Unauthorized');
                 //Else
+
                 req.user = user;
                 next();
             });
@@ -73,7 +74,7 @@ function hasRole(roleRequired){
 function signToken(id){
     return jwt.sign( {_id:id},
                      config.secrets.session,
-                     {expiresIn: 30 * 60} );
+                     {expiresIn: 60*5} );
 }
 
 /******************************************************************
@@ -83,7 +84,7 @@ function setTokenCookie(req, res){
     //If the user object is not in the request object
     if (!req.user) return res.status(404).json({ message: 'Something went wrong, please try again.'});
 
-    var token = signToken(user._id);
+    var token = signToken(req.user._id);
     res.cookie('token',JSON.stringify(token));
     res.redirect('/');
 }

@@ -36,5 +36,4 @@ angular.module('chatApp')
                 url: '',
                 templateUrl: 'app/private/header/userInfo.html'
             });
-
     }]);

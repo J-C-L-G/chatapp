@@ -2,7 +2,8 @@
 
 var express = require('express'),
     passport = require('passport'),
-    authService = require('../auth.service');
+    authService = require('../auth.service'),
+    User = require('../../../api/user/user.model');
 
 var router = express.Router();
 
@@ -12,7 +13,7 @@ router.post('/login',function(req, res, next){
         if(error) return res.status(401).json(error);
         if(!user) return res.status(404).json({message: 'Something went wrong, please try again.'});
         var token = authService.signToken(user._id);
-        res.json({'token':token, 'activeUser':user.profile});
+        res.json({'token':token, 'activeUser':user});
     })(req, res, next);
 });
 

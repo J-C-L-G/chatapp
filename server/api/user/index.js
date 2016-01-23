@@ -11,6 +11,7 @@ var router = express.Router();
 
 //Handler to create a User
 router.post('/',controller.create);
-router.get('/contacts', auth.isAuthenticated(), controller.find);
+router.get('/findContacts', auth.isAuthenticated(), controller.find);
+router.post('/addContact',auth.isAuthenticated(),controller.addContact);
 
 module.exports = router;

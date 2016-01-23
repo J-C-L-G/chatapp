@@ -15,7 +15,13 @@ angular.module('chatApp')
                     findContacts : {
                         method:'GET',
                         params:{
-                            action:'contacts'
+                            action:'findContacts'
+                        }
+                    },
+                    addContact : {
+                        method:'POST',
+                        params:{
+                            action:'addContact'
                         }
                     }
                     /*These are the default implementations*/
