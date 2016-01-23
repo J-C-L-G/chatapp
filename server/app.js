@@ -42,12 +42,19 @@ require('./config/express/express')(app);
 
 /*** ..:: TEMP-MIDDLEWARE for req.body ::.. ****/
 app.use(function(req, res, next){
-    if(req.params)
+    console.log('****************************************************')
+    if(req.params){
+        console.log('*********** ..:: req.params ::.. *************')
         console.log(req.params);
-    if(req.body)
+    }
+    if(req.body){
+        console.log('*********** ..:: req.body ::.. *************')
         console.log(req.body);
-    if(req.query)
+    }
+    if(req.query){
+        console.log('*********** ..:: req.query ::.. *************')
         console.log(req.query);
+    }
     next();
 });
 

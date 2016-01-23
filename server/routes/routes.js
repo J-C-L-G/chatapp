@@ -11,6 +11,7 @@ module.exports = function(app){
     /*** ..:: App Routes ::.. ****/
     //Auth routes
     app.use('/auth', require('./auth'));
+
     //User routes
     app.use('/api/users', require('../api/user'));
 

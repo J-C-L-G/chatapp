@@ -1,6 +1,6 @@
-/***
- * Express Framework Configuration
- ***/
+/**************************************
+ * Express Framework Configuration    *
+ **************************************/
 
 'use strict';
 
@@ -33,7 +33,7 @@ var express = require('express'),
     mongoStore = require('connect-mongo')(session),
     /* Mongoose MongoDB ODM */
     mongoose = require('mongoose'),
-/*EJS - Embedded JavaScript Templates <%= obj.prop %>*/
+    /*EJS - Embedded JavaScript Templates <%= obj.prop %>*/
     ejs = require('ejs');
 
 

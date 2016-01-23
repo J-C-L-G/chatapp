@@ -2,8 +2,7 @@
 
 var express = require('express'),
     passport = require('passport'),
-    authService = require('../auth.service'),
-    User = require('../../../api/user/user.model');
+    authService = require('../auth.service');
 
 var router = express.Router();
 
