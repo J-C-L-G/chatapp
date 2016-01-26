@@ -1,6 +1,6 @@
 angular.module('chatApp')
-    .controller('rightNav.Controller',['$rootScope','$scope','UserInterface','Toast',
-        function($rootScope,$scope,UserInterface,Toast){
+    .controller('rightNav.Controller',['$rootScope','$scope','UserInterface','Toast','Auth',
+        function($rootScope,$scope,UserInterface,Toast,Auth){
 
             /**********************************************************************
              * Handler to Manipulate the ContactsInfo and Notifications Navigation Menu                 *
@@ -13,9 +13,15 @@ angular.module('chatApp')
                 $scope.toggleContactInfo();
             });
 
-            $scope.$on("TOGGLE_NOTIFICATIONS",function(){
+            $scope.$on("TOGGLE_NOTIFICATIONS",function(event,data){
                 $scope.toggleNotifications();
+                console.log(data);
+                if(data.saved){
+                    $scope.notifications.push(data.message);
+                }
             });
+
+            $scope.notifications = Auth.getActiveUser().notifications;
 
 
             //DUMMY IMPLEMENTATION

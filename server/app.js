@@ -58,10 +58,12 @@ app.use(function(req, res, next){
     next();
 });
 
+/*** ..:: Setup Socket.IO ::.. ***/
+var socket_io = require('socket.io')(server);
+require('./config/socket_io/socket_io')(socket_io);
 
 /*** ..:: Setup Routes in the Express App ::.. ****/
 require('./routes/routes')(app);
-
 
 /*** ..:: Start the Server ::.. ***/
 console.log('\n************ ...::::::::: SERVER INFORMATION ::::::::::::::... ************');

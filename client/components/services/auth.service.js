@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chatApp')
-    .factory('Auth',['$http','$q','$cookieStore','User',function($http, $q ,$cookieStore, User){
+    .factory('Auth',['$http','$q','$cookieStore','User','Socket',function($http, $q ,$cookieStore, User, Socket){
         var activeUser = {};
         var serviceDefinition =  {
             /**
@@ -19,6 +19,7 @@ angular.module('chatApp')
                      .success(function(data) {
                         $cookieStore.put('token', data.token);
                         activeUser = data.activeUser;
+                        Socket.initialize(data.token);
                         deferred.resolve(data);
                     })
                     .error(function(error){

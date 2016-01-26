@@ -1,6 +1,6 @@
 angular.module('chatApp')
-    .controller('leftNav.Controller', ['$rootScope','$scope','UserInterface','$http','User','Auth','Toast',
-        function($rootScope,$scope,UserInterface,$http,User,Auth,Toast){
+    .controller('leftNav.Controller', ['$rootScope','$scope','UserInterface','$http','User','Auth','Toast','Socket',
+        function($rootScope,$scope,UserInterface,$http,User,Auth,Toast,Socket){
 
             /**********************************************************************
              * Handler to Manipulate the Contacts Navigation Menu                 *
@@ -44,6 +44,7 @@ angular.module('chatApp')
              ****************************************************************/
 
             // Properties from the activeUser pulled from the service
+            $scope.user = Auth.getActiveUser(); //NEEDS TO BE IMPROVED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             $scope.contacts = Auth.getActiveUser().contacts;
             $scope.pendingContacts = Auth.getActiveUser().pendingContacts;
             $scope.notifications = Auth.getActiveUser().notifications;
@@ -79,6 +80,8 @@ angular.module('chatApp')
                     .then(function(data){
                         $scope.pendingContacts = data.pendingContacts;
                         Toast.notify('Contact request sent to ' +contact.username);
+                        Socket.sendFriendRequest({to:contact._id,from:$scope.user.username});
+
                     },function(error){
                         console.log(error);
                     }
