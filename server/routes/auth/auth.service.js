@@ -71,8 +71,8 @@ function hasRole(roleRequired){
  * Returns a JsonWebToken signed by the app secret                *
  ******************************************************************/
 
-function signToken(id, username){
-    return jwt.sign( {_id:id, username:username},
+function signToken(id){
+    return jwt.sign( {_id:id},
                      config.secrets.session,
                      {expiresIn: 60*5} );
 }
@@ -80,14 +80,16 @@ function signToken(id, username){
 /******************************************************************
  * Set token cookie directly for oAuth strategies                 *
  ******************************************************************/
+
 function setTokenCookie(req, res){
     //If the user object is not in the request object
-    if (!req.user) return res.status(404).json({ message: 'Something went wrong, please try again.'});
+    if (user) return res.status(404).json({ message: 'Something went wrong, please try again.'});
 
-    var token = signToken(req.user._id, req.user.username);
+    var token = signToken(req.user._id);
     res.cookie('token',JSON.stringify(token));
     res.redirect('/');
 }
+
 
 /*** ..:: Exports ::.. ****/
 exports.isAuthenticated = isAuthenticated;

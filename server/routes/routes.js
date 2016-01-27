@@ -6,7 +6,7 @@
 
 var path = require('path');
 
-module.exports = function(app){
+module.exports = function(app, socket_io){
 
     /*** ..:: App Routes ::.. ****/
     //Auth routes
@@ -14,6 +14,8 @@ module.exports = function(app){
 
     //User routes
     app.use('/api/users', require('../api/user'));
+    //User socket
+    require('../api/user/user.socket')(socket_io);
 
 
     // All other routes should redirect to the index.html

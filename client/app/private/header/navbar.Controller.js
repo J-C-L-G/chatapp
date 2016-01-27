@@ -1,6 +1,6 @@
 angular.module('chatApp')
-    .controller('navbar.Controller', ['$rootScope','$scope','Auth','$state','UserInterface','Toast',
-        function($rootScope, $scope, Auth, $state, UserInterface,Toast ) {
+    .controller('navbar.Controller', ['$rootScope','$scope','Auth','$state','Toast',
+        function($rootScope, $scope, Auth, $state,Toast){
             //Pull the active user fro the Auth Service
             $scope.user = Auth.getActiveUser();
             if($scope.user){
@@ -16,11 +16,12 @@ angular.module('chatApp')
 
             //Broadcast an event to open the Contacts panel
             $scope.toggleContacts = function(){
-                $rootScope.$broadcast("TOGGLE_CONTACTS")
+                $rootScope.$broadcast('TOGGLE_CONTACTS');
             };
 
             //Broadcast an event to open the Notifications panel
             $scope.toggleNotifications = function(){
-                $rootScope.$broadcast("TOGGLE_NOTIFICATIONS",{showPanel:true});
+                //showPanel true to toggle the menu
+                $rootScope.$broadcast('TOGGLE_NOTIFICATIONS',{showPanel:true});
             };
     }]);

@@ -15,11 +15,9 @@
             Test Notifications
         </md-button>
     </md-content>
-    <md-content ng-repeat="noti in notifications">
-        <p>{{noti.message}}</p>
-        <md-button ng-if="(noti.action == 'contactRequest')" ng-click="acceptContact(noti.from_id)" class="md-primary">
-            Accept {{noti.from.username}}
-        </md-button>
+    <md-content ng-repeat="notification in user.notifications">
+        <p>{{notification.message}}</p>
+        <md-button ng-if="(notification.event == 'contactRequest')" ng-click="acceptContact(notification.from)" class="md-primary">Accept</md-button>
     </md-content>
 </md-sidenav>
 

@@ -30,7 +30,7 @@ exports.create = function(req, res, next){
         if(error) {
             return validationError(res, error);
         }
-        var token = jwt.sign({_id : user._id},config.secrets.session,{expiresIn: 30});
+        var token = jwt.sign({_id : user._id},config.secrets.session,{expiresIn: 60 * 5});
         res.json({'token':token, 'newUser':user.profile});
     });
 };
@@ -77,6 +77,8 @@ exports.addContact = function(req, res, next){
             if(error) throw error;
             //If the contact was successfully added
             if(userUpdated){
+
+                //Find a user and populate his contacts
                 User.findOne({_id: user._id})
                     .populate({
                         path:'pendingContacts',
@@ -86,9 +88,21 @@ exports.addContact = function(req, res, next){
                         if (error) throw error;
                         res.json({'pendingContacts': userUpdatedWithpendingContactsUpdated.pendingContacts});
                     });
+
+                        /**********************************
+                         *  Socket Call 'contactRequest'  *
+                         **********************************/
+                        User.socket.notify(contact_id,
+                            {
+                                event : 'contactRequest',
+                                message: 'Contact Request from ' + user.username,
+                                from : user._id
+                            }
+                        );
             }
         }
     );
+
 };
 
 /**
@@ -96,7 +110,7 @@ exports.addContact = function(req, res, next){
  */
 exports.confirmContact = function(req, res, next){
     var user = req.user,
-        contact = req.body.contact;
+        contact_id = req.body.contact_id;
     //1. Verify the Contact Request on the requester contact to be sure
     // that this request is waiting to be accepted from the user making this request.
 

@@ -13,11 +13,11 @@ angular.module('chatApp')
         //Auth service in charge of the implementation.
         $scope.login = function(user){
             Auth.login(user).then(
-                function(data){
-                    if(data.activeUser)
+                function(activeUser){
+                    if(!angular.isUndefined(activeUser))
                         $state.go('main');
                 },function(error){
-                    if(error.message)
+                    if(!angular.isUndefined(error.message))
                         $scope.error = error.message;
                 });
         }

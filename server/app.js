@@ -63,7 +63,7 @@ var socket_io = require('socket.io')(server);
 require('./config/socket_io/socket_io')(socket_io);
 
 /*** ..:: Setup Routes in the Express App ::.. ****/
-require('./routes/routes')(app);
+require('./routes/routes')(app, socket_io);
 
 /*** ..:: Start the Server ::.. ***/
 console.log('\n************ ...::::::::: SERVER INFORMATION ::::::::::::::... ************');

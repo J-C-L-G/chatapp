@@ -17,10 +17,11 @@ angular.module('chatApp')
                         password: user.password
                     })
                      .success(function(data) {
-                        $cookieStore.put('token', data.token);
+                        var token = data.token;
                         activeUser = data.activeUser;
-                        Socket.initialize(data.token);
-                        deferred.resolve(data);
+                        $cookieStore.put('token', token);
+                        Socket.initialize(token);
+                        deferred.resolve(activeUser);
                     })
                     .error(function(error){
                         deferred.reject(error);
@@ -68,7 +69,7 @@ angular.module('chatApp')
              * @return {token}
              */
             getToken : function(){
-                return $cookieStore.get('token')  ;
+                return $cookieStore.get('token');
             },
 
             createUser : function(user){

@@ -5,9 +5,9 @@ angular.module('chatApp')
             //Pull the ActiveUser from the service
             $scope.user = Auth.getActiveUser();
 
-            /**********************************************************************
-             * Handler to Manipulate the ContactsInfo and Notifications Navigation Menu                 *
-             **********************************************************************/
+            /*******************************************************************************
+             * Handler to Manipulate the ContactsInfo and Notifications Navigation Menu    *
+             *******************************************************************************/
 
             $scope.toggleContactInfo = UserInterface.buildToggler('contactInfo');
             $scope.toggleNotifications = UserInterface.buildToggler('notifications');
@@ -17,11 +17,14 @@ angular.module('chatApp')
             });
 
             $scope.$on("TOGGLE_NOTIFICATIONS",function(event,data){
+                //If data.showPanel is true, the menu will be shown
                 if(data.showPanel){
                     $scope.toggleNotifications();
                 }
-                if(data.message){
-                    $scope.user.notifications.push({message: data.message, action: data.type, from_id:data.from._id});
+                //If the Notification is a contactRequest,
+                // we push it so the user can Accept or Decline
+                if(data.event == 'contactRequest'){
+                    $scope.user.notifications.push(data);
                 }
             });
 

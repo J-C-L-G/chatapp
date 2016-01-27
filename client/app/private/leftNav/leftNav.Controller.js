@@ -77,14 +77,6 @@ angular.module('chatApp')
                     .then(function(data){
                         $scope.user.pendingContacts = data.pendingContacts;
                         Toast.notify('Contact request sent to ' +contact.username);
-                        Socket.sendContactRequest({
-                                                    to : contact._id,
-                                                    from : {
-                                                        username: $scope.user.username,
-                                                        _id : $scope.user._id
-                                                    }
-                        });
-
                     },function(error){
                         console.log(error);
                     }
