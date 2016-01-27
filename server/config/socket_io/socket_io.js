@@ -58,9 +58,16 @@ module.exports = function(socket_io){
                 console.log('DISCONNECTED: '+socket.id);
             });
 
-            socket.on('onFriendRequest',function(data){
+            socket.on('contactRequest',function(data){
                 //clientSockets[data.to].emit('receivedFriendRequest','Friend Request from ' + data.from);
-                socket.broadcast.to(data.to).emit('receivedFriendRequest', 'Friend Request from ' + data.from);
+                console.log(data);
+                socket.broadcast.to(data.to).emit(data.type,
+                                                  {
+                                                    type: data.type,
+                                                    message : 'Contact Request from ' + data.from.username,
+                                                    from: data.from
+                                                  }
+                );
             });
 
             //Call onConnect to perform this action

@@ -43,11 +43,8 @@ angular.module('chatApp')
              * Handlers for the User Actions in the View                    *
              ****************************************************************/
 
-            // Properties from the activeUser pulled from the service
-            $scope.user = Auth.getActiveUser(); //NEEDS TO BE IMPROVED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            $scope.contacts = Auth.getActiveUser().contacts;
-            $scope.pendingContacts = Auth.getActiveUser().pendingContacts;
-            $scope.notifications = Auth.getActiveUser().notifications;
+            // User Object pulled from from the service
+            $scope.user = Auth.getActiveUser();
 
             // Search Panel handlers
             $scope.searchName = '';
@@ -68,25 +65,30 @@ angular.module('chatApp')
             //Function to be executed when the user adds a contact
             $scope.addContact = function(contact){
                 //Verify if the user is already a pending contact
-                for(var index in $scope.pendingContacts){
-                    if($scope.pendingContacts[index]._id == contact._id){
+                for(var index in $scope.user.pendingContacts){
+                    if($scope.user.pendingContacts[index]._id == contact._id){
                         Toast.notify(contact.username + ' is already in your contacts please wait for confirmation.');
                         return false;
                     }
                 }
                 //If an invitation has not been sent, proceed with the request.
-                User.addContact({'contact':contact})
+                User.addContact({'contact_id':contact._id})
                     .$promise
                     .then(function(data){
-                        $scope.pendingContacts = data.pendingContacts;
+                        $scope.user.pendingContacts = data.pendingContacts;
                         Toast.notify('Contact request sent to ' +contact.username);
-                        Socket.sendFriendRequest({to:contact._id,from:$scope.user.username});
+                        Socket.sendContactRequest({
+                                                    to : contact._id,
+                                                    from : {
+                                                        username: $scope.user.username,
+                                                        _id : $scope.user._id
+                                                    }
+                        });
 
                     },function(error){
                         console.log(error);
                     }
                 );
             };
-
         }
     ]);

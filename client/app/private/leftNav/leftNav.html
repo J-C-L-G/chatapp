@@ -50,7 +50,7 @@
 
     <md-cotent layour="row" ng-show="panels.showContacts">
         <md-list class="fixedRows">
-            <md-list-item class="md-2-line contact-item" ng-repeat="contact in contacts" layout="row">
+            <md-list-item class="md-2-line contact-item" ng-repeat="contact in user.contacts" layout="row">
                 <img ng-src="static/assets/60.jpeg" class="md-avatar" alt="{{contact.username}}" flex="15" />
                 <div class="md-list-item-text compact" flex="80">
                     <h3>{{contact.username}}</h3>
@@ -75,7 +75,7 @@
 
     <md-cotent layour="row" ng-show="panels.pendingContacts">
         <md-list class="fixedRows">
-            <md-list-item class="md-2-line contact-item" ng-repeat="contact in pendingContacts" layout="row">
+            <md-list-item class="md-2-line contact-item" ng-repeat="contact in user.pendingContacts" layout="row">
                 <img ng-src="static/assets/60.jpeg" class="md-avatar" alt="{{contact.username}}" flex="15" />
                 <div class="md-list-item-text compact" flex="80">
                     <h3>{{contact.username}}</h3>

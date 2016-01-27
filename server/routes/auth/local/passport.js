@@ -9,8 +9,7 @@ exports.setup = function(User, config){
         },
         function(username, password, done){
             //Validate if the login
-            User.findOne(
-                {'username':username.toLowerCase()},
+            User.findOne({'username':username.toLowerCase()},
                 function(error, user){
                     //If there was an error while querying the database
                     if(error) return done(error);
@@ -19,9 +18,10 @@ exports.setup = function(User, config){
                     //If the user was found but the password is incorrect
                     if(!user.authenticate(password)) return done(null, false, {message:'The password provided is not correct'});
 
-                    /***/
+                    /*** ***/
                     //Populate the user with its references
-                    User.findOne({_id: user._id},'-hashedPassword -salt -__v')
+                    User.findOne({_id: user._id},
+                        '-hashedPassword -salt -__v -provider -role') //Restrictions from what is being returned
                         .populate({
                             path:'pendingContacts contacts',
                             select:'_id username profileImage email'
@@ -31,9 +31,7 @@ exports.setup = function(User, config){
 
                             return done(null, userUpdatedWithRefs);
                         });
-
-                    /***/
-                    //return done(null, user); //
+                    /*** ***/
                 }
             );
         }

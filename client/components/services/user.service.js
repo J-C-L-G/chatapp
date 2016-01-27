@@ -23,6 +23,12 @@ angular.module('chatApp')
                         params:{
                             action:'addContact'
                         }
+                    },
+                    confirmContact : {
+                        method:'POST',
+                        params: {
+                            action : 'confirmContact'
+                        }
                     }
                     /*These are the default implementations*/
                     /*
