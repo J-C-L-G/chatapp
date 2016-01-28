@@ -1,5 +1,5 @@
 angular.module('chatApp')
-.controller('login.Controller',['$scope','Auth','$state',function($scope, Auth, $state){
+.controller('login.Controller',['$scope','Auth','$state','Socket',function($scope, Auth, $state, Socket){
         //User object to be populated with the data provided by the user.
         $scope.user = {
             username:'',
@@ -13,9 +13,12 @@ angular.module('chatApp')
         //Auth service in charge of the implementation.
         $scope.login = function(user){
             Auth.login(user).then(
-                function(activeUser){
-                    if(!angular.isUndefined(activeUser))
+                function(data){
+                    console.log(data);
+                    if(!angular.isUndefined(data.activeUser)){
+                        Socket.initialize(data.token);
                         $state.go('main');
+                    }
                 },function(error){
                     if(!angular.isUndefined(error.message))
                         $scope.error = error.message;

@@ -87,7 +87,6 @@ exports.addContact = function(req, res, next){
                     .exec(function(error, userUpdatedWithpendingContactsUpdated) {
                         if (error) throw error;
                         res.json({'pendingContacts': userUpdatedWithpendingContactsUpdated.pendingContacts});
-                    });
 
                         /**********************************
                          *  Socket Call 'contactRequest'  *
@@ -99,6 +98,8 @@ exports.addContact = function(req, res, next){
                                 from : user._id
                             }
                         );
+
+                    });
             }
         }
     );
@@ -143,7 +144,10 @@ exports.confirmContact = function(req, res, next){
                                 })
                                 .exec(function(error, userUpdatedWithContactsUpdated) {
                                     if (error) throw error;
-                                    res.json({'contacts': userUpdatedWithContactsUpdated.contacts});
+                                    res.json({
+                                        'contacts': userUpdatedWithContactsUpdated.contacts || [],
+                                        'pendingContacts':userUpdatedWithContactsUpdated.pendingContacts || []
+                                    });
 
                                     /**********************************
                                      *  Socket Call 'contactResponse'  *

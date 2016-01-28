@@ -1,6 +1,6 @@
 angular.module('chatApp')
-    .controller('navbar.Controller', ['$rootScope','$scope','Auth','$state','Toast',
-        function($rootScope, $scope, Auth, $state,Toast){
+    .controller('navbar.Controller', ['$rootScope','$scope','Auth','$state','Toast','Socket',
+        function($rootScope, $scope, Auth, $state,Toast,Socket){
             //Pull the active user fro the Auth Service
             $scope.user = Auth.getActiveUser();
             if($scope.user){
@@ -11,6 +11,7 @@ angular.module('chatApp')
             $scope.logout = function(){
                     Toast.notify('Goodbye ' + $scope.user.username);
                     Auth.logout();
+                    Socket.logout();
                     $state.go('landing');
             };
 

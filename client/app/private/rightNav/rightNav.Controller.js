@@ -37,8 +37,9 @@ angular.module('chatApp')
                 User.confirmContact({'contact_id':id})
                     .$promise
                     .then(function(data){
-                        if(data.contacts){
+                        if(data.contacts && data.pendingContacts ){
                             $scope.user.contacts = data.contacts;
+                            $scope.user.pendingContacts = data.pendingContacts;
                             Toast.notify('Contact added to your list!');
                         }
                     },function(error){

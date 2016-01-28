@@ -1,6 +1,6 @@
 angular.module('chatApp')
-       .factory('Socket',['Toast','$rootScope',
-        function(Toast, $rootScope){
+       .factory('Socket',['Toast','$rootScope','Sync',
+        function(Toast, $rootScope, Sync){
 
             //Variable to hold the reference to the socket
             var socket;
@@ -32,8 +32,9 @@ angular.module('chatApp')
                         //Handler to manage when your contact request has been accepted/declined
                         .on('contactResponse',function(data){
                             console.log(data);
-                            Toast.notify(data.message);
-
+                            if(Sync.updateContacts(data.from)){
+                                Toast.notify(data.message);
+                            }
                         })
                         //Handler to manage when the user sends a message
                         .on('messageSent',function(){})
@@ -46,9 +47,8 @@ angular.module('chatApp')
             }
                 return {
                     initialize : initialize,
-                    sendContactRequest : function(data){
-                        data.type = 'contactRequest';
-                        socket.emit(data.type, data);
+                    logout : function(){
+                        socket.emit('disconnect');
                     }
                 }
         }]);
