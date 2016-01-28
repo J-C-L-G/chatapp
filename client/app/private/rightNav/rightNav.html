@@ -17,7 +17,7 @@
     </md-content>
     <md-content ng-repeat="notification in user.notifications">
         <p>{{notification.message}}</p>
-        <md-button ng-if="(notification.event == 'contactRequest')" ng-click="acceptContact(notification.from)" class="md-primary">Accept</md-button>
+        <md-button ng-if="(notification.event == 'contactRequest')" ng-click="acceptRequest(notification.from)" class="md-primary">Accept</md-button>
     </md-content>
 </md-sidenav>
 

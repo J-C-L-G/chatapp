@@ -65,6 +65,9 @@ var defaultOptions = {
         }
     },
 
+    //JWT Token expiration
+    tokenExpiration : 60 * 30, //In seconds
+
     // API Keys to use with Everyauth module
     facebook : {
         FACEBOOK_CONSUMER_KEY : process.env.FACEBOOK_CONSUMER_KEY || '',

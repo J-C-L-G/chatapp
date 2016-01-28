@@ -31,6 +31,8 @@ angular.module('chatApp')
                         })
                         //Handler to manage when your contact request has been accepted/declined
                         .on('contactResponse',function(data){
+                            console.log(data);
+                            Toast.notify(data.message);
 
                         })
                         //Handler to manage when the user sends a message

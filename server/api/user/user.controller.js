@@ -106,12 +106,63 @@ exports.addContact = function(req, res, next){
 };
 
 /**
+ * Confirm a contact request, the method should update the
+ * pendingContacts and contacts array in the requester
+ * and notify the contact that this request has been accepted.
  *
+ * @return {array}
  */
 exports.confirmContact = function(req, res, next){
     var user = req.user,
         contact_id = req.body.contact_id;
-    //1. Verify the Contact Request on the requester contact to be sure
-    // that this request is waiting to be accepted from the user making this request.
 
+    // Verify the Contact Request on the requester contact to be sure
+    // that this request is waiting to be accepted from the user making this request.
+    User.update(
+        { '_id':contact_id },
+        { $pull: { pendingContacts: user._id }, $addToSet : {contacts: user._id} },
+        function(error, result){
+            // If the contact document was modified successfully
+            if(result.ok){
+
+                //Add a Contact to the contacts active user
+                User.findOneAndUpdate(
+                    {_id: user._id},
+                    {$addToSet: {contacts: contact_id}},
+                    {safe: true, upsert: true},
+                    function(error, userUpdated) {
+                        if(error) throw error;
+                        //If the contact was successfully added
+                        if(userUpdated){
+
+                            //Find it and populate his contacts
+                            User.findOne({_id: user._id})
+                                .populate({
+                                    path:'contacts',
+                                    select:'_id username profileImage email'
+                                })
+                                .exec(function(error, userUpdatedWithContactsUpdated) {
+                                    if (error) throw error;
+                                    res.json({'contacts': userUpdatedWithContactsUpdated.contacts});
+
+                                    /**********************************
+                                     *  Socket Call 'contactResponse'  *
+                                     **********************************/
+                                        //Notify the Contact that was accepted to update this contacts in the F.E.
+                                    User.socket.notify(contact_id,
+                                        {
+                                            event : 'contactResponse',
+                                            message: 'Contact Request Accepted from ' + user.username,
+                                            from : user._id
+                                        }
+                                    );
+
+                                }
+                            );
+                        }
+                    }
+                );
+            }
+        }
+    );
 };

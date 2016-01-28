@@ -71,6 +71,15 @@ angular.module('chatApp')
                         return false;
                     }
                 }
+
+                //Verify if the user is already a contact
+                for(var index in $scope.user.contacts){
+                    if($scope.user.contacts[index]._id == contact._id){
+                        Toast.notify(contact.username + ' is already in your contacts.');
+                        return false;
+                    }
+                }
+
                 //If an invitation has not been sent, proceed with the request.
                 User.addContact({'contact_id':contact._id})
                     .$promise

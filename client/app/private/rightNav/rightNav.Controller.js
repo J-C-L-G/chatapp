@@ -1,6 +1,6 @@
 angular.module('chatApp')
-    .controller('rightNav.Controller',['$rootScope','$scope','UserInterface','Toast','Auth',
-        function($rootScope,$scope,UserInterface,Toast,Auth){
+    .controller('rightNav.Controller',['$scope','UserInterface','Toast','Auth','User',
+        function($scope,UserInterface,Toast,Auth,User){
 
             //Pull the ActiveUser from the service
             $scope.user = Auth.getActiveUser();
@@ -28,8 +28,23 @@ angular.module('chatApp')
                 }
             });
 
-            //DUMMY IMP
-            $scope.acceptContact = function(id){
-                console.log(id);
+            /****************************************************************
+             * Handlers for the User Actions in the View                    *
+             ****************************************************************/
+
+            $scope.acceptRequest = function(id){
+                //If an invitation has not been sent, proceed with the request.
+                User.confirmContact({'contact_id':id})
+                    .$promise
+                    .then(function(data){
+                        if(data.contacts){
+                            $scope.user.contacts = data.contacts;
+                            Toast.notify('Contact added to your list!');
+                        }
+                    },function(error){
+                        console.log(error);
+                    }
+                );
+
             }
     }]);

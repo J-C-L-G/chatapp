@@ -13,5 +13,6 @@ var router = express.Router();
 router.post('/',controller.create);
 router.get('/findContacts', auth.isAuthenticated(), controller.find);
 router.post('/addContact',auth.isAuthenticated(),controller.addContact);
+router.post('/confirmContact',auth.isAuthenticated(),controller.confirmContact);
 
 module.exports = router;
