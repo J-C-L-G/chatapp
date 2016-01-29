@@ -80,6 +80,14 @@ angular.module('chatApp')
                     }
                 }
 
+                //Verify if the User has not already sent a contact request
+                for(var index in $scope.user.notifications){
+                    if($scope.user.notifications[index].from == contact._id){
+                        Toast.notify('A contact request from ' + contact.username + ' is pending to be accepted, please check your notifications!');
+                        return false;
+                    }
+                }
+
                 //If an invitation has not been sent, proceed with the request.
                 User.addContact({'contact_id':contact._id})
                     .$promise

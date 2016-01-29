@@ -32,14 +32,15 @@ angular.module('chatApp')
              * Handlers for the User Actions in the View                    *
              ****************************************************************/
 
-            $scope.acceptRequest = function(id){
+            $scope.acceptRequest = function(notification_id, contact_id){
                 //If an invitation has not been sent, proceed with the request.
-                User.confirmContact({'contact_id':id})
+                User.confirmContact({'notification_id':notification_id, 'contact_id':contact_id})
                     .$promise
                     .then(function(data){
                         if(data.contacts && data.pendingContacts ){
                             Sync.getActiveUser().contacts = data.contacts;
                             Sync.getActiveUser().pendingContacts = data.pendingContacts;
+                            Sync.getActiveUser().notifications = data.notifications;
                             Toast.notify('Contact added to your list!');
                         }
                     },function(error){

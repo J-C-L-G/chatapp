@@ -3,22 +3,20 @@
     <md-toolbar class="md-theme-light">
         <h1 class="md-toolbar-tools">Notification</h1>
     </md-toolbar>
-    <md-content layout-padding>
-        <form>
-            <md-input-container>
-                <label for="testInput">Test input</label>
-                <input type="text" id="testInput"
-                       ng-model="data" md-autofocus>
-            </md-input-container>
-        </form>
-        <md-button ng-click="testNotification()" class="md-primary">
-            Test Notifications
+
+    <div class="notification md-subhead" layou="row" ng-repeat="notification in user.notifications">
+        <span flex="70">{{notification.message}}</span>
+        <md-button aria-label="Notification Decline" class="md-icon-button iconToRight"  flex="15">
+            <ng-md-icon icon="close" class="redIcon" size="25"></ng-md-icon>
+            <md-tooltip md-direction="bottom">Decline</md-tooltip>
         </md-button>
-    </md-content>
-    <md-content ng-repeat="notification in user.notifications">
-        <p>{{notification.message}}</p>
-        <md-button ng-if="(notification.event == 'contactRequest')" ng-click="acceptRequest(notification.from)" class="md-primary">Accept</md-button>
-    </md-content>
+        <md-button aria-label="Notification Accept" class="md-icon-button iconToRight"  flex="15"
+                   ng-click="acceptRequest(notification._id, notification.from)">
+            <ng-md-icon icon="check" class="greenIcon" size="25"></ng-md-icon>
+            <md-tooltip md-direction="bottom">Accept</md-tooltip>
+        </md-button>
+    </div>
+
 </md-sidenav>
 
 

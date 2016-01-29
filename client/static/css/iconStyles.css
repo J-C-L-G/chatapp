@@ -8,5 +8,13 @@
 }
 
 .blackIcon{
-    fill: #000000
+    fill: #000000;
+}
+
+.greenIcon{
+    fill: lightgreen;
+}
+
+.redIcon{
+    fill: red
 }

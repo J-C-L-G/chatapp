@@ -7,6 +7,10 @@
 
 'use strict';
 
+var Notification = require('../../api/user/notification.model');
+Notification.find({}).remove(function(){
+});
+
 var User = require('../../api/user/user.model');
 
 User.find({}).remove(function() {

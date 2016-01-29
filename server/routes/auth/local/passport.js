@@ -23,8 +23,12 @@ exports.setup = function(User, config){
                     User.findOne({_id: user._id},
                         '-hashedPassword -salt -__v -provider -role') //Restrictions from what is being returned
                         .populate({
-                            path:'pendingContacts contacts',
-                            select:'_id username profileImage email'
+                            path: 'contacts pendingContacts',
+                            select: '_id username profileImage email'
+                        })
+                        .populate({
+                            path: 'notifications',
+                            select: '_id message from event'
                         })
                         .exec(function(error, userUpdatedWithRefs) {
                             if (error) throw error;

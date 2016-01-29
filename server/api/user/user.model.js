@@ -47,7 +47,7 @@ var UserSchema = new Schema({
         {type: Schema.Types.ObjectId, ref:'User'}
     ],
     notifications:[
-        {type: Schema.Types.ObjectId, ref:'User'}
+        {type: Schema.Types.ObjectId, ref:'Notification'}
     ]
 
 },{collection:'User'});

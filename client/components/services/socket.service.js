@@ -15,8 +15,8 @@ angular.module('chatApp')
                         //Handler to authenticate the socket
                         .on('authenticated', function (data) {
                             if(data){
-                                console.log(data);
-                                console.log(socket);
+                                //console.log(data);
+                                //console.log(socket);
                             }
                         })
                         //Handler to notify when the user login
@@ -25,9 +25,8 @@ angular.module('chatApp')
                         .on('logout',function(){})
                         //Handler to manage when you add a contact
                         .on('contactRequest',function(data){
-                            console.log(data);
                             Toast.notify(data.message);
-                            $rootScope.$broadcast('TOGGLE_NOTIFICATIONS',{event:data.event, message:data.message, from:data.from});
+                            $rootScope.$broadcast('TOGGLE_NOTIFICATIONS',data);
                         })
                         //Handler to manage when your contact request has been accepted/declined
                         .on('contactResponse',function(data){
