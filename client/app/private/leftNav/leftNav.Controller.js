@@ -1,6 +1,6 @@
 angular.module('chatApp')
-    .controller('leftNav.Controller', ['$rootScope','$scope','UserInterface','$http','User','Auth','Toast','Socket',
-        function($rootScope,$scope,UserInterface,$http,User,Auth,Toast,Socket){
+    .controller('leftNav.Controller', ['$rootScope','$scope','UserInterface','$http','User','Sync','Toast',
+        function($rootScope,$scope,UserInterface,$http,User,Sync,Toast){
 
             /**********************************************************************
              * Handler to Manipulate the Contacts Navigation Menu                 *
@@ -44,7 +44,7 @@ angular.module('chatApp')
              ****************************************************************/
 
             // User Object pulled from from the service
-            $scope.user = Auth.getActiveUser();
+            $scope.user = Sync.getActiveUser();
 
             // Search Panel handlers
             $scope.searchName = '';

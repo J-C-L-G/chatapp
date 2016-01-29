@@ -14,7 +14,6 @@ angular.module('chatApp')
         $scope.login = function(user){
             Auth.login(user).then(
                 function(data){
-                    console.log(data);
                     if(!angular.isUndefined(data.activeUser)){
                         Socket.initialize(data.token);
                         $state.go('main');

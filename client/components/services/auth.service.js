@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('chatApp')
-    .factory('Auth', ['$http','$q','$cookieStore','User',
-        function($http, $q ,$cookieStore, User){
-            var activeUser = {};
+    .factory('Auth', ['$http','$q','$cookieStore','User', 'Sync',
+        function($http, $q ,$cookieStore, User, Sync){
             var serviceDefinition =  {
                 /**
                  * Authenticate User and Save Token
@@ -18,7 +17,7 @@ angular.module('chatApp')
                             password: user.password
                         })
                          .success(function(data) {
-                            activeUser = data.activeUser;
+                            Sync.setActiveUser(data.activeUser);
                             $cookieStore.put('token', data.token);
                             deferred.resolve({activeUser:data.activeUser,
                                               token:data.token});
@@ -34,33 +33,7 @@ angular.module('chatApp')
                  */
                 logout: function() {
                     $cookieStore.remove('token');
-                    activeUser = {};
-                },
-
-                /**
-                 * Check if the user is an admin
-                 *
-                 * @return {Boolean}
-                 */
-                isAdmin : function(){
-                    return (activeUser.role == 'admin');
-                },
-
-                /**
-                 * Check if the user is logged in
-                 *
-                 * @return {Boolean}
-                 */
-                isLoggedIn : function(){
-                    return (activeUser.hasOwnProperty('role'));
-                },
-
-                /**
-                 * Gets all available info on authenticated user
-                 *
-                 */
-                getActiveUser : function(){
-                    return activeUser;
+                    Sync.setActiveUser({});
                 },
 
                 /**

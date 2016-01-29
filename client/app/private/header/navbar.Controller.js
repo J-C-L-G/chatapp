@@ -1,8 +1,8 @@
 angular.module('chatApp')
-    .controller('navbar.Controller', ['$rootScope','$scope','Auth','$state','Toast','Socket',
-        function($rootScope, $scope, Auth, $state,Toast,Socket){
+    .controller('navbar.Controller', ['Auth','$rootScope','$scope','Sync','$state','Toast','Socket',
+        function(Auth,$rootScope, $scope, Sync, $state,Toast,Socket){
             //Pull the active user fro the Auth Service
-            $scope.user = Auth.getActiveUser();
+            $scope.user = Sync.getActiveUser();
             if($scope.user){
                 Toast.notify('Welcome ' + $scope.user.username);
             }

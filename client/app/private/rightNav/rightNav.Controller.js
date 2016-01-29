@@ -1,9 +1,9 @@
 angular.module('chatApp')
-    .controller('rightNav.Controller',['$scope','UserInterface','Toast','Auth','User',
-        function($scope,UserInterface,Toast,Auth,User){
+    .controller('rightNav.Controller',['$scope','UserInterface','Toast','Sync','User',
+        function($scope,UserInterface,Toast,Sync,User){
 
             //Pull the ActiveUser from the service
-            $scope.user = Auth.getActiveUser();
+            $scope.user = Sync.getActiveUser();
 
             /*******************************************************************************
              * Handler to Manipulate the ContactsInfo and Notifications Navigation Menu    *

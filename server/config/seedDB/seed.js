@@ -27,7 +27,13 @@ User.find({}).remove(function() {
             username: 'admin',
             email: 'admin@admin.com',
             password: 'admin1'
-        }, function() {
+        }, {
+            provider: 'local',
+            role: 'user',
+            username: 'juan',
+            email: 'juan@juan.com',
+            password: 'juan1'
+        },function() {
             console.log('\n************ ...::::::: MONGODB DEV INFORMATION :::::::::::... ************');
             console.log('Finished Populating Users ');
             console.log('************ ...:::::::::::::::::::::::::::::::::::::::::::... ************');
