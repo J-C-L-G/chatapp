@@ -24,7 +24,7 @@ angular.module('chatApp')
                 //If the Notification is a contactRequest,
                 // we push it so the user can Accept or Decline
                 if(data.event == 'contactRequest'){
-                    $scope.user.notifications.push(data);
+                    Sync.getActiveUser().notifications.push(data);
                 }
             });
 
@@ -38,8 +38,8 @@ angular.module('chatApp')
                     .$promise
                     .then(function(data){
                         if(data.contacts && data.pendingContacts ){
-                            $scope.user.contacts = data.contacts;
-                            $scope.user.pendingContacts = data.pendingContacts;
+                            Sync.getActiveUser().contacts = data.contacts;
+                            Sync.getActiveUser().pendingContacts = data.pendingContacts;
                             Toast.notify('Contact added to your list!');
                         }
                     },function(error){
