@@ -1,17 +1,27 @@
 angular.module('chatApp').
-    factory('Toast',['$mdToast',function($mdToast){
+    factory('Toast',['$mdToast','Sync',function($mdToast){
 
-         function showSimpleToast(text) {
-            $mdToast.show(
+        var tempNotifications = [];
+        var counter = 1;
+
+        function getTemporaryNotifications(){
+            return tempNotifications;
+        }
+
+        function showSimpleToast(message) {
+            tempNotifications.push({message:message, _id:counter++});
+
+             $mdToast.show(
                 $mdToast.simple()
-                    .textContent(text)
+                    .textContent(message)
                     .position('top right')
                     .hideDelay(3000)
             );
         }
 
         return {
-            notify:showSimpleToast
+            notify:showSimpleToast,
+            getTemporaryNotifications : getTemporaryNotifications
         }
 
     }]);

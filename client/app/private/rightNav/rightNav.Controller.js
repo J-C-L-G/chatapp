@@ -4,6 +4,7 @@ angular.module('chatApp')
 
             //Pull the ActiveUser from the service
             $scope.user = Sync.getActiveUser();
+            $scope.tempNotifications = Toast.getTemporaryNotifications();
 
             /*******************************************************************************
              * Handler to Manipulate the ContactsInfo and Notifications Navigation Menu    *
@@ -27,6 +28,20 @@ angular.module('chatApp')
                     Sync.getActiveUser().notifications.push(data);
                 }
             });
+
+            /****************************************************************
+             * View Handlers for Panels in the Contacts Navigation Menu     *
+             ****************************************************************/
+            $scope.panels = {
+                'contactRequest':false,
+                'tempNotifications':false
+            };
+            //Notifications
+            $scope.toggleContactRequest = UserInterface.buildPanelToggler($scope.panels,'contactRequest');
+
+            //Temporal Notifications
+            $scope.toggleTempNotifications = UserInterface.buildPanelToggler($scope.panels,'tempNotifications');
+
 
             /****************************************************************
              * Handlers for the User Actions in the View                    *

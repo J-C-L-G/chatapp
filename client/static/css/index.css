@@ -33,9 +33,9 @@
 }
 
 .notification {
-    background-color: gray;
+    background-color: black;
     color: white;
-    border: 1px solid gray;
+    border: 1px solid black;
     margin-top: 5px;
     padding-top: 10px;
     outline:none;

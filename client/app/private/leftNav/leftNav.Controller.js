@@ -64,40 +64,28 @@ angular.module('chatApp')
 
             //Function to be executed when the user adds a contact
             $scope.addContact = function(contact){
-                //Verify if the user is already a pending contact
-                for(var index in $scope.user.pendingContacts){
-                    if($scope.user.pendingContacts[index]._id == contact._id){
+                var verify = Sync.sentContactRequest(contact._id); // [[true/false]['contactPresentIn']]
+
+                // If an invitation has not been sent, proceed with the request.
+                if(verify[0] == true){
+                    User.addContact({'contact_id':contact._id})
+                        .$promise
+                        .then(function(data){
+                            Sync.getActiveUser().pendingContacts = data.pendingContacts;
+                            Toast.notify('Contact request sent to ' +contact.username);
+                        },function(error){
+                            console.log(error);
+                        });
+                }else{
+                    if(verify[1] == 'pendingContacts')
                         Toast.notify(contact.username + ' is already in your contacts please wait for confirmation.');
-                        return false;
-                    }
-                }
 
-                //Verify if the user is already a contact
-                for(var index in $scope.user.contacts){
-                    if($scope.user.contacts[index]._id == contact._id){
+                    else if(verify[1] == 'contacts')
                         Toast.notify(contact.username + ' is already in your contacts.');
-                        return false;
-                    }
-                }
 
-                //Verify if the User has not already sent a contact request
-                for(var index in $scope.user.notifications){
-                    if($scope.user.notifications[index].from == contact._id){
+                    else if(verify[1] == 'notifications')
                         Toast.notify('A contact request from ' + contact.username + ' is pending to be accepted, please check your notifications!');
-                        return false;
-                    }
                 }
-
-                //If an invitation has not been sent, proceed with the request.
-                User.addContact({'contact_id':contact._id})
-                    .$promise
-                    .then(function(data){
-                        $scope.user.pendingContacts = data.pendingContacts;
-                        Toast.notify('Contact request sent to ' +contact.username);
-                    },function(error){
-                        console.log(error);
-                    }
-                );
             };
         }
     ]);

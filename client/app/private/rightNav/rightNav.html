@@ -1,10 +1,19 @@
-<!-- >> Contact Information << -->
+<!-- >> Notifications << -->
 <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="notifications">
     <md-toolbar class="md-theme-light">
         <h1 class="md-toolbar-tools">Notification</h1>
     </md-toolbar>
 
-    <div class="notification md-subhead" layou="row" ng-repeat="notification in user.notifications">
+    <!-- Contact Request Panel -->
+    <h3 class="subHeading md-subhead" layou="row" ng-click="toggleContactRequest()">
+        <span flex="80">Contact Request</span>
+        <md-button aria-label="Show/Hide Contact Request" class="md-icon-button iconToRight"  flex="20">
+            <ng-md-icon icon="{{(panels.contactRequest) ? 'visibility_off':'search'}}" class="whiteIcon" size="25"></ng-md-icon>
+            <md-tooltip md-direction="bottom">{{(panels.contactRequest) ? 'Hide':'Show'}} Contact Request</md-tooltip>
+        </md-button>
+    </h3>
+
+    <md-content class="notification md-subhead" layou="row" ng-repeat="notification in user.notifications" ng-show="panels.contactRequest">
         <span flex="70">{{notification.message}}</span>
         <md-button aria-label="Notification Decline" class="md-icon-button iconToRight"  flex="15">
             <ng-md-icon icon="close" class="redIcon" size="25"></ng-md-icon>
@@ -15,7 +24,21 @@
             <ng-md-icon icon="check" class="greenIcon" size="25"></ng-md-icon>
             <md-tooltip md-direction="bottom">Accept</md-tooltip>
         </md-button>
-    </div>
+    </md-content>
+
+    <!-- >> Temporary Notifications << -->
+    <h3 class="subHeading md-subhead" layou="row" ng-click="toggleTempNotifications()">
+        <span flex="80">Notification History</span>
+        <md-button aria-label="Show/Hide Temp Notifications" class="md-icon-button iconToRight"  flex="20">
+            <ng-md-icon icon="{{(panels.tempNotifications) ? 'visibility_off':'search'}}" class="whiteIcon" size="25"></ng-md-icon>
+            <md-tooltip md-direction="bottom">{{(panels.tempNotifications) ? 'Hide':'Show'}} Notification History</md-tooltip>
+        </md-button>
+    </h3>
+
+    <md-content class="notification md-subhead" layou="row" ng-repeat="tempNotif in tempNotifications | orderBy:'-_id' : reverse" ng-show="panels.tempNotifications">
+        <span flex="70">{{tempNotif.message}}</span>
+        <ng-md-icon icon="info" class="yellowIcon iconToRight" size="25"></ng-md-icon>
+    </md-content>
 
 </md-sidenav>
 

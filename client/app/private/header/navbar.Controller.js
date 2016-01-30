@@ -3,16 +3,16 @@ angular.module('chatApp')
         function(Auth,$rootScope, $scope, Sync, $state,Toast,Socket){
             //Pull the active user fro the Auth Service
             $scope.user = Sync.getActiveUser();
-            if($scope.user){
+            if(!angular.isUndefined($scope.user.username)){
                 Toast.notify('Welcome ' + $scope.user.username);
             }
 
             //Logout function to clear the object in the Auth Service
             $scope.logout = function(){
-                    Toast.notify('Goodbye ' + $scope.user.username);
-                    Auth.logout();
-                    Socket.logout();
-                    $state.go('landing');
+                Toast.notify('Goodbye ' + $scope.user.username);
+                Socket.logout();
+                Auth.logout();
+                $state.go('landing');
             };
 
             //Broadcast an event to open the Contacts panel

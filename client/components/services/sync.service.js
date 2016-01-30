@@ -1,5 +1,19 @@
 angular.module('chatApp')
     .factory('Sync', [function () {
+
+        /*Utility Function to work inside the service, not exposed to the Application*/
+
+        //Check if an object is contained in a list
+        // property optional, default to _id
+        function isContained(contact_value, contactList, property){
+            for( var index in contactList){
+                if(contactList[index][property || '_id'] == contact_value){
+                    return true;
+                }
+            }
+            return false;
+        }
+
         //activeUser in the application
         var activeUser = {};
 
@@ -28,6 +42,11 @@ angular.module('chatApp')
             return (activeUser.hasOwnProperty('username'));
         }
 
+
+        function isContained(contact_id){
+
+        }
+
         /**
          * Function to be executed when a contact request has been accepted
          * The contact id will be inserted in the contact array and
@@ -50,11 +69,27 @@ angular.module('chatApp')
             return false;
         }
 
+        /**
+         *
+         */
+        function sentContactRequest(contact_id){
+
+            if(isContained(contact_id,activeUser.pendingContacts))
+                return [false, 'pendingContacts'];
+            if(isContained(contact_id, activeUser.contacts))
+                return [false, 'contacts'];
+            if(isContained(contact_id, activeUser.notifications, 'from'))
+                return [false, 'notifications'];
+            //If is not contained
+            return [true];
+        }
+
         /*** API Exposed to the application ***/
         return {
             setActiveUser : setActiveUser,
             getActiveUser : getActiveUser,
             isLoggedIn : isLoggedIn,
-            updateContacts : updateContacts
+            updateContacts : updateContacts,
+            sentContactRequest:sentContactRequest
         }
     }]);
