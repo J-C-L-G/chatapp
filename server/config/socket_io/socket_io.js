@@ -5,7 +5,8 @@
 'use strict';
 
 var config = require('../environment'),
-    socketioJwt = require('socketio-jwt');
+    socketioJwt = require('socketio-jwt'),
+    User = require('../../api/user/user.model');
 
 /*************************************************
  * When user disconnects perform this action     *
@@ -29,6 +30,27 @@ function onConnect(socket){
     socket.on('disconnect',function(){
         onDisconnect(socket);
         console.log('DISCONNECTED: '+socket.id);
+    });
+
+    socket.on('login',function(data){
+        console.log(data);
+        for(var index in data.contactsToNotify ){
+            User.socket.notify(data.contactsToNotify[index]._id, {event : data.event, message: data.username + ' is online'});
+        }
+    });
+
+    socket.on('logout',function(data){
+        console.log(data);
+        for(var index in data.contactsToNotify ){
+            User.socket.notify(data.contactsToNotify[index]._id, {event : data.event, message: data.username + ' is offline'});
+        }
+        onDisconnect(socket);
+        console.log('DISCONNECTED: '+socket.id);
+    });
+
+    socket.on('messageSent',function(data){
+        data.event = 'messageReceived';
+        User.socket.notify(data.to, data);
     });
 
     //Reply from the backend to the client

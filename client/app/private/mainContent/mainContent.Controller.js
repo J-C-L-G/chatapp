@@ -1,5 +1,5 @@
 angular.module('chatApp')
-.controller('mainContent.Controller', function ($scope) {
+.controller('mainContent.Controller', function ($scope, Socket, Sync) {
 
         //DUMMY IMPLEMENTATION
 
@@ -7,10 +7,10 @@ angular.module('chatApp')
 
         $scope.messages = [{
             face : imagePath,
-            what: 'Brunch this weekend?',
-            who: 'Min Li Chan',
+            what: 'Traes el poop',
+            who: 'Contact 0',
             when: '3:58PM',
-            notes: " I'll be in a home"
+            notes: "Traes el poop"
         }, {
             face : imagePath,
             what: 'Church this weekend?',
@@ -25,5 +25,9 @@ angular.module('chatApp')
             when: '23:18PM',
             notes: " I'll be in a top po box"
         }];
+
+        $scope.testMessage = function(){
+            Socket.sendMessage(Sync.getActiveUser().contacts[0]._id,'traes el poop');
+        }
 
 });

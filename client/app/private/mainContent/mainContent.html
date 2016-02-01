@@ -16,6 +16,7 @@
                         <p>{{item.notes}}</p>
                     </div>
                     <md-button class="md-secondary" ui-sref="main.inConversation({with:item.who})">Respond to {{item.who}}</md-button>
+                    <md-button class="md-secondary" ng-click="testMessage()">TEST MESSAGE TO C0</md-button>
                     <md-divider md-inset ng-if="!$last"></md-divider>
                 </md-list-item>
             </md-list>

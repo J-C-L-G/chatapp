@@ -5,6 +5,7 @@ angular.module('chatApp')
             $scope.user = Sync.getActiveUser();
             if(!angular.isUndefined($scope.user.username)){
                 Toast.notify('Welcome ' + $scope.user.username);
+                Socket.login();
             }
 
             //Logout function to clear the object in the Auth Service
