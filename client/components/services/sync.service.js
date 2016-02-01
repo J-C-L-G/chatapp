@@ -42,26 +42,32 @@ angular.module('chatApp')
             return (activeUser.hasOwnProperty('username'));
         }
 
-
-        function isContained(contact_id){
-
-        }
-
         /**
          * Function to be executed when a contact request has been accepted
          * The contact id will be inserted in the contact array and
          * removed from the pendingContacts array.
          *
+         * @param contact_id  {String}
+         *
          * @return {Boolean}
          */
         function updateContacts(contact_id) {
+
             for (var index in activeUser.pendingContacts) {
                 if (activeUser.pendingContacts[index]._id == contact_id) {
                     if (activeUser.pendingContacts.length == 1) {
-                        activeUser.contacts.push(activeUser.pendingContacts.pop());
+                        if(isContained(contact_id, activeUser.contacts)){
+                            activeUser.pendingContacts.pop()
+                        }else{
+                            activeUser.contacts.push(activeUser.pendingContacts.pop());
+                        }
                     } else if (activeUser.pendingContacts.length > 1) {
-                        activeUser.contacts.push(activeUser.pendingContacts[index]);
-                        activeUser.pendingContacts.splice(index, 1);
+                        if(isContained(contact_id, activeUser.contacts)){
+                            activeUser.pendingContacts.splice(index, 1);
+                        }else{
+                            activeUser.contacts.push(activeUser.pendingContacts[index]);
+                            activeUser.pendingContacts.splice(index, 1);
+                        }
                     }
                     return true;
                 }
@@ -70,7 +76,13 @@ angular.module('chatApp')
         }
 
         /**
+         * Before sent an Ajax to request contact acceptance
+         * we will verify that the user doesn't not have this
+         * contact already as a contact, pending acceptance
+         * we already sent a friend request to this user.
          *
+         * @param contact_id  {String}
+         * @return {Array}
          */
         function sentContactRequest(contact_id){
 

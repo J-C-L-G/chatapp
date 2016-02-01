@@ -19,9 +19,15 @@ angular.module('chatApp').
             );
         }
 
+        function logout(){
+            tempNotifications = [];
+            counter = 1;
+        }
+
         return {
             notify:showSimpleToast,
-            getTemporaryNotifications : getTemporaryNotifications
+            getTemporaryNotifications : getTemporaryNotifications,
+            logout : logout
         }
 
     }]);

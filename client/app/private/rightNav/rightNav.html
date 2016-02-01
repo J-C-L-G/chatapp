@@ -8,7 +8,7 @@
     <h3 class="subHeading md-subhead" layou="row" ng-click="toggleContactRequest()">
         <span flex="80">Contact Request</span>
         <md-button aria-label="Show/Hide Contact Request" class="md-icon-button iconToRight"  flex="20">
-            <ng-md-icon icon="{{(panels.contactRequest) ? 'visibility_off':'search'}}" class="whiteIcon" size="25"></ng-md-icon>
+            <ng-md-icon icon="{{(panels.contactRequest) ? 'visibility_off':'quick_contacts_mail'}}" class="whiteIcon" size="25"></ng-md-icon>
             <md-tooltip md-direction="bottom">{{(panels.contactRequest) ? 'Hide':'Show'}} Contact Request</md-tooltip>
         </md-button>
     </h3>
@@ -30,7 +30,7 @@
     <h3 class="subHeading md-subhead" layou="row" ng-click="toggleTempNotifications()">
         <span flex="80">Notification History</span>
         <md-button aria-label="Show/Hide Temp Notifications" class="md-icon-button iconToRight"  flex="20">
-            <ng-md-icon icon="{{(panels.tempNotifications) ? 'visibility_off':'search'}}" class="whiteIcon" size="25"></ng-md-icon>
+            <ng-md-icon icon="{{(panels.tempNotifications) ? 'arrow_drop_up' : 'arrow_drop_down_circle'}}" class="whiteIcon" size="25"></ng-md-icon>
             <md-tooltip md-direction="bottom">{{(panels.tempNotifications) ? 'Hide':'Show'}} Notification History</md-tooltip>
         </md-button>
     </h3>

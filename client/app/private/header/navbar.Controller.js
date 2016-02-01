@@ -10,6 +10,7 @@ angular.module('chatApp')
             //Logout function to clear the object in the Auth Service
             $scope.logout = function(){
                 Toast.notify('Goodbye ' + $scope.user.username);
+                Toast.logout();
                 Socket.logout();
                 Auth.logout();
                 $state.go('landing');
