@@ -18,5 +18,3 @@ angular.module('chatApp')
             }
 
         }]);
-
-//Test
