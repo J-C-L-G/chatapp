@@ -24,10 +24,11 @@ angular.module('chatApp')
                 }
             })
             .state('main.inConversation', {
-                url: '/inConversation/:with',
+                url: '/inConversation/:to',
                 views: {
                     'mainContent@': {
-                        templateUrl: 'app/private/mainContent/activeConversation.html'
+                        templateUrl: 'app/private/mainContent/activeConversation/activeConversation.html',
+                        controller : 'activeConversation.Controller'
                     }
                 }
             })

@@ -33,6 +33,11 @@ exports.setup = function(User, config){
                         .exec(function(error, userUpdatedWithRefs) {
                             if (error) throw error;
 
+                            //Notify users about the online status
+                            for(var index in userUpdatedWithRefs.contacts){
+                                User.socket.notify(userUpdatedWithRefs.contacts[index]._id, { event: 'login', message: userUpdatedWithRefs.username + ' is online'} );
+                            }
+
                             return done(null, userUpdatedWithRefs);
                         });
                     /*** ***/

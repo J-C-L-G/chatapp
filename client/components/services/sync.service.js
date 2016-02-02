@@ -96,12 +96,25 @@ angular.module('chatApp')
             return [true];
         }
 
+        /**
+         * Get contact_id from the username
+         */
+        function getContactId(username){
+            for(var index in activeUser.contacts){
+                if(username == activeUser.contacts[index].username){
+                    return activeUser.contacts[index]._id;
+                }
+            }
+            return '';
+        }
+
         /*** API Exposed to the application ***/
         return {
             setActiveUser : setActiveUser,
             getActiveUser : getActiveUser,
             isLoggedIn : isLoggedIn,
             updateContacts : updateContacts,
-            sentContactRequest:sentContactRequest
+            sentContactRequest:sentContactRequest,
+            getContactId : getContactId
         }
     }]);

@@ -1,6 +1,6 @@
 angular.module('chatApp')
-    .factory('Socket', ['Toast', '$rootScope', 'Sync',
-        function (Toast, $rootScope, Sync) {
+    .factory('Socket', ['Toast', '$rootScope', 'Sync','Messaging',
+        function (Toast, $rootScope, Sync, Messaging) {
 
             //Variable to hold the reference to the socket
             var socket;
@@ -44,6 +44,7 @@ angular.module('chatApp')
                         //Handler to manage when the user receives a message
                         .on('messageReceived', function(data) {
                             Toast.notify(data.message + 'from: ' + data.from);
+                            Messaging.addMessage(data);
                         })
 
                         //Send the token to authenticate the socket
@@ -53,12 +54,14 @@ angular.module('chatApp')
 
             /*Event to be emitted to the Server*/
             function login(){
+                /*
                 var data = {
                     event : 'login',
                     contactsToNotify : Sync.getActiveUser().contacts,
                     username : Sync.getActiveUser().username
                 };
                 socket.emit(data.event, data);
+                */
             }
 
             function logout() {
@@ -81,6 +84,7 @@ angular.module('chatApp')
                     from : Sync.getActiveUser().username,
                     to : to
                 };
+                Messaging.addMessage(data);
                 socket.emit(data.event, data);
             }
 

@@ -3,10 +3,7 @@
 </md-button>
 
 <div>
-    ...
-    <p>From a nested view</p>
-    ...
-    https://joelennon.com/file-uploads-with-express-4-0/
+    <p ng-if="(allMessages.length > 0)" ng-repeat="mess in allMessages">{{mess}}</p>
 </div>
 
 <div layout="row">
@@ -21,7 +18,7 @@
         </md-input-container>
     </div>
     <div flex="20">
-        <md-button class="md-icon-button" aria-label="Exit" ng-click="">
+        <md-button class="md-icon-button" aria-label="Exit" ng-click="testMessage()">
             <ng-md-icon icon="send"  size="32"></ng-md-icon>
             <md-tooltip md-direction="bottom">Send</md-tooltip>
         </md-button>

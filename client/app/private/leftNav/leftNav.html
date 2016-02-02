@@ -56,8 +56,8 @@
                     <h3>{{contact.username}}</h3>
                     <p>{{contact.email}}</p>
                 </div>
-                <md-button ng-click="" flex="10" aria-label="Add">
-                    <ng-md-icon icon="chat" class="blackIcon" size="25"></ng-md-icon>
+                <md-button ui-sref="main.inConversation({to:contact.username})" flex="10" aria-label="Chat with">
+                    <ng-md-icon icon="chat" class="blackIcon" size="25" ui-sref="main.inConversation({to:contact.username})"></ng-md-icon>
                 </md-button>
             </md-list-item>
         </md-list>
