@@ -25,5 +25,4 @@ angular.module('chatApp')
                 //$scope.allMessages.push({message: $scope.message, from: Sync.getActiveUser().username});
                 Socket.sendMessage($scope.chatName, $scope.to, $scope.message);
             }
-
         }]);
