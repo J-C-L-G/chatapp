@@ -6,16 +6,14 @@
                 <!--<span>Conversations</span>-->
             <!--</h2>-->
         <!--</md-toolbar>-->
-        <!--<md-button class="md-secondary" ng-click="testMessage()">TEST MESSAGE TO C0</md-button>-->
 
         <md-content>
             <md-list>
-                <md-list-item class="md-3-line" ng-repeat="item in messages | orderBy : updated : reverse ">
+                <md-list-item class="md-3-line" ng-repeat="item in messages | orderBy:'-updated'" ui-sref="main.inConversation({to:item.chat})">
                     <img ng-src="{{item.face}}?{{$index}}" class="face" alt="{{item.messages[item.messages.length - 1].from}}">
                     <div class="md-list-item-text">
-                        <h3>{{item.messages[item.messages.length - 1].message}}</h3>
-                        <h4>{{item.messages[item.messages.length - 1].from}}</h4>
-                        <!--<p>{{item.notes}}</p>-->
+                        <h4>{{(item.messages[item.messages.length - 1].from == username) ? 'You' : item.messages[item.messages.length - 1].from}} said:</h4>
+                        <h3>{{(item.messages[item.messages.length - 1].message).substring(0, 70)}}</h3>
                     </div>
                     <md-button class="md-secondary" ui-sref="main.inConversation({to:item.chat})">Reply to {{item.chat}}</md-button>
                     <md-divider md-inset ng-if="!$last"></md-divider>

@@ -3,10 +3,10 @@
 </md-button>
 
 <div>
-    <p ng-repeat="message in messages">{{message.message}}</p>
+    <p ng-repeat="message in messages" ng-class="(username == message.from) ? 'myMessage' : 'contactMessage'">{{message.message}}</p>
 </div>
 
-<div layout="row">
+<div layout="row" style="clear: both;">
     <div flex="10"></div>
     <div flex="70">
         <md-input-container class="md-block">

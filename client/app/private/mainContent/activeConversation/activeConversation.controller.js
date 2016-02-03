@@ -4,10 +4,12 @@ angular.module('chatApp')
         function ($scope, $stateParams, Socket, Sync, Messaging) {
             $scope.to = $stateParams.to;
             $scope.message = '';
+            $scope.username = Sync.getActiveUser().username;
 
             $scope.messages = (function () {
-                if (Messaging.getMessages()[$scope.to] != undefined) {
-                    return Messaging.getMessages()[$scope.to].messages;
+                var chat = Messaging.getChatByName($scope.to);
+                if (chat != undefined) {
+                    return chat.messages;
                 }
                 else {
                     return [];
@@ -22,7 +24,8 @@ angular.module('chatApp')
                     chat : $scope.to
                 };
                 Messaging.addMessage(data);
-                $scope.messages = Messaging.getMessages()[data.chat].messages;
+                $scope.messages = Messaging.getChatByName($scope.to).messages;
                 Socket.sendMessage(data);
+                $scope.message = '';
             }
         }]);

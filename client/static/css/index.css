@@ -50,3 +50,25 @@
 .iconToRight{
     float:right;
 }
+
+.myMessage{
+    margin-left: 5%;
+    max-width: 50%;
+    border-radius: 10px;
+    border-color: black;
+    background-color: lightblue;
+    padding: 5px;
+    float: left;
+    clear: both;
+}
+
+.contactMessage{
+    margin-right: 5%;
+    max-width: 50%;
+    border-radius: 10px;
+    border-color: black;
+    background-color: lightgreen;
+    padding: 5px;
+    float: right;
+    clear: both;
+}
