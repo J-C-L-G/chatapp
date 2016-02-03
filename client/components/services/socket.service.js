@@ -43,7 +43,12 @@ angular.module('chatApp')
                         })
                         //Handler to manage when the user receives a message
                         .on('messageReceived', function(data) {
-                            Toast.notify(data.message + 'from: ' + data.from);
+                            Toast.notify(data.message + ' from: ' + data.from);
+
+                            console.log(data);
+                            data.to = Sync.getContactUsername(data.to);
+                            console.log(data);
+
                             Messaging.addMessage(data);
                         })
 
@@ -77,14 +82,20 @@ angular.module('chatApp')
                 socket.emit('disconnect',{});
             }
 
-            function sendMessage(to, message){
+            function sendMessage(chatName, to, message){
                 var data = {
                     event : 'messageSent',
                     message : message,
                     from : Sync.getActiveUser().username,
-                    to : to
+                    to : to,
+                    chat : chatName || (Sync.getActiveUser().username + ' - ' + to)
                 };
+
+                console.log(data);
+
                 Messaging.addMessage(data);
+
+                data.to = Sync.getContactId(to);
                 socket.emit(data.event, data);
             }
 

@@ -5,14 +5,14 @@ angular.module('chatApp')
         var imagePath = 'static/assets/60.jpeg';
 
         function addMessage(data){
-            if(!angular.isUndefined(conversations[data.from])){
-                conversations[data.from].what.push(data.message);
+            if(!angular.isUndefined(conversations[data.chat])){
+                conversations[data.chat].what.push({message:data.message, from:data.from});
             }else{
-                conversations[data.from] = {
+                conversations[data.chat] = {
                     face : imagePath,
-                    what: [data.message],
+                    what: [{message:data.message, from:data.from}],
                     who: data.from,
-                    when: new Date(),
+                    when: new Date().getDate,
                     notes: data.message
                 }
             }

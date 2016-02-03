@@ -3,7 +3,7 @@
 </md-button>
 
 <div>
-    <p ng-if="(allMessages.length > 0)" ng-repeat="mess in allMessages">{{mess}}</p>
+    <p ng-repeat="mess in allMessages">{{mess.message}}</p>
 </div>
 
 <div layout="row">
