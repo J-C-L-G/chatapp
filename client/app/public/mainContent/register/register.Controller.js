@@ -17,11 +17,15 @@ angular.module('chatApp')
             Auth.createUser(user)
                 .then(
                     function (data) {
-                        if(data.activeUser)
-                        $state.go('main');
+                        if(data.activeUser){
+                            $state.go('main');
+                        }
                     },function (error) {
-                        if(error.data.errors)
+                    console.log(error);
+                        if(error.data.errors){
                             $scope.error = error.data.errors;
+                            //$state.go('landing.register');
+                        }
                     }
                 );
         };

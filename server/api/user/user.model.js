@@ -129,7 +129,7 @@ UserSchema
             }
             respond(true);
         });
-    }, 'The specified username address is already in use.');
+    }, 'The specified username is already in use.');
 
 // 5.Verify if the email is not taken
 UserSchema

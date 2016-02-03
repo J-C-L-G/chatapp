@@ -28,8 +28,6 @@ angular.module('chatApp',['ui.router',
                 config.headers = config.headers || {};
                 if ($cookieStore.get('token')) {
                     config.headers.Authorization = 'Bearer ' + $cookieStore.get('token');
-                }else{
-                    $location.path('/');
                 }
                 return config;
             },
@@ -39,7 +37,7 @@ angular.module('chatApp',['ui.router',
                 console.log('Response Error...');
                 if(response.status === 401) {
                     $location.path('/');
-                    // remove any stale tokens
+                    //remove any stale tokens
                     $cookieStore.remove('token');
                     return $q.reject(response);
                 }

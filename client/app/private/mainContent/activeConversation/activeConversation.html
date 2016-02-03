@@ -3,7 +3,7 @@
 </md-button>
 
 <div>
-    <p ng-repeat="mess in allMessages">{{mess.message}}</p>
+    <p ng-repeat="message in messages">{{message.message}}</p>
 </div>
 
 <div layout="row">
@@ -18,7 +18,7 @@
         </md-input-container>
     </div>
     <div flex="20">
-        <md-button class="md-icon-button" aria-label="Exit" ng-click="testMessage()">
+        <md-button class="md-icon-button" aria-label="Exit" ng-click="sendMessage()">
             <ng-md-icon icon="send"  size="32"></ng-md-icon>
             <md-tooltip md-direction="bottom">Send</md-tooltip>
         </md-button>

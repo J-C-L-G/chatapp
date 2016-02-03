@@ -108,13 +108,13 @@ angular.module('chatApp')
             return '';
         }
 
-        function getContactUsername(_id){
+        function getContactUsername(id){
             for(var index in activeUser.contacts){
-                if(_id == (activeUser.contacts[index]._id).toString()){
+                if(activeUser.contacts[index]._id == id){
                     return activeUser.contacts[index].username;
                 }
             }
-            return '';
+            return 'id not found';
         }
 
         /*** API Exposed to the application ***/

@@ -6,14 +6,14 @@ angular.module('chatApp')
 
         function addMessage(data){
             if(!angular.isUndefined(conversations[data.chat])){
-                conversations[data.chat].what.push({message:data.message, from:data.from});
+                conversations[data.chat].updated = new Date().getTime();
+                conversations[data.chat].messages.push({message:data.message, from:data.from});
             }else{
                 conversations[data.chat] = {
+                    chat : data.chat,
                     face : imagePath,
-                    what: [{message:data.message, from:data.from}],
-                    who: data.from,
-                    when: new Date().getDate,
-                    notes: data.message
+                    messages: [{message:data.message, from:data.from}],
+                    updated : new Date().getTime()
                 }
             }
         }
