@@ -28,6 +28,9 @@ angular.module('chatApp',['ui.router',
                 config.headers = config.headers || {};
                 if ($cookieStore.get('token')) {
                     config.headers.Authorization = 'Bearer ' + $cookieStore.get('token');
+                }else{
+                    if($location.path() != '/register')
+                        $location.path('/');
                 }
                 return config;
             },
