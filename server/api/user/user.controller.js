@@ -173,24 +173,28 @@ exports.confirmContact = function (req, res, next) {
                                     })
                                     .exec(function (error, userUpdatedWithContactsUpdated) {
                                         if (error) throw error;
-                                        res.json({
-                                            'contacts': userUpdatedWithContactsUpdated.contacts || [],
-                                            'pendingContacts': userUpdatedWithContactsUpdated.pendingContacts || [],
-                                            'notifications': userUpdatedWithContactsUpdated.notifications || []
-                                        });
 
-                                        /**********************************
-                                         *  Socket Call 'contactResponse'  *
-                                         **********************************/
-                                            //Notify the Contact that was accepted to update this contacts in the F.E.
-                                        User.socket.notify(contact_id,
-                                            {
-                                                event: 'contactResponse',
-                                                message: 'Contact Request Accepted from ' + user.username,
-                                                from: user._id
-                                            }
-                                        );
+                                        if (userUpdatedWithContactsUpdated) {
+                                            res.json({
+                                                'contacts': userUpdatedWithContactsUpdated.contacts || [],
+                                                'pendingContacts': userUpdatedWithContactsUpdated.pendingContacts || [],
+                                                'notifications': userUpdatedWithContactsUpdated.notifications || []
+                                            });
 
+                                            /**********************************
+                                             *  Socket Call 'contactResponse'  *
+                                             **********************************/
+                                                //Notify the Contact that was accepted to update this contacts in the F.E.
+                                            User.socket.notify(contact_id,
+                                                {
+                                                    event: 'contactResponse',
+                                                    message: 'Contact Request Accepted from ' + user.username,
+                                                    from: user._id
+                                                }
+                                            );
+                                        } else {
+                                            res.json({'error': 'not able to confirm this contact'});
+                                        }
                                     }
                                 );
                             }
@@ -200,4 +204,41 @@ exports.confirmContact = function (req, res, next) {
             }
         }
     );
+};
+
+/**
+ * Remove a Contact from your contact list
+ * If it was successful return the username
+ * so it can be removed from the front end.
+ *
+ * @return {String}
+ */
+exports.deleteContact = function (req, res, next) {
+    var user = req.user,
+        contact_username = req.body.contact_username;
+
+    User.findOne({'username': contact_username}, //Query to be Executed,
+        '_id username') //Restrictions from what is being returned
+        .exec(function (error, contact) {
+            if (error) throw error;
+            //If the contact was found
+            if (contact) {
+
+                User.findOneAndUpdate(
+                    {_id: user._id, contacts: { _id : contact._id } },
+                    {$pull: {contacts: contact._id}},
+                    {safe: true, upsert: true},
+                    function (error, contactRemoved) {
+                        if (error) {
+                            res.json({'error': 'username not found'});
+                        }
+                        if (contactRemoved) {
+                            res.json({'contactRemoved': contact.username});
+                        }
+                    });
+            }
+            else {
+                res.json({'error': 'username not found'});
+            }
+        });
 };

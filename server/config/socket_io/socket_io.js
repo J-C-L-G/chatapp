@@ -21,7 +21,8 @@ function onDisconnect(socket){
 function onConnect(socket){
 
     //Join the a new Room with the Specified User ID
-    socket.join((socket.decoded_token._id).toString());
+    socket.join((socket.decoded_token._id).toString()); // Join a room with the user._id
+    socket.leave(socket.id); // Leave the default room socket.id
 
     //Set the socket connection time.
     socket.connectedAt = new Date();

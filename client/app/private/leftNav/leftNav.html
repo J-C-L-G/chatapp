@@ -52,12 +52,15 @@
         <md-list class="fixedRows">
             <md-list-item class="md-2-line contact-item" ng-repeat="contact in user.contacts" layout="row">
                 <img ng-src="static/assets/60.jpeg" class="md-avatar" alt="{{contact.username}}" flex="15" />
-                <div class="md-list-item-text compact" flex="80">
+                <div class="md-list-item-text compact" flex="45">
                     <h3>{{contact.username}}</h3>
                     <p>{{contact.email}}</p>
                 </div>
+                <md-button ng-click="deleteContact(contact.username)" flex="10" aria-label="Delete">
+                    <ng-md-icon icon="highlight_remove" class="blackIcon" size="25"></ng-md-icon>
+                </md-button>
                 <md-button ui-sref="main.inConversation({to:contact.username})" flex="10" aria-label="Chat with">
-                    <ng-md-icon icon="chat" class="blackIcon" size="25" ui-sref="main.inConversation({to:contact.username})"></ng-md-icon>
+                    <ng-md-icon icon="chat" class="blackIcon" size="25"></ng-md-icon>
                 </md-button>
             </md-list-item>
         </md-list>

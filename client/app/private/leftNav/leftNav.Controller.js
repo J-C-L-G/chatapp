@@ -87,5 +87,20 @@ angular.module('chatApp')
                         Toast.notify('A contact request from ' + contact.username + ' is pending to be accepted, please check your notifications!');
                 }
             };
+
+            //Function to be executed when the user wants to remove one contact
+            $scope.deleteContact = function(contact_username){
+                User.deleteContact({'contact_username':contact_username})
+                    .$promise
+                    .then(function(data){
+                        if(data.contactRemoved){
+                            Sync.removeContactByUsername(data.contactRemoved);
+                        }else{
+                            console.log(data.error);
+                        }
+                    },function(error){
+                        console.log(error);
+                    });
+            }
         }
     ]);

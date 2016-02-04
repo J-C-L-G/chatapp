@@ -14,5 +14,6 @@ router.post('/',controller.create);
 router.get('/findContacts', auth.isAuthenticated(), controller.find);
 router.post('/addContact',auth.isAuthenticated(),controller.addContact);
 router.post('/confirmContact',auth.isAuthenticated(),controller.confirmContact);
+router.post('/deleteContact',auth.isAuthenticated(),controller.deleteContact);
 
 module.exports = router;

@@ -117,6 +117,16 @@ angular.module('chatApp')
             return 'id not found';
         }
 
+        function removeContactByUsername(username){
+            for(var index in activeUser.contacts){
+                if(activeUser.contacts[index].username == username){
+                    activeUser.contacts.splice(index, 1);
+                    return true;
+                }
+            }
+            return false;
+        }
+
         /*** API Exposed to the application ***/
         return {
             setActiveUser : setActiveUser,
@@ -125,6 +135,7 @@ angular.module('chatApp')
             updateContacts : updateContacts,
             sentContactRequest:sentContactRequest,
             getContactId : getContactId,
-            getContactUsername : getContactUsername
+            getContactUsername : getContactUsername,
+            removeContactByUsername : removeContactByUsername
         }
     }]);

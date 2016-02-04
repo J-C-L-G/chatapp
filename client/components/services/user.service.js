@@ -29,6 +29,13 @@ angular.module('chatApp')
                         params: {
                             action : 'confirmContact'
                         }
+                    },
+                    deleteContact : {
+                        method:'POST',
+                        params: {
+                            action : 'deleteContact'
+                        }
+
                     }
                     /*These are the default implementations*/
                     /*
