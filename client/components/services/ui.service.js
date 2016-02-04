@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chatApp')
-       .factory('UserInterface',['$mdSidenav',function($mdSidenav){
+       .factory('UserInterface',['$mdSidenav','$mdDialog',function($mdSidenav, $mdDialog){
 
         /**
          * Build handler to open/close/toggle a SideNav; when animation finishes
@@ -39,10 +39,24 @@ angular.module('chatApp')
             }
         }
 
+        //return a promise when the dialog is displayed
+        function buildConfirmationDialog(options){
+            var confirm = $mdDialog.confirm()
+                .title(options.title)
+                .textContent(options.textContent)
+                .ariaLabel(options.ariaLabel)
+                .targetEvent(options.targetEvent)
+                .ok(options.ok)
+                .cancel(options.cancel);
+
+            return $mdDialog.show(confirm);
+        }
+
             return {
                 buildOpen:buildOpen,
                 buildClose:buildClose,
                 buildToggler:buildToggler,
-                buildPanelToggler:buildPanelToggler
+                buildPanelToggler:buildPanelToggler,
+                buildConfirmationDialog:buildConfirmationDialog
             }
         }]);

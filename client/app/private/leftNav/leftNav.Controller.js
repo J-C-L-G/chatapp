@@ -89,17 +89,29 @@ angular.module('chatApp')
             };
 
             //Function to be executed when the user wants to remove one contact
-            $scope.deleteContact = function(contact_username){
-                User.deleteContact({'contact_username':contact_username})
-                    .$promise
-                    .then(function(data){
-                        if(data.contactRemoved){
-                            Sync.removeContactByUsername(data.contactRemoved);
-                        }else{
-                            console.log(data.error);
-                        }
-                    },function(error){
-                        console.log(error);
+            $scope.deleteContact = function(contact_username,$event) {
+                var options = {
+                    title : 'Remove a Contact',
+                    textContent : 'Are you sure you want to delete '+contact_username+' from your contacts?.',
+                    ariaLabel : 'Remove Contact',
+                    targetEvent : $event,
+                    ok : 'Yes',
+                    cancel : 'No'
+                };
+
+                UserInterface.buildConfirmationDialog(options)
+                    .then(function () {
+                        User.deleteContact({'contact_username':contact_username})
+                            .$promise
+                            .then(function(data){
+                                if(data.contactRemoved){
+                                    Sync.removeContactByUsername(data.contactRemoved);
+                                }else{
+                                    console.log(data.error);
+                                }
+                            },function(error){
+                                console.log(error);
+                            });
                     });
             }
         }

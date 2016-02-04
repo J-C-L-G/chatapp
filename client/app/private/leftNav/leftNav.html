@@ -29,12 +29,12 @@
             <md-list-item class="md-2-line contact-item" ng-repeat="contact in searchResults" layout="row">
                 <img ng-src="static/assets/60.jpeg" class="md-avatar" alt="{{contact.username}}" flex="15"/>
 
-                <div class="md-list-item-text compact" flex="80">
+                <div class="md-list-item-text compact" flex="70">
                     <h3>{{contact.username}}</h3>
 
                     <p>{{contact.email}}</p>
                 </div>
-                <md-button ng-click="addContact(contact)" flex="10" aria-label="Add">
+                <md-button class="md-icon-button" ng-click="addContact(contact)" flex="15" aria-label="Add">
                     <ng-md-icon icon="person_add" class="blackIcon" size="25"></ng-md-icon>
                 </md-button>
             </md-list-item>
@@ -68,7 +68,7 @@
                         </md-button>
                     </div>
                     <div layout="column">
-                        <md-button class="md-icon-button" ng-click="deleteContact(contact.username)" layout="row" aria-label="Delete">
+                        <md-button class="md-icon-button" ng-click="deleteContact(contact.username,$event)" layout="row" aria-label="Delete">
                             <ng-md-icon icon="highlight_remove" class="redIcon" size="15"></ng-md-icon>
                         </md-button>
                     </div>
