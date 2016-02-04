@@ -7,28 +7,31 @@
     <!-- Contact Search Panel -->
     <h3 class="subHeading md-subhead" layou="row" ng-click="toggleContactSearch()">
         <span flex="80">Search</span>
-        <md-button aria-label="Show/Hide Contact Search" class="md-icon-button iconToRight"  flex="20">
+        <md-button aria-label="Show/Hide Contact Search" class="md-icon-button iconToRight" flex="20">
             <ng-md-icon icon="{{(panels.contactSearch) ? 'visibility_off':'search'}}" class="whiteIcon" size="25"></ng-md-icon>
             <md-tooltip md-direction="bottom">{{(panels.contactSearch) ? 'Hide':'Show'}} Contact Search</md-tooltip>
         </md-button>
-
     </h3>
 
     <md-cotent layour="row" ng-show="panels.contactSearch">
         <form novalidate name="searchForm">
             <md-input-container class="md-icon-float" flex="70">
-                <input ng-model="searchName" name="searchFor" type="text" placeholder="username" required="true" ensure-type ensure="alphanumeric" >
+                <input ng-model="searchName" name="searchFor" type="text" placeholder="username" required="true"
+                       ensure-type ensure="alphanumeric">
             </md-input-container>
-            <md-button class="md-icon-button" aria-label="Search" ng-click="searchForContacts(searchName)" flex="20" ng-disabled="searchForm.$invalid">
+            <md-button class="md-icon-button" aria-label="Search" ng-click="searchForContacts(searchName)" flex="20"
+                       ng-disabled="searchForm.$invalid">
                 <ng-md-icon icon="search" class="blackIcon" size="32"></ng-md-icon>
                 <md-tooltip md-direction="bottom">Search</md-tooltip>
             </md-button>
         </form>
         <md-list class="fixedRows" ng-show="(searchResults.length > 0)">
             <md-list-item class="md-2-line contact-item" ng-repeat="contact in searchResults" layout="row">
-                <img ng-src="static/assets/60.jpeg" class="md-avatar" alt="{{contact.username}}" flex="15" />
+                <img ng-src="static/assets/60.jpeg" class="md-avatar" alt="{{contact.username}}" flex="15"/>
+
                 <div class="md-list-item-text compact" flex="80">
                     <h3>{{contact.username}}</h3>
+
                     <p>{{contact.email}}</p>
                 </div>
                 <md-button ng-click="addContact(contact)" flex="10" aria-label="Add">
@@ -42,29 +45,31 @@
     <!-- Panel Contacts -->
     <h3 class="subHeading md-subhead" layou="row" ng-click="toggleShowContacts()">
         <span flex="80">Your Contacts</span>
-        <md-button aria-label="Show/Hide Contacts" class="md-icon-button iconToRight"  flex="20">
-            <ng-md-icon icon="{{(panels.showContacts) ? 'visibility_off':'people'}}" class="whiteIcon" size="25"></ng-md-icon>
+        <md-button aria-label="Show/Hide Contacts" class="md-icon-button iconToRight" flex="20">
+            <ng-md-icon icon="{{(panels.showContacts) ? 'visibility_off':'people'}}" class="whiteIcon"
+                        size="25"></ng-md-icon>
             <md-tooltip md-direction="bottom">{{(panels.showContacts) ? 'Hide':'Show'}} Your Contacts</md-tooltip>
         </md-button>
     </h3>
 
     <md-cotent layour="row" ng-show="panels.showContacts">
         <md-list class="fixedRows">
-            <md-list-item class="md-2-line contact-item circularBorder" ng-repeat="contact in user.contacts" layout="row">
-                <img ng-src="static/assets/60.jpeg" class="md-avatar" alt="{{contact.username}}" flex="15" />
+            <md-list-item class="md-2-line contact-item circularBorder" ng-repeat="contact in user.contacts | orderBy:'username'" layout="row">
+                <img ng-src="static/assets/60.jpeg" class="md-avatar" alt="{{contact.username}}" flex="15"/>
                 <div class="md-list-item-text compact" flex="60">
                     <h3>{{contact.username}}</h3>
                     <p>{{contact.email}}</p>
                 </div>
                 <div flex="20" layout="column">
                     <div layout="column">
-                        <md-button ng-click="deleteContact(contact.username)" layout="row" aria-label="Delete">
-                            <ng-md-icon icon="highlight_remove" class="redIcon" size="15"></ng-md-icon>
+                        <md-button class="md-icon-button" ui-sref="main.inConversation({to:contact.username})" layout="row"
+                                   aria-label="Chat with">
+                            <ng-md-icon icon="chat" class="blackIcon" size="25"></ng-md-icon>
                         </md-button>
                     </div>
                     <div layout="column">
-                        <md-button ui-sref="main.inConversation({to:contact.username})" layout="row" aria-label="Chat with">
-                            <ng-md-icon icon="chat" class="blackIcon" size="25"></ng-md-icon>
+                        <md-button class="md-icon-button" ng-click="deleteContact(contact.username)" layout="row" aria-label="Delete">
+                            <ng-md-icon icon="highlight_remove" class="redIcon" size="15"></ng-md-icon>
                         </md-button>
                     </div>
                 </div>
@@ -76,18 +81,21 @@
     <!-- Panel Pending Contacts -->
     <h3 class="subHeading md-subhead" layou="row" ng-click="togglePendingContacts()">
         <span flex="80">Pending Contacts</span>
-        <md-button aria-label="Show/Hide Pending Contacts" class="md-icon-button iconToRight"  flex="20">
-            <ng-md-icon icon="{{(panels.pendingContacts) ? 'visibility_off':'access_time'}}" class="whiteIcon" size="25"></ng-md-icon>
+        <md-button aria-label="Show/Hide Pending Contacts" class="md-icon-button iconToRight" flex="20">
+            <ng-md-icon icon="{{(panels.pendingContacts) ? 'visibility_off':'access_time'}}" class="whiteIcon"
+                        size="25"></ng-md-icon>
             <md-tooltip md-direction="bottom">{{(panels.pendingContacts) ? 'Hide':'Show'}} Pending Contacts</md-tooltip>
         </md-button>
     </h3>
 
     <md-cotent layour="row" ng-show="panels.pendingContacts">
         <md-list class="fixedRows">
-            <md-list-item class="md-2-line contact-item" ng-repeat="contact in user.pendingContacts" layout="row">
-                <img ng-src="static/assets/60.jpeg" class="md-avatar" alt="{{contact.username}}" flex="15" />
+            <md-list-item class="md-2-line contact-item" ng-repeat="contact in user.pendingContacts | orderBy:'username'" layout="row">
+                <img ng-src="static/assets/60.jpeg" class="md-avatar" alt="{{contact.username}}" flex="15"/>
+
                 <div class="md-list-item-text compact" flex="80">
                     <h3>{{contact.username}}</h3>
+
                     <p>{{contact.email}}</p>
                 </div>
             </md-list-item>
@@ -96,8 +104,8 @@
 
 
     <!--<md-content layout-padding>-->
-        <!--<md-button ng-click="toggleContactInfo()" class="md-primary">-->
-            <!--Close Contact Info-->
-        <!--</md-button>-->
+    <!--<md-button ng-click="toggleContactInfo()" class="md-primary">-->
+    <!--Close Contact Info-->
+    <!--</md-button>-->
     <!--</md-content>-->
 </md-sidenav>

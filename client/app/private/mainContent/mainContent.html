@@ -1,25 +1,23 @@
-<!--<div class="activeConversation" ui-view flex="100"></div>-->
 <md-content flex layout-padding>
     <div layout="column" layout-fill layout-align="top center">
-        <!--<md-toolbar class="md-theme-light">-->
-            <!--<h2 class="md-toolbar-tools">-->
-                <!--<span>Conversations</span>-->
-            <!--</h2>-->
-        <!--</md-toolbar>-->
-
         <md-content>
             <md-list>
-                <md-list-item class="md-3-line" ng-repeat="item in messages | orderBy:'-updated'" ui-sref="main.inConversation({to:item.chat})">
-                    <img ng-src="{{item.face}}?{{$index}}" class="face" alt="{{item.messages[item.messages.length - 1].from}}">
-                    <div class="md-list-item-text">
-                        <h4>{{(item.messages[item.messages.length - 1].from == username) ? 'You' : item.messages[item.messages.length - 1].from}} said:</h4>
-                        <h3>{{(item.messages[item.messages.length - 1].message).substring(0, 70)}}</h3>
-                    </div>
-                    <md-button class="md-secondary" ui-sref="main.inConversation({to:item.chat})">Reply to {{item.chat}}</md-button>
-                    <md-divider md-inset ng-if="!$last"></md-divider>
+                <md-list-item class="md-3-line" ng-repeat="item in messages | orderBy:'-updated'" ui-sref="main.inConversation({to:item.chat})" layout="row">
+                        <img ng-src="{{item.face}}" class="face" alt="{{item.chat}}" title="{{item.chat}}" />
+                        <div class="md-list-item-text" flex="60">
+                            <h4><strong>{{(item.messages[item.messages.length - 1].from == username) ? 'you' : item.messages[item.messages.length - 1].from}}</strong> said:</h4>
+                            <h3><em>{{(item.messages[item.messages.length - 1].message).substring(0, 40)}}</em></h3>
+                        </div>
+                        <md-button class="md-raised md-primary" ui-sref="main.inConversation({to:item.chat})">Reply to {{item.chat}}
+                            <md-tooltip md-direction="bottom">Chat with {{item.chat}} </md-tooltip>
+                        </md-button>
+                        <md-button class="md-icon-button" ng-click="removeConversation(item.chat,$event)">
+                            <ng-md-icon icon="highlight_remove" class="redIcon" size="25"></ng-md-icon>
+                            <md-tooltip md-direction="bottom">Delete {{item.chat}}'s Conversation </md-tooltip>
+                        </md-button>
+                    <md-divider></md-divider>
                 </md-list-item>
             </md-list>
         </md-content>
-
     </div>
 </md-content>

@@ -50,8 +50,27 @@ function onConnect(socket){
     });
 
     socket.on('messageSent',function(data){
-        data.event = 'messageReceived';
-        User.socket.notify(data.to, data);
+        /*
+        User.findOne({_id: socket.decoded_token._id, contacts: { _id : data.to } },
+            function (error, contactExists) {
+                if (contactExists) {
+                    data.event = 'messageReceived';
+                    User.socket.notify(data.to, data);
+                }
+            });
+        */
+
+        User.findOne({'_id': socket.decoded_token._id, contacts: { _id : data.to } }, //Query to be Executed,
+            '_id') //Restrictions from what is being returned
+            .exec(function (error, userMatchingFound) {
+                if(userMatchingFound){
+                    data.event = 'messageReceived';
+                    User.socket.notify(data.to, data);
+                }
+            });
+
+                //data.event = 'messageReceived';
+                //User.socket.notify(data.to, data);
     });
 
     //Reply from the backend to the client

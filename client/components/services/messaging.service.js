@@ -18,6 +18,7 @@ angular.module('chatApp')
             return (chatIndex >= 0) ? conversations[chatIndex] : undefined ;
         }
 
+
         function addMessage(data){
             var chatIndex = findChatIndex(data.chat);
             if( chatIndex >= 0){
@@ -33,9 +34,22 @@ angular.module('chatApp')
             }
         }
 
+        function clearChatByName(chatName){
+            var index = findChatIndex(chatName);
+            if(index >= 0){
+                conversations.splice(index,1);
+            }
+        }
+
+        function logout(){
+            conversations.length = 0;
+        }
+
         return {
             addMessage : addMessage,
             getConversations : function(){return conversations;},
-            getChatByName : getChatByName
+            getChatByName : getChatByName,
+            clearChatByName : clearChatByName,
+            logout : logout
         }
     }]);
