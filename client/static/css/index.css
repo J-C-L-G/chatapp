@@ -72,3 +72,11 @@
     float: right;
     clear: both;
 }
+
+.circularBorder:first-child{
+    border-top: 1px solid lightgrey;
+}
+
+.circularBorder{
+    border-bottom: 1px solid lightgrey;
+}
