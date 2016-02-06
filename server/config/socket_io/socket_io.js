@@ -19,7 +19,6 @@ function onDisconnect(socket){
  * When the user Connects perform this action     *
  **************************************************/
 function onConnect(socket){
-
     //Join the a new Room with the Specified User ID
     socket.join((socket.decoded_token._id).toString()); // Join a room with the user._id
     socket.leave(socket.id); // Leave the default room socket.id
@@ -35,58 +34,34 @@ function onConnect(socket){
 
     socket.on('login',function(data){
         console.log(data);
-        for(var index in data.contactsToNotify ){
-            User.socket.notify(data.contactsToNotify[index]._id, {event : data.event, message: data.username + ' is online'});
-        }
     });
 
     socket.on('logout',function(data){
         console.log(data);
-        for(var index in data.contactsToNotify ){
-            User.socket.notify(data.contactsToNotify[index]._id, {event : data.event, message: data.username + ' is offline'});
-        }
         onDisconnect(socket);
         console.log('DISCONNECTED: '+socket.id);
     });
 
     socket.on('messageSent',function(data){
-        /*
-        User.findOne({_id: socket.decoded_token._id, contacts: { _id : data.to } },
-            function (error, contactExists) {
-                if (contactExists) {
-                    data.event = 'messageReceived';
-                    User.socket.notify(data.to, data);
-                }
-            });
-        */
 
-        User.findOne({'_id': socket.decoded_token._id, contacts: { _id : data.to } }, //Query to be Executed,
-            '_id') //Restrictions from what is being returned
-            .exec(function (error, userMatchingFound) {
-                if(userMatchingFound){
-                    data.event = 'messageReceived';
-                    User.socket.notify(data.to, data);
-                }
-            });
+        User.findOne({'username': data.to  }, // ..:: Query to be Executed ::..
+                     '_id')
+            .exec(function(error, contact){
 
-                //data.event = 'messageReceived';
-                //User.socket.notify(data.to, data);
+                User.findOne({'_id': socket.decoded_token._id, contacts: { _id : contact._id } }, // ..:: Query to be Executed ::..
+                    '_id')                                                          // ..:: Restrictions to be returned ::..
+                    .exec(function (error, userMatchingFound) {                               // ..:: Procedure to be Executed ::..
+                        if(userMatchingFound){
+                            data.event = 'messageReceived';
+                            User.socket.notify(contact._id, data);
+                        }
+                    });
+
+            });
     });
 
     //Reply from the backend to the client
-    socket.emit('authenticated','Your Socket ID:'+ socket.id);
-
-    //socket.on('contactRequest',function(data){
-    //    //clientSockets[data.to].emit('receivedFriendRequest','Friend Request from ' + data.from);
-    //    console.log(data);
-    //    socket.broadcast.to(data.to).emit(data.type,
-    //        {
-    //            type: data.type,
-    //            message : 'Contact Request from ' + data.from.username,
-    //            from: data.from
-    //        }
-    //    );
-    //});
+    socket.emit('authenticated',true);
 }
 
 

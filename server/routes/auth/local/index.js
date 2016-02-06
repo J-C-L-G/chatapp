@@ -14,7 +14,16 @@ router.post('/login',function(req, res, next){
 
         //If everything was successful
         var token = authService.signToken(user._id);
-        res.json({'token':token, 'activeUser':user});
+
+        var activeUser = {
+            contacts : user.contacts,
+            email : user.email,
+            motto : user.motto,
+            notifications : user.notifications,
+            pendingContacts : user.pendingContacts,
+            username : user.username
+        };
+        res.json({'token':token, 'activeUser':activeUser});
     })(req, res, next);
 });
 

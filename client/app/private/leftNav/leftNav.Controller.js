@@ -42,11 +42,9 @@ angular.module('chatApp')
             /****************************************************************
              * Handlers for the User Actions in the View                    *
              ****************************************************************/
-
-            // User Object pulled from from the service
             $scope.user = Sync.getActiveUser();
 
-            // Search Panel handlers
+            // Properties on the scope
             $scope.searchName = '';
             $scope.searchResults = [];
 
@@ -64,15 +62,14 @@ angular.module('chatApp')
 
             //Function to be executed when the user adds a contact
             $scope.addContact = function(contact){
-                var verify = Sync.sentContactRequest(contact._id); // [[true/false]['contactPresentIn']]
+                var verify = Sync.sendContactRequest(contact.username); // [[true/false]['contactPresentIn']]
 
                 // If an invitation has not been sent, proceed with the request.
                 if(verify[0] == true){
-                    User.addContact({'contact_id':contact._id})
+                    User.addContact({'contact_username':contact.username})
                         .$promise
                         .then(function(data){
-                            Sync.getActiveUser().pendingContacts = data.pendingContacts;
-                            Toast.notify('Contact request sent to ' +contact.username);
+                            console.log(data);
                         },function(error){
                             console.log(error);
                         });
@@ -104,11 +101,7 @@ angular.module('chatApp')
                         User.deleteContact({'contact_username':contact_username})
                             .$promise
                             .then(function(data){
-                                if(data.contactRemoved){
-                                    Sync.removeContactByUsername(data.contactRemoved);
-                                }else{
-                                    console.log(data.error);
-                                }
+                                console.log(data);
                             },function(error){
                                 console.log(error);
                             });

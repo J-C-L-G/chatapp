@@ -9,7 +9,7 @@ var User = require('./user.model'),
 
 
 /**************************************
- * Utility Function                   *
+ * Utility Function(s)                   *
  **************************************/
 
 var validationError = function (res, error) {
@@ -21,108 +21,166 @@ var validationError = function (res, error) {
 };
 
 /**
- * Creates a new user
+ * ..:: Creates a new user ::..
+ * This function return only the username provided
+ * so it can be used as part of the login process.
  *
- * @return {webToken, userObject}
+ * @return {jwt, object.username}
  */
-exports.create = function (req, res, next) {
+exports.create = function (req, res) {
+    // Create a new user from the request body.
     var newUser = new User(req.body);
+    // Save the new User Object
     newUser.save(function (error, user) {
         if (error) {
             return validationError(res, error);
         }
-        var token = jwt.sign({_id: user._id}, config.secrets.session, {expiresIn: 60 * 5});
-        res.json({'token': token, 'newUser': user.profile});
+        if (user) {
+            res.json({'newUser': {'username': user.username}});
+        }
     });
 };
 
 /**
- *Search for a Contact(s)
+ * ..:: Search for a Contact(s) ::..
+ * This function return an array of contacts
+ * objects matching the search criteria.
  *
- * @return {array}
+ * @return { Array [ {username, email} ] }
  */
+exports.find = function (req, res) {
+    var usernameToFind = new RegExp('^' + req.query.names, 'i'),            // RegularExpression to be used for Search
+        user = req.user;                                                    // Active user in the application
 
-exports.find = function (req, res, next) {
-    var usernameToFind = new RegExp('^' + req.query.names, 'i'),
-        user = req.user;
-
-    User.find({'username': {$regex: usernameToFind, $ne: user.username}}, //Query to be Executed
-        {_id: true, username: true, email: true, profileImage: true}, //Restrictions To Be Returned
-        function (error, documents) { //Procedure
+    User.find({'username': {$regex: usernameToFind, $ne: user.username}},   // ..:: Query to be Executed ::..
+        {
+            _id: false,                                                     // ..:: Restriction on the returned properties ::..
+            role: false,
+            motto: false,
+            provider: false,
+            pendingContacts: false,
+            notifications: false,
+            contacts: false,
+            salt: false,
+            hashedPassword: false,
+            __v: false
+        },
+        function (error, contactsFound) {                                   // ..:: Procedure to be Executed ::..
             if (error) throw error;
-            if (documents) {
-                res.json({'contactsFound': documents}); //Return documents matching the criteria
+            if (contactsFound) {
+                //Return documents matching the search criteria.
+                res.json({'contactsFound': contactsFound});
             } else {
-                res.json({'contactsFound': []}); //Return an Empty Array
+                //Return an empty array as no contacts were found.
+                res.json({'contactsFound': []});
             }
         }
     );
 };
 
 /**
+ * ..:: Add a Contact to the User's List ::..
  * Add a contact to the user's pendindContacts array
- * until confirmation is received
+ * until confirmation is received from the
  *
  * @return {array}
  */
 exports.addContact = function (req, res, next) {
-    var user = req.user,                    //Active user in the application
-        contact_id = req.body.contact_id;   //Contact id to be added as a pending contact
+    var user = req.user,                                // Active user in the application
+        contact_username = req.body.contact_username;   // Contact username to be added as a pending contact
 
-    //Add a Contact to the pendingContacts active user
-    User.findOneAndUpdate(
-        {_id: user._id},
-        {$addToSet: {pendingContacts: contact_id}},
-        {safe: true, upsert: true},
-        function (error, userUpdated) {
+    //Search for the contact that wants to be added by username
+    User.findOne({username: contact_username},  // ..:: Query to be Executed ::..
+                 '_id username')                // ..:: Restriction on the returned properties ::..
+        .exec(function (error, contact) {       // ..:: Procedure to be Executed ::..
             if (error) throw error;
-            //If the contact was successfully added
-            if (userUpdated) {
+            //If the contact_username exists in the database
+            if (contact) {
 
-                //Find a user and populate his contacts
-                User.findOne({_id: user._id})
-                    .populate({
-                        path: 'pendingContacts',
-                        select: '_id username profileImage email'
-                    })
-                    .exec(function (error, userUpdatedWithPendingContactsUpdated) {
+                //Add a Contact to the pendingContacts array in active user document.
+                User.findOneAndUpdate(
+                    {_id: user._id},                                // ..:: Query to be Executed ::..
+                    {$addToSet: {pendingContacts: contact._id}},    // ..:: Procedure to be Executed ::..
+                    {safe: true, upsert: true},                     // ..:: R/W Options to be Applied ::..
+                    function (error, userUpdated) {
                         if (error) throw error;
-                        res.json({'pendingContacts': userUpdatedWithPendingContactsUpdated.pendingContacts});
 
-                        //Push the Notification to the array of the contact request
-                        var notification = {
-                            from: user._id,
-                            event: 'contactRequest',
-                            message: 'Contact Request from ' + user.username
-                        };
+                        //If the contact._id was successfully added to the active user's pendingContacts Array.
+                        if (userUpdated) {
 
-                        //Persist the Notification
-                        new Notification(notification).save(function (error, notification) {
-                            if (error) throw error;
+                            //Find a the active user and populate his contacts
+                            User.findOne({_id: user._id})           // ..:: Query to be Executed ::..
+                                .populate({                         // ..:: Restriction on the returned properties ::..
+                                    path: 'pendingContacts',
+                                    select: '-_id username profileImage email'
+                                })
+                                .exec(function (error, userUpdatedWithPendingContactsUpdated) {
+                                    if (error) throw error;
 
-                            if (notification) {
+                                    //Create a new Notification with the contactRequest information
+                                    var newNotification = {
+                                        from: user._id,
+                                        from_user : user.username,
+                                        to: contact._id,
+                                        event: 'contactRequest',
+                                        message: 'Contact Request from ' + user.username
+                                    };
 
-                                //Find the contact which the request is being sent, and pushed the notification to
-                                //this his notification array.
-                                User.findOneAndUpdate(
-                                    {_id: contact_id},
-                                    {$addToSet: {notifications: notification._id}},
-                                    {safe: true, upsert: true},
-                                    function (error, notificationAdded) {
+                                    //Persist the Notification in to the Notification's Collection
+                                    new Notification(newNotification).save(function (error, notification) {
                                         if (error) throw error;
-                                        if (notificationAdded) {
-                                            /**********************************
-                                             *  Socket Call 'contactRequest'  *
-                                             **********************************/
-                                            User.socket.notify(contact_id, notification);
+                                        //If the notification was successfully persisted
+                                        if (notification) {
+
+                                            // Find the contact which the request is being sent,
+                                            // and push the notification to this his notification array.
+                                            User.findOneAndUpdate({_id: contact._id},               // ..:: Query to be Executed ::..
+                                                {$addToSet: {notifications: notification._id}},     // ..:: Procedure to be Executed ::..
+                                                {safe: true, upsert: true},                         // ..:: R/W Options to be Applied ::..
+                                                function (error, notificationAdded) {
+                                                    if (error) throw error;
+
+                                                    //If the notification was successfully pushed
+                                                    // into the contact's notification array.
+                                                    if (notificationAdded) {
+
+                                                        /**********************************
+                                                         *  Socket Call 'contactRequest'  *
+                                                         **********************************/
+                                                        User.socket.notify(contact._id,
+                                                            {
+                                                                'event': 'contactRequest',
+                                                                'notification': {
+                                                                    '_id': notification._id,
+                                                                    'message': notification.message,
+                                                                    'from_user' : notification.from_user
+                                                                },
+                                                                'message': notification.message
+                                                            }
+                                                        );
+                                                        /**********************************
+                                                         *  Socket Call 'updateUI'  *
+                                                         **********************************/
+                                                        User.socket.notify(user._id,
+                                                            {
+                                                                'event': 'updateUI',
+                                                                'pendingContacts': userUpdatedWithPendingContactsUpdated.pendingContacts,
+                                                                'message': 'Contact Request Sent to ' + contact.username
+                                                            }
+                                                        );
+
+                                                        /*** Reply with JSON to the requester ***/
+                                                        res.json({'success': true});
+                                                    }
+                                                });
                                         }
                                     });
-                            }
-                        });
-                    });
+                                });
+                        }
+                    }
+                );
             }
-        }
-    );
+        });
 };
 
 /**
@@ -132,78 +190,112 @@ exports.addContact = function (req, res, next) {
  *
  * @return {array}
  */
-exports.confirmContact = function (req, res, next) {
-    var user = req.user,
-        notification_id = req.body.notification_id,
-        contact_id = req.body.contact_id;
+exports.confirmContact = function (req, res) {
+    var user = req.user,                                // Active user in the application
+        notification_id = req.body.notification_id;     // Notification's id to be accepted
 
-    // Verify the Contact Request on the requester contact to be sure
-    // that this request is waiting to be accepted from the user making this request.
-    User.update(
-        {'_id': contact_id},
-        {$pull: {pendingContacts: user._id}, $addToSet: {contacts: user._id}},
-        function (error, result) {
-            // If the contact document was modified successfully
-            if (result.ok) {
 
-                //Remove the Notifications from the Notification Collection
-                Notification.remove({_id: notification_id, from: contact_id}, function (error) {
+    //Verify that this notifications is for the user accepting the notification.
+    Notification.findOne({_id: notification_id, to: user._id},    // ..:: Query to be Executed ::..
+        '-event -message')                                        // ..:: Restrictions to be returned ::..
+        .exec(function (error, notificationFound) {               // ..:: Procedure to be Executed ::..
+            if (error) throw error;
 
-                    if (error) throw error;
+            //If the notification was found in the collection
+            if (notificationFound) {
 
-                    //Add a Contact to the contacts active user
-                    User.update(
-                        {_id: user._id},
-                        {$addToSet: {contacts: contact_id}, $pull: {notifications: notification_id}},
-                        {safe: true, upsert: true},
-                        function (error, userUpdated) {
-                            if (error) throw error;
-                            //If the contact was successfully added
-                            if (userUpdated) {
+                //Proceed to add the active user accepting this request to the contacts array
+                //and at the same time, remove it from the pending contacts array.
+                User.update(
+                    {'_id': notificationFound.from},
+                    {$pull: {pendingContacts: user._id}, $addToSet: {contacts: user._id}},
+                    function (error, result) {
+                        if (error) throw error;
 
-                                //Find it and populate his contacts
-                                User.findOne({_id: user._id})
-                                    .populate({
-                                        path: 'contacts pendingContacts',
-                                        select: '_id username profileImage email'
-                                    })
-                                    .populate({
-                                        path: 'notifications',
-                                        select: '_id message from event'
-                                    })
-                                    .exec(function (error, userUpdatedWithContactsUpdated) {
-                                        if (error) throw error;
+                        //If the contact who sent the contact request document was modified successfully.
+                        if (result.ok) {
 
-                                        if (userUpdatedWithContactsUpdated) {
-                                            res.json({
-                                                'contacts': userUpdatedWithContactsUpdated.contacts || [],
-                                                'pendingContacts': userUpdatedWithContactsUpdated.pendingContacts || [],
-                                                'notifications': userUpdatedWithContactsUpdated.notifications || []
-                                            });
+                            //We proceed to add the new contact into the active users contacts.
+                            //And we remove the reference to the notification that was accepted
+                            User.update(
+                                {_id: user._id},                                        // ..:: Query to be Executed ::..
+                                {                                                       // ..:: Procedure to be Executed ::..
+                                    $addToSet: {contacts: notificationFound.from},
+                                    $pull: {notifications: notification_id}
+                                },
+                                {safe: true, upsert: true},                             // ..:: R/W Options to be Applied ::..
+                                function (error, userUpdated) {
+                                    if (error) throw error;
 
-                                            /**********************************
-                                             *  Socket Call 'contactResponse'  *
-                                             **********************************/
-                                                //Notify the Contact that was accepted to update this contacts in the F.E.
-                                            User.socket.notify(contact_id,
-                                                {
-                                                    event: 'contactResponse',
-                                                    message: 'Contact Request Accepted from ' + user.username,
-                                                    from: user._id
+                                    //If the notification accepted was successfully removed and
+                                    // the new contact has been pushed to the contacts array.
+                                    if (userUpdated) {
+
+                                        //Find our active User and populate his contacts and notifications
+                                        User.findOne({_id: user._id},   // ..:: Query to be Executed ::..
+                                            'contacts notifications')   // ..:: Restrictions to be returned ::..
+                                            .populate({
+                                                path: 'contacts',
+                                                select: '-_id username profileImage email'
+                                            })
+                                            .populate({
+                                                path: 'notifications',
+                                                select: '_id message event'
+                                            })
+                                            .exec(function (error, userUpdatedWithContactsUpdated) {
+                                                if (error) throw error;
+                                                //If the user's properties was successfully populated
+                                                if (userUpdatedWithContactsUpdated) {
+
+                                                    /**********************************
+                                                     *  Socket Call 'updateUI'  *
+                                                     **********************************/
+                                                    User.socket.notify(user._id,
+                                                        {
+                                                            'event': 'updateUI',
+                                                            'message': 'Contact was added to your list!.',
+                                                            'contacts': userUpdatedWithContactsUpdated.contacts,
+                                                            'notifications': userUpdatedWithContactsUpdated.notifications
+                                                        }
+                                                    );
+
+                                                    /**********************************
+                                                     *  Socket Call 'contactResponse'  *
+                                                     **********************************/
+                                                        //Notify the Contact that was accepted to update this contacts in the F.E.
+                                                    User.socket.notify(notificationFound.from,
+                                                        {
+                                                            event: 'contactResponse',
+                                                            message: 'Contact Request Accepted from ' + user.username + '.',
+                                                            from: user.username
+                                                        }
+                                                    );
+
+                                                    //Remove the Notifications from the Notification Collection
+                                                    Notification
+                                                        .remove({_id: notificationFound._id},   // ..:: Query to be Executed ::..
+                                                        function (error) {                      // ..:: Procedure to be Executed ::..
+                                                            if (error) throw error;
+
+                                                            /*** Reply with JSON to the requester ***/
+                                                            res.json({'success': true});
+                                                        });
+
+                                                } else {
+                                                    /*** Reply with JSON to the requester ***/
+                                                    res.json({'success': false});
                                                 }
-                                            );
-                                        } else {
-                                            res.json({'error': 'not able to confirm this contact'});
-                                        }
+                                            }
+                                        );
                                     }
-                                );
-                            }
+                                }
+                            );
+
                         }
-                    );
-                });
+                    }
+                );
             }
-        }
-    );
+        });
 };
 
 /**
@@ -213,32 +305,50 @@ exports.confirmContact = function (req, res, next) {
  *
  * @return {String}
  */
-exports.deleteContact = function (req, res, next) {
-    var user = req.user,
-        contact_username = req.body.contact_username;
+exports.deleteContact = function (req, res) {
+    var user = req.user,                                // Active user in the application
+        contact_username = req.body.contact_username;   // Contact to be removed from the list
 
-    User.findOne({'username': contact_username}, //Query to be Executed,
-        '_id username') //Restrictions from what is being returned
-        .exec(function (error, contact) {
+    User.findOne({'username': contact_username},        // ..:: Query to be Executed ::..
+        '_id username')                                 // ..:: Restrictions to be returned ::..
+        .exec(function (error, contact) {               // ..:: Procedure to be Executed ::..
             if (error) throw error;
-            //If the contact was found
+
+            //If the contact was found in the DataBase we obtain
+            //the corresponding _id to proceed with the removal
             if (contact) {
 
                 User.findOneAndUpdate(
-                    {_id: user._id, contacts: { _id : contact._id } },
-                    {$pull: {contacts: contact._id}},
-                    {safe: true, upsert: true},
+                    {_id: user._id, contacts: {_id: contact._id}},  // ..:: Query to be Executed ::..
+                    {$pull: {contacts: contact._id}},               // ..:: Procedure to be Executed ::..
+                    {safe: true, upsert: true},                     // ..:: R/W Options to be Applied ::..
                     function (error, contactRemoved) {
-                        if (error) {
-                            res.json({'error': 'username not found'});
-                        }
+                        if (error)  throw error;
+                        //If the contact was successfully removed
                         if (contactRemoved) {
-                            res.json({'contactRemoved': contact.username});
+
+                            /**********************************
+                             *  Socket Call 'updateUI'  *
+                             **********************************/
+                            User.socket.notify(user._id,
+                                {
+                                    'event': 'contactRemove',
+                                    'message': contact.username + ' was removed from your contact list.',
+                                    'contact_username': contact.username
+                                }
+                            );
+
+                            /*** Reply with JSON to the requester ***/
+                            res.json({'success': true});
+                        }else{
+                            /*** Reply with JSON to the requester ***/
+                            res.json({'success': false});
                         }
                     });
             }
             else {
-                res.json({'error': 'username not found'});
+                /*** Reply with JSON to the requester ***/
+                res.json({'success': false});
             }
         });
 };

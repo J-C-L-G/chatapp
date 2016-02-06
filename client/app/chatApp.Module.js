@@ -24,7 +24,6 @@ angular.module('chatApp',['ui.router',
         return {
             // Add authorization token to headers
             request: function (config) {
-                console.log('Intercepting Request...');
                 config.headers = config.headers || {};
                 if ($cookieStore.get('token')) {
                     config.headers.Authorization = 'Bearer ' + $cookieStore.get('token');
@@ -37,7 +36,6 @@ angular.module('chatApp',['ui.router',
 
             // Intercept 401s and redirect you to login
             responseError: function(response) {
-                console.log('Response Error...');
                 if(response.status === 401) {
                     $location.path('/');
                     //remove any stale tokens

@@ -17,16 +17,8 @@ angular.module('chatApp')
                 $scope.toggleContactInfo();
             });
 
-            $scope.$on("TOGGLE_NOTIFICATIONS",function(event,data){
-                //If data.showPanel is true, the menu will be shown
-                if(data.showPanel){
+            $scope.$on("TOGGLE_NOTIFICATIONS",function(event){
                     $scope.toggleNotifications();
-                }
-                //If the Notification is a contactRequest,
-                // we push it so the user can Accept or Decline
-                if(data.event == 'contactRequest'){
-                    Sync.getActiveUser().notifications.push(data);
-                }
             });
 
             /****************************************************************
@@ -47,17 +39,12 @@ angular.module('chatApp')
              * Handlers for the User Actions in the View                    *
              ****************************************************************/
 
-            $scope.acceptRequest = function(notification_id, contact_id){
+            $scope.acceptRequest = function(notification_id){
                 //If an invitation has not been sent, proceed with the request.
-                User.confirmContact({'notification_id':notification_id, 'contact_id':contact_id})
+                User.confirmContact({'notification_id':notification_id})
                     .$promise
                     .then(function(data){
-                        if(data.contacts && data.pendingContacts ){
-                            Sync.getActiveUser().contacts = data.contacts;
-                            Sync.getActiveUser().pendingContacts = data.pendingContacts;
-                            Sync.getActiveUser().notifications = data.notifications;
-                            Toast.notify('Contact added to your list!');
-                        }
+                        console.log(data);
                     },function(error){
                         console.log(error);
                     }

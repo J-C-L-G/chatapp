@@ -6,6 +6,8 @@ var mongoose = require('mongoose'),
 
 var NotificationSchema = new Schema({
     from : Schema.Types.ObjectId,
+    from_user : String,
+    to : Schema.Types.ObjectId,
     event : String,
     message : String
 },{collection:'Notification'});

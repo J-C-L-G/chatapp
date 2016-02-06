@@ -15,8 +15,7 @@ angular.module('chatApp')
                         //Handler to authenticate the socket
                         .on('authenticated', function (data) {
                             if (data) {
-                                //console.log(data);
-                                //console.log(socket);
+                                //console.log(data); //Socket authenticated.
                             }
                         })
                         //Handler to notify when the user login
@@ -29,12 +28,19 @@ angular.module('chatApp')
                         })
                         //Handler to manage when you add a contact
                         .on('contactRequest', function (data) {
-                            Toast.notify(data.message);
-                            $rootScope.$broadcast('TOGGLE_NOTIFICATIONS', data);
+                            if(Sync.addNotification(data.notification)){
+                                Toast.notify(data.message);
+                            }
                         })
                         //Handler to manage when your contact request has been accepted/declined
                         .on('contactResponse', function (data) {
                             if (Sync.updateContacts(data.from)) {
+                                Toast.notify(data.message);
+                            }
+                        })
+                        //Handler to manage when your contact request has been accepted/declined
+                        .on('contactRemove', function (data) {
+                            if (Sync.removeContactByUsername(data.contact_username)) {
                                 Toast.notify(data.message);
                             }
                         })
@@ -48,7 +54,11 @@ angular.module('chatApp')
                             data.chat = data.from;
                             Messaging.addMessage(data);
                         })
-
+                        .on('updateUI',function(data){
+                            if(Sync.updateUI(data)){
+                                Toast.notify(data.message);
+                            }
+                        })
                         //Send the token to authenticate the socket
                         .emit('authenticate', {token: jwt}); //send the jwt
                 });
@@ -81,7 +91,6 @@ angular.module('chatApp')
 
             function sendMessage(data){
                 data.event ='messageSent';
-                data.to = Sync.getContactId(data.to);
                 socket.emit(data.event, data);
             }
 

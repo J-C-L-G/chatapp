@@ -14,33 +14,34 @@ exports.setup = function(User, config){
                     //If there was an error while querying the database
                     if(error) return done(error);
                     //If the document was not found
-                    if(!user) return done(null, false, {message:'This username is not registered'});
+                    if(!user) return done(null, false, {message:'Invalid credentials'});
                     //If the user was found but the password is incorrect
-                    if(!user.authenticate(password)) return done(null, false, {message:'The password provided is not correct'});
+                    if(!user.authenticate(password)) return done(null, false, {message:'Invalid credentials'});
 
-                    /*** ***/
                     //Populate the user with its references
                     User.findOne({_id: user._id},
                         '-hashedPassword -salt -__v -provider -role') //Restrictions from what is being returned
                         .populate({
                             path: 'contacts pendingContacts',
-                            select: '_id username profileImage email'
+                            select: 'username profileImage email -_id'
                         })
                         .populate({
                             path: 'notifications',
-                            select: '_id message from event'
+                            select: '_id message from_user'
                         })
                         .exec(function(error, userUpdatedWithRefs) {
                             if (error) throw error;
-
+                            /*** SOCKET EVENT - 'login' for user contacts ***/
                             //Notify users about the online status
                             for(var index in userUpdatedWithRefs.contacts){
-                                User.socket.notify(userUpdatedWithRefs.contacts[index]._id, { event: 'login', message: userUpdatedWithRefs.username + ' is online'} );
+                                User.socket.notify(userUpdatedWithRefs.contacts[index]._id,
+                                                   { event: 'login',
+                                                     message: (userUpdatedWithRefs.username).toUpperCase() + ' is online!.'
+                                                   });
                             }
-
+                            /*** *************************************** ***/
                             return done(null, userUpdatedWithRefs);
                         });
-                    /*** ***/
                 }
             );
         }

@@ -7,7 +7,7 @@ angular.module('chatApp')
         // property optional, default to _id
         function isContained(contact_value, contactList, property){
             for( var index in contactList){
-                if(contactList[index][property || '_id'] == contact_value){
+                if(contactList[index][property || 'username'] == contact_value){
                     return true;
                 }
             }
@@ -51,18 +51,18 @@ angular.module('chatApp')
          *
          * @return {Boolean}
          */
-        function updateContacts(contact_id) {
+        function updateContacts(contact_username) {
 
             for (var index in activeUser.pendingContacts) {
-                if (activeUser.pendingContacts[index]._id == contact_id) {
+                if (activeUser.pendingContacts[index].username == contact_username) {
                     if (activeUser.pendingContacts.length == 1) {
-                        if(isContained(contact_id, activeUser.contacts)){
+                        if(isContained(contact_username, activeUser.contacts)){
                             activeUser.pendingContacts.pop()
                         }else{
                             activeUser.contacts.push(activeUser.pendingContacts.pop());
                         }
                     } else if (activeUser.pendingContacts.length > 1) {
-                        if(isContained(contact_id, activeUser.contacts)){
+                        if(isContained(contact_username, activeUser.contacts)){
                             activeUser.pendingContacts.splice(index, 1);
                         }else{
                             activeUser.contacts.push(activeUser.pendingContacts[index]);
@@ -76,21 +76,20 @@ angular.module('chatApp')
         }
 
         /**
-         * Before sent an Ajax to request contact acceptance
-         * we will verify that the user doesn't not have this
+         * Verify that the user doesn't not have this
          * contact already as a contact, pending acceptance
          * we already sent a friend request to this user.
          *
-         * @param contact_id  {String}
+         * @param contact_username  {String}
          * @return {Array}
          */
-        function sentContactRequest(contact_id){
+        function sendContactRequest(contact_username){
 
-            if(isContained(contact_id,activeUser.pendingContacts))
+            if(isContained(contact_username,activeUser.pendingContacts))
                 return [false, 'pendingContacts'];
-            if(isContained(contact_id, activeUser.contacts))
+            if(isContained(contact_username, activeUser.contacts))
                 return [false, 'contacts'];
-            if(isContained(contact_id, activeUser.notifications, 'from'))
+            if(isContained(contact_username, activeUser.notifications, 'from_user'))
                 return [false, 'notifications'];
             //If is not contained
             return [true];
@@ -127,15 +126,63 @@ angular.module('chatApp')
             return false;
         }
 
+        /**
+         * Function to be executed when update the notifications array
+         * needs to be updated due request acceptance.
+         * @param notification_id  {String}
+         *
+         * @return {Boolean}
+         */
+        function updateNotifications(notification_id) {
+
+            for (var index in activeUser.notifications) {
+                if (activeUser.notifications[index]._id == notification_id) {
+                    if (activeUser.notifications.length == 1) {
+                        if(isContained(notifications, activeUser.notifications, '_id')){
+                            activeUser.notifications.pop()
+                        }
+                    } else if (activeUser.notifications.length > 1) {
+                        if(isContained(notification_id, activeUser.notifications)){
+                            activeUser.notifications.splice(index, 1);
+                        }
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        //Full replace in the properties
+        function updateUI(data){
+                if(!angular.isUndefined(data.pendingContacts)){
+                    activeUser.pendingContacts = data.pendingContacts;
+                }
+                if(!angular.isUndefined(data.contacts)){
+                    activeUser.contacts = data.contacts;
+                }
+                if(!angular.isUndefined(data.notifications)){
+                    activeUser.notifications = data.notifications;
+                }
+            return true;
+        }
+
+        function addNotification(notification){
+            activeUser.notifications.push(notification);
+            return true;
+        }
+
         /*** API Exposed to the application ***/
         return {
             setActiveUser : setActiveUser,
             getActiveUser : getActiveUser,
             isLoggedIn : isLoggedIn,
             updateContacts : updateContacts,
-            sentContactRequest:sentContactRequest,
+            sendContactRequest:sendContactRequest,
             getContactId : getContactId,
             getContactUsername : getContactUsername,
-            removeContactByUsername : removeContactByUsername
+            removeContactByUsername : removeContactByUsername,
+            updateNotifications : updateNotifications,
+            updateUI : updateUI,
+            addNotification : addNotification
         }
     }]);
