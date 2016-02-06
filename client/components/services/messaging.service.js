@@ -28,7 +28,7 @@ angular.module('chatApp')
                 conversations.unshift({
                     chat : data.chat,
                     face : imagePath,
-                    messages: [{message:data.message, from:data.from}],
+                    messages: (angular.isUndefined(data.message)) ? [] :[{message:data.message, from:data.from}],
                     updated : new Date().getTime()
                 });
             }

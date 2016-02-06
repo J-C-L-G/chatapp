@@ -42,21 +42,33 @@ function onConnect(socket){
         console.log('DISCONNECTED: '+socket.id);
     });
 
-    socket.on('messageSent',function(data){
+    socket.on('messageSent',function(message){
 
-        User.findOne({'username': data.to  }, // ..:: Query to be Executed ::..
-                     '_id')
-            .exec(function(error, contact){
+        User.findOne({'username': message.to  },    // ..:: Query to be Executed ::..
+                     '_id username')                // ..:: Restrictions to be returned ::..
+            .exec(function(error, contact){         // ..:: Procedure to be Executed ::..
+                if(error) throw error;
+                //If the username was valid and the contact was found
+                if(contact){
+                    //We verify that the active user has this contact in his contact list.
+                    User.findOne({'_id': socket.decoded_token._id, contacts: { _id : contact._id } },   // ..:: Query to be Executed ::..
+                                 '_id username')                                                        // ..:: Restrictions to be returned ::..
+                        .exec(function (error, user) {                                                  // ..:: Procedure to be Executed ::..
+                            if(error) throw error;
+                            //If the active user has this contact in his list, we send the message.
+                            if(user){
+                                message.event = 'messageReceived';
+                                /**/
+                                message.chat = contact.username;
+                                message.from = user.username;
+                                User.socket.notify(user._id, message);
+                                /**/
+                                message.chat = user.username;
+                                User.socket.notify(contact._id, message);
+                            }
+                        });
 
-                User.findOne({'_id': socket.decoded_token._id, contacts: { _id : contact._id } }, // ..:: Query to be Executed ::..
-                    '_id')                                                          // ..:: Restrictions to be returned ::..
-                    .exec(function (error, userMatchingFound) {                               // ..:: Procedure to be Executed ::..
-                        if(userMatchingFound){
-                            data.event = 'messageReceived';
-                            User.socket.notify(contact._id, data);
-                        }
-                    });
-
+                }
             });
     });
 
