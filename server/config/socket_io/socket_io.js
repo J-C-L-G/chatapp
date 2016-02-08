@@ -59,6 +59,7 @@ function onConnect(socket){
                             if(user){
                                 message.event = 'messageReceived';
                                 /**/
+                                message.date = new Date();
                                 message.chat = contact.username;
                                 message.from = user.username;
                                 User.socket.notify(user._id, message);

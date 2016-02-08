@@ -17,6 +17,17 @@ angular.module('chatApp')
                 }
             })();
 
+            /*** ***/
+            $scope.numMessagesToDisplay = 10;
+            $scope.messagesToDisplay = $scope.messages;
+
+            $scope.$watch('messages.length',function(newVal, oldVal){
+                if($scope.messages.length > $scope.numMessagesToDisplay){
+                    $scope.messagesToDisplay = $scope.messages.slice($scope.messages.length-$scope.numMessagesToDisplay);
+                }
+            });
+            /*** ***/
+
             $scope.sendMessage = function () {
                 var data = {
                     message : $scope.message,
@@ -24,5 +35,6 @@ angular.module('chatApp')
                 };
                 Socket.sendMessage(data);
                 $scope.message = '';
-            }
+            };
+
         }]);

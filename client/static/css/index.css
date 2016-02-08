@@ -59,7 +59,6 @@
     background-color: lightblue;
     padding: 5px;
     float: left;
-    clear: both;
 }
 
 .contactMessage{
@@ -69,10 +68,13 @@
     border-color: black;
     background-color: lightgreen;
     padding: 5px;
-    float: right;
-    clear: both;
+    float: right !important;
 }
 
+.messageContainer{
+    height: 350px;
+    overflow: auto;
+}
 .circularBorder:first-child{
     border-top: 1px solid lightgrey;
 }

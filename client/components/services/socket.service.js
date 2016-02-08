@@ -49,9 +49,7 @@ angular.module('chatApp')
                         })
                         //Handler to manage when the user receives a message
                         .on('messageReceived', function(message) {
-                            Toast.notify('New message from: ' + message.from);
-                            //message.to = Sync.getActiveUser().username;
-                            //message.chat = data.from;
+                            //Toast.notify('New message from: ' + message.from);
                             Messaging.addMessage(message);
                         })
                         .on('updateUI',function(data){

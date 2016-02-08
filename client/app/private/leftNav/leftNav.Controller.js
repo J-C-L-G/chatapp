@@ -27,7 +27,8 @@ angular.module('chatApp')
             $scope.panels = {
                 'contactSearch':false,
                 'showContacts':false,
-                'pendingContacts':false
+                'pendingContacts':false,
+                'showGroups':false
             };
             //Search For Contacts
             $scope.toggleContactSearch = UserInterface.buildPanelToggler($scope.panels,'contactSearch');
@@ -37,6 +38,9 @@ angular.module('chatApp')
 
             //Show Pending Contacts Request
             $scope.togglePendingContacts = UserInterface.buildPanelToggler($scope.panels,'pendingContacts');
+
+            //Show Contact Groups
+            $scope.toggleUserGroups = UserInterface.buildPanelToggler($scope.panels,'showGroups');
 
 
             /****************************************************************

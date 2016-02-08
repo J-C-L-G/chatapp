@@ -5,7 +5,7 @@
                 <md-list-item class="md-3-line" ng-repeat="item in messages | orderBy:'-updated'" ui-sref="main.inConversation({to:item.chat})" layout="row">
                         <img ng-src="{{item.face}}" class="face" alt="{{item.chat}}" title="{{item.chat}}" />
                         <div class="md-list-item-text" flex="60">
-                            <h4><strong>{{(item.messages[item.messages.length - 1].from == username) ? 'you' : item.messages[item.messages.length - 1].from}}</strong> said:</h4>
+                            <h4 ng-if="item.messages[item.messages.length - 1].from"><strong>{{(item.messages[item.messages.length - 1].from == username) ? 'you' : item.messages[item.messages.length - 1].from}}</strong> said:</h4>
                             <h3><em>{{(item.messages[item.messages.length - 1].message).substring(0, 40)}}</em></h3>
                         </div>
                         <md-button class="md-raised md-primary" ui-sref="main.inConversation({to:item.chat})">Reply to {{item.chat}}

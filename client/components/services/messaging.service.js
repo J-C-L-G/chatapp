@@ -23,12 +23,12 @@ angular.module('chatApp')
             var chatIndex = findChatIndex(data.chat);
             if( chatIndex >= 0){
                 conversations[chatIndex].updated = new Date().getTime();
-                conversations[chatIndex].messages.push({message:data.message, from:data.from});
+                conversations[chatIndex].messages.push({message:data.message, from:data.from, date: data.date});
             }else{
                 conversations.unshift({
                     chat : data.chat,
                     face : imagePath,
-                    messages: (angular.isUndefined(data.message)) ? [] :[{message:data.message, from:data.from}],
+                    messages: (angular.isUndefined(data.message)) ? [] :[{message:data.message, from:data.from, date: data.date}],
                     updated : new Date().getTime()
                 });
             }

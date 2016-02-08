@@ -6,9 +6,9 @@
 
     <!-- Contact Search Panel -->
     <h3 class="subHeading md-subhead" layou="row" ng-click="toggleContactSearch()">
-        <span flex="80">Search</span>
+        <span flex="80">Contact Search</span>
         <md-button aria-label="Show/Hide Contact Search" class="md-icon-button iconToRight" flex="20">
-            <ng-md-icon icon="{{(panels.contactSearch) ? 'visibility_off':'search'}}" class="whiteIcon" size="25"></ng-md-icon>
+            <ng-md-icon icon="{{(panels.contactSearch) ? 'search':'arrow_drop_down_circle'}}" class="whiteIcon" size="25"></ng-md-icon>
             <md-tooltip md-direction="bottom">{{(panels.contactSearch) ? 'Hide':'Show'}} Contact Search</md-tooltip>
         </md-button>
     </h3>
@@ -44,9 +44,9 @@
 
     <!-- Panel Contacts -->
     <h3 class="subHeading md-subhead" layou="row" ng-click="toggleShowContacts()">
-        <span flex="80">Your Contacts</span>
+        <span flex="80">Contacts</span>
         <md-button aria-label="Show/Hide Contacts" class="md-icon-button iconToRight" flex="20">
-            <ng-md-icon icon="{{(panels.showContacts) ? 'visibility_off':'people'}}" class="whiteIcon"
+            <ng-md-icon icon="{{(panels.showContacts) ? 'contacts':'arrow_drop_down_circle'}}" class="whiteIcon"
                         size="25"></ng-md-icon>
             <md-tooltip md-direction="bottom">{{(panels.showContacts) ? 'Hide':'Show'}} Your Contacts</md-tooltip>
         </md-button>
@@ -78,11 +78,67 @@
     </md-cotent>
 
 
+
+
+
+    <!-- Panel Contacts -->
+    <h3 class="subHeading md-subhead" layou="row" ng-click="toggleUserGroups()">
+        <span flex="80">Groups</span>
+        <md-button aria-label="Show/Hide Contacts" class="md-icon-button iconToRight" flex="20">
+            <ng-md-icon icon="{{(panels.showGroups) ? 'people':'arrow_drop_down_circle'}}" class="whiteIcon"
+                        size="25"></ng-md-icon>
+            <md-tooltip md-direction="bottom">{{(panels.showGroups) ? 'Hide':'Show'}} Your Groups</md-tooltip>
+        </md-button>
+    </h3>
+
+    <md-cotent layour="row" ng-show="panels.showGroups">
+        <md-list class="fixedRows">
+            <md-list-item class="md-2-line contact-item circularBorder" ng-repeat="group in user.groups | orderBy:'name'" layout="row">
+                <img ng-src="static/assets/60.jpeg" class="md-avatar" alt="{{group.name}}" flex="15"/>
+                <div class="md-list-item-text compact" flex="60">
+                    <h3>{{group.name}}</h3>
+                    <p></p>
+                </div>
+                <div flex="20" layout="column">
+                    <div layout="column">
+                        <md-button class="md-icon-button" ui-sref="main.inConversation({to:group.name})" layout="row"
+                                   aria-label="Chat in">
+                            <ng-md-icon icon="chat" class="blackIcon" size="25"></ng-md-icon>
+                        </md-button>
+                    </div>
+                    <div layout="column">
+                        <md-button class="md-icon-button" ng-click="deleteContact(group.name,$event)" layout="row" aria-label="Delete">
+                            <ng-md-icon icon="highlight_remove" class="redIcon" size="15"></ng-md-icon>
+                        </md-button>
+                    </div>
+                </div>
+            </md-list-item>
+        </md-list>
+    </md-cotent>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- Panel Pending Contacts -->
     <h3 class="subHeading md-subhead" layou="row" ng-click="togglePendingContacts()">
         <span flex="80">Pending Contacts</span>
         <md-button aria-label="Show/Hide Pending Contacts" class="md-icon-button iconToRight" flex="20">
-            <ng-md-icon icon="{{(panels.pendingContacts) ? 'visibility_off':'access_time'}}" class="whiteIcon"
+            <ng-md-icon icon="{{(panels.pendingContacts) ? 'access_time':'arrow_drop_down_circle'}}" class="whiteIcon"
                         size="25"></ng-md-icon>
             <md-tooltip md-direction="bottom">{{(panels.pendingContacts) ? 'Hide':'Show'}} Pending Contacts</md-tooltip>
         </md-button>
