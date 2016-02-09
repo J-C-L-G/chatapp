@@ -81,7 +81,7 @@
 
 
 
-    <!-- Panel Contacts -->
+    <!-- Panel Groups -->
     <h3 class="subHeading md-subhead" layou="row" ng-click="toggleUserGroups()">
         <span flex="80">Groups</span>
         <md-button aria-label="Show/Hide Contacts" class="md-icon-button iconToRight" flex="20">
@@ -92,6 +92,12 @@
     </h3>
 
     <md-cotent layour="row" ng-show="panels.showGroups">
+        <!-- Group Settings -->
+        <md-button class="md-icon-button" ng-click="toggleGroups()" layout="row" aria-label="Group Options">
+            <ng-md-icon icon="settings" class="blackIcon" size="25"></ng-md-icon>
+            <md-tooltip md-direction="bottom">Show Group Options</md-tooltip>
+        </md-button>
+        <!-- -->
         <md-list class="fixedRows">
             <md-list-item class="md-2-line contact-item circularBorder" ng-repeat="group in user.groups | orderBy:'name'" layout="row">
                 <img ng-src="static/assets/60.jpeg" class="md-avatar" alt="{{group.name}}" flex="15"/>
@@ -115,23 +121,6 @@
             </md-list-item>
         </md-list>
     </md-cotent>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     <!-- Panel Pending Contacts -->

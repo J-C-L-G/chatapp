@@ -44,9 +44,9 @@
 
 
 <!-- >> Contact Information << -->
-<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="contactInfo">
+<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="groups">
     <md-toolbar class="md-theme-light">
-        <h1 class="md-toolbar-tools">Contact Information</h1>
+        <h1 class="md-toolbar-tools">Group Options</h1>
     </md-toolbar>
     <md-content layout-padding>
         <form>
@@ -56,7 +56,7 @@
                        ng-model="data" md-autofocus>
             </md-input-container>
         </form>
-        <md-button ng-click="close()" class="md-primary">
+        <md-button ng-click="toggleGroups()" class="md-primary">
             Close Sidenav Right
         </md-button>
     </md-content>

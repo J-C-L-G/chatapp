@@ -43,6 +43,9 @@ var UserSchema = new Schema({
     contacts:[
         {type: Schema.Types.ObjectId, ref:'User'}
     ],
+    groups : [
+        /*{type: Schema.Types.ObjectId, ref:'Group'}*/
+    ],
     pendingContacts:[
         {type: Schema.Types.ObjectId, ref:'User'}
     ],

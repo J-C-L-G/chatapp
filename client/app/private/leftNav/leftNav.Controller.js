@@ -16,8 +16,8 @@ angular.module('chatApp')
             /**********************************************************************
              * Broadcast a request to enable the ContactsInfo Navigation Menu     *
              **********************************************************************/
-            $scope.toggleContactInfo = function(){
-                $rootScope.$broadcast("TOGGLE_CONTACTINFO");
+            $scope.toggleGroups = function(){
+                $rootScope.$broadcast("TOGGLE_GROUPS");
             };
 
 
@@ -110,6 +110,8 @@ angular.module('chatApp')
                                 console.log(error);
                             });
                     });
-            }
+            };
+
+            /** **/
         }
     ]);

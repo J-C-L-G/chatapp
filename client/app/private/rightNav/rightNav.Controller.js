@@ -2,22 +2,21 @@ angular.module('chatApp')
     .controller('rightNav.Controller',['$scope','UserInterface','Toast','Sync','User',
         function($scope,UserInterface,Toast,Sync,User){
 
-            //Pull the ActiveUser from the service
-            $scope.user = Sync.getActiveUser();
             $scope.tempNotifications = Toast.getTemporaryNotifications();
 
             /*******************************************************************************
              * Handler to Manipulate the ContactsInfo and Notifications Navigation Menu    *
              *******************************************************************************/
 
-            $scope.toggleContactInfo = UserInterface.buildToggler('contactInfo');
-            $scope.toggleNotifications = UserInterface.buildToggler('notifications');
+            $scope.toggleGroups = UserInterface.buildToggler('groups');
 
-            $scope.$on("TOGGLE_CONTACTINFO",function(){
-                $scope.toggleContactInfo();
+            $scope.$on("TOGGLE_GROUPS",function(){
+                $scope.toggleGroups();
             });
 
-            $scope.$on("TOGGLE_NOTIFICATIONS",function(event){
+            $scope.toggleNotifications = UserInterface.buildToggler('notifications');
+
+            $scope.$on("TOGGLE_NOTIFICATIONS",function(){
                     $scope.toggleNotifications();
             });
 
