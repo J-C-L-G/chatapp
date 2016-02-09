@@ -2,6 +2,7 @@ angular.module('chatApp')
     .controller('rightNav.Controller',['$scope','UserInterface','Toast','Sync','User',
         function($scope,UserInterface,Toast,Sync,User){
 
+            $scope.user = Sync.getActiveUser();
             $scope.tempNotifications = Toast.getTemporaryNotifications();
 
             /*******************************************************************************
@@ -48,6 +49,50 @@ angular.module('chatApp')
                         console.log(error);
                     }
                 );
+            };
+
+            /****************************************************************
+             * Handlers for the Group Actions in the View                    *
+             ****************************************************************/
+
+            /*************************
+             * Search for contacts.  *
+             *************************/
+            function querySearch (query) {
+                var results = query ?
+                    $scope.user.contacts.filter(createFilterFor(query)) : [];
+                return results;
+            }
+            /**********************************************
+             * Create filter function for a query string  *
+             **********************************************/
+            function createFilterFor(query) {
+                var lowercaseQuery = angular.lowercase(query);
+                return function filterFn(contact) {
+                    return (contact.username.indexOf(lowercaseQuery) != -1);
+                };
+            }
+
+            /*******************************************************
+             * Function that Validates that the members array for  *
+             * the new group is not empty.                         *
+             *******************************************************/
+            function isGroupEmpty(){
+                return ($scope.newGroup.members.length < 1);
+            }
+
+
+            $scope.newGroup = {
+                name:'',
+                members:[]
+            };
+
+            $scope.querySearch = querySearch;
+            $scope.groupValidate = isGroupEmpty;
+            $scope.filterSelected = true;
+
+            $scope.createGroup = function(){
 
             }
-    }]);
+
+        }]);

@@ -1,3 +1,4 @@
+<!-- *********************************************************************************** -->
 <!-- >> Notifications << -->
 <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="notifications">
     <md-toolbar class="md-theme-light">
@@ -41,23 +42,67 @@
     </md-content>
 
 </md-sidenav>
+<!-- *********************************************************************************** -->
 
 
-<!-- >> Contact Information << -->
+<!-- *********************************************************************************** -->
+<!-- >> Group Options << -->
 <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="groups">
-    <md-toolbar class="md-theme-light">
+    <md-toolbar class="md-theme-light" layout="row">
         <h1 class="md-toolbar-tools">Group Options</h1>
     </md-toolbar>
+
+    <md-button class="md-icon-button" ng-click="toggleGroups()" layout="row" aria-label="Hide Group Options">
+        <ng-md-icon icon="visibility_off" class="blackIcon" size="25"></ng-md-icon>
+        <md-tooltip md-direction="bottom">Hide Group Options</md-tooltip>
+    </md-button>
+
     <md-content layout-padding>
-        <form>
+        <form name="groupForm" novalidate>
             <md-input-container>
-                <label for="testInput">Test input</label>
-                <input type="text" id="testInput"
-                       ng-model="data" md-autofocus>
+                <label for="testInput">Group name</label>
+                <input type="text" id="testInput" ng-model="newGroup.name" md-autofocus ng-required="true" ensure-type ensure="alphanumeric" custom-error-message>
             </md-input-container>
+                <!------------------------------------->
+                <md-content class="md-padding autocomplete" layout="column">
+                    <md-contact-chips
+                            ng-model="newGroup.members"
+                            md-contacts="querySearch($query)"
+                            md-contact-name="username"
+                            md-contact-image="image"
+                            md-contact-email="email"
+                            md-require-match="true"
+                            md-highlight-flags="i"
+                            filter-selected="filterSelected"
+                            placeholder="To">
+                    </md-contact-chips>
+                    <md-list class="fixedRows">
+                        <md-subheader class="md-no-sticky">Contacts</md-subheader>
+                        <md-list-item class="md-2-line contact-item" ng-repeat="(index, contact) in user.contacts"
+                                      ng-if="newGroup.members.indexOf(contact) < 0">
+                            <!--<img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" />-->
+                            <img ng-src="static/assets/60.jpeg" class="md-avatar" alt="{{contact.username}}"/>
+                            <div class="md-list-item-text compact">
+                                <h3>{{contact.username}}</h3>
+                                <p>{{contact.email}}</p>
+                            </div>
+                        </md-list-item>
+                        <md-list-item class="md-2-line contact-item selected" ng-repeat="(index, contact) in newGroup.members">
+                            <!--<img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" />-->
+                            <img ng-src="static/assets/60.jpeg" class="md-avatar" alt="{{contact.username}}"/>
+                            <div class="md-list-item-text compact">
+                                <h3>{{contact.username}}</h3>
+                                <p>{{contact.email}}</p>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                </md-content>
+                <!------------------------------------->
+            <md-input-container layout="row" layout-align="center center">
+                <md-button class="md-raised md-cornered" ng-disabled="((groupForm.$invalid) || (groupValidate()))" ng-click="createGroup()">Create Group</md-button>
+            </md-input-container>
+
         </form>
-        <md-button ng-click="toggleGroups()" class="md-primary">
-            Close Sidenav Right
-        </md-button>
     </md-content>
 </md-sidenav>
+<!-- *********************************************************************************** -->
