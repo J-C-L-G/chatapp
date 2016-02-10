@@ -52,6 +52,12 @@ angular.module('chatApp')
                             //Toast.notify('New message from: ' + message.from);
                             Messaging.addMessage(message);
                         })
+                        //Handler to manage when the user receives a message
+                        .on('groupAdd', function(data) {
+                            if(Sync.addGroup(data)){
+                                Toast.notify(data.message);
+                            }
+                        })
                         .on('updateUI',function(data){
                             if(Sync.updateUI(data)){
                                 Toast.notify(data.message);

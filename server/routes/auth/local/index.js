@@ -16,12 +16,13 @@ router.post('/login',function(req, res, next){
         var token = authService.signToken(user._id);
 
         var activeUser = {
-            contacts : user.contacts,
+            username : user.username,
             email : user.email,
             motto : user.motto,
-            notifications : user.notifications,
+            contacts : user.contacts,
             pendingContacts : user.pendingContacts,
-            username : user.username
+            groups : user.groups,
+            notifications : user.notifications
         };
         res.json({'token':token, 'activeUser':activeUser});
     })(req, res, next);

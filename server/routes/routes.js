@@ -17,6 +17,8 @@ module.exports = function(app, socket_io){
     //User socket
     require('../api/user/user.socket')(socket_io);
 
+    //Group routes
+    app.use('/api/group',require('../api/group'));
 
     // All other routes should redirect to the index.html
     app.route('/*')

@@ -1,6 +1,6 @@
 angular.module('chatApp')
-    .controller('rightNav.Controller',['$scope','UserInterface','Toast','Sync','User',
-        function($scope,UserInterface,Toast,Sync,User){
+    .controller('rightNav.Controller',['$scope','UserInterface','Toast','Sync','User','Group',
+        function($scope,UserInterface,Toast,Sync,User, Group){
 
             $scope.user = Sync.getActiveUser();
             $scope.tempNotifications = Toast.getTemporaryNotifications();
@@ -52,7 +52,7 @@ angular.module('chatApp')
             };
 
             /****************************************************************
-             * Handlers for the Group Actions in the View                    *
+             * Utility Functions for the Group Actions in the View          *
              ****************************************************************/
 
             /*************************
@@ -78,9 +78,14 @@ angular.module('chatApp')
              * the new group is not empty.                         *
              *******************************************************/
             function isGroupEmpty(){
-                return ($scope.newGroup.members.length < 1);
+                //At least 2 contacts, else can be 1-1 conversation
+                return ($scope.newGroup.members.length < 2);
             }
 
+
+            /****************************************************************
+             * Handlers for the Group Actions in the View                    *
+             ****************************************************************/
 
             $scope.newGroup = {
                 name:'',
@@ -92,7 +97,13 @@ angular.module('chatApp')
             $scope.filterSelected = true;
 
             $scope.createGroup = function(){
-
+                Group.createGroup({'newGroup':$scope.newGroup})
+                    .$promise
+                    .then(function(data){
+                        console.log(data);
+                    },function(error){
+                        console.log(error);
+                    });
             }
 
         }]);

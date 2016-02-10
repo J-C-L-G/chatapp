@@ -44,7 +44,7 @@ var UserSchema = new Schema({
         {type: Schema.Types.ObjectId, ref:'User'}
     ],
     groups : [
-        /*{type: Schema.Types.ObjectId, ref:'Group'}*/
+        {type: Schema.Types.ObjectId, ref:'Group'}
     ],
     pendingContacts:[
         {type: Schema.Types.ObjectId, ref:'User'}

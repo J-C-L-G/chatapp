@@ -27,7 +27,7 @@ exports.setup = function(User, config){
                         })
                         .populate({
                             path: 'groups',
-                            select: 'name admin profileImage -_id'
+                            select: 'name -_id'
                         })
                         .populate({
                             path: 'notifications',

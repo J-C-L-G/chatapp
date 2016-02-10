@@ -171,6 +171,15 @@ angular.module('chatApp')
             return true;
         }
 
+        function addGroup(data){
+            if(data.group){
+                activeUser.groups.push(data.group);
+                return true;
+            }else{
+                return false;
+            }
+        }
+
         /*** API Exposed to the application ***/
         return {
             setActiveUser : setActiveUser,
@@ -183,6 +192,7 @@ angular.module('chatApp')
             removeContactByUsername : removeContactByUsername,
             updateNotifications : updateNotifications,
             updateUI : updateUI,
-            addNotification : addNotification
+            addNotification : addNotification,
+            addGroup : addGroup
         }
     }]);

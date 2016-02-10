@@ -7,12 +7,16 @@
 
 'use strict';
 
-var Notification = require('../../api/user/notification.model');
+var Notification = require('../../api/notification/notification.model');
 Notification.find({}).remove(function(){
 });
 
-var User = require('../../api/user/user.model');
+var Group = require('../../api/group/group.model');
+Group.find({}).remove(function(){
+});
 
+
+var User = require('../../api/user/user.model');
 User.find({}).remove(function() {
     User.create({
             provider: 'local',

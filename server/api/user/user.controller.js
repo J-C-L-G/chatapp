@@ -1,7 +1,8 @@
 'use strict';
 
 var User = require('./user.model'),
-    Notification = require('./notification.model'),
+    Notification = require('../notification/notification.model'),
+    Group = require('../group/group.model'),
     mongoose = require('mongoose'),
     passport = require('passport'),
     config = require('../../config/environment'),
