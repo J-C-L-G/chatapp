@@ -6,7 +6,8 @@
 
 var config = require('../environment'),
     socketioJwt = require('socketio-jwt'),
-    User = require('../../api/user/user.model');
+    User = require('../../api/user/user.model'),
+    Group = require('../../api/group/group.model');
 
 /*************************************************
  * When user disconnects perform this action     *
@@ -71,6 +72,41 @@ function onConnect(socket){
 
                 }
             });
+
+        /**** Groups ****/
+
+        Group.findOne({'name': message.to  },   // ..:: Query to be Executed ::..
+            '-_id name admin members')              // ..:: Restrictions to be returned ::..
+            .populate({                         // ..:: Restriction on the returned properties ::..
+                path: 'members',
+                select: '_id username'
+            })
+            .exec(function(error, group){
+                if(error) throw error;
+
+                if(group){
+                    User.findOne({'_id': socket.decoded_token._id},     // ..:: Query to be Executed ::..
+                        '_id username')                                 // ..:: Restrictions to be returned ::..
+                        .exec(function (error, user) {                  // ..:: Procedure to be Executed ::..
+                            if(error) throw error;
+                            //If the active user has this contact in his list, we send the message.
+                            if(user){
+
+                                group.members.forEach(function(member){
+                                    message.event = 'messageReceived';
+                                    /**************** *************************/
+                                    message.date = new Date();
+                                    message.chat = group.name;
+                                    message.from = user.username;
+                                    User.socket.notify(member._id, message);
+                                    /**************** *************************/
+                                });
+
+                            }
+                        });
+                }
+            });
+
     });
 
     //Reply from the backend to the client

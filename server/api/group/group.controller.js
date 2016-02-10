@@ -49,33 +49,33 @@ exports.createGroup = function(req, res){
 
                         groupSaved.members.forEach(function(groupmember){
 
-                            /**********************************
-                             *  Socket Call 'updateUI'  *
-                             **********************************/
-                            User.socket.notify(groupmember,
-                                {
-                                    'event': 'groupAdd',
-                                    'group': {
-                                        'name' : groupSaved.name,
-                                        'members' : groupSaved.members
-                                    },
-                                    'message': 'You were added to a new Group by ' + user.username
-                                }
-                            );
-                        });
+                            User.findOneAndUpdate(
+                                {_id: groupmember},                             // ..:: Query to be Executed ::..
+                                {$addToSet: {groups: groupSaved._id}},    // ..:: Procedure to be Executed ::..
+                                {safe: true, upsert: true},                     // ..:: R/W Options to be Applied ::..
+                                function (error, groupmemberUpdated) {
+                                    if(error) throw error;
 
+                                    if(groupmemberUpdated){
+                                        /**********************************
+                                         *  Socket Call 'updateUI'  *
+                                         **********************************/
+                                        User.socket.notify(groupmember,
+                                            {
+                                                'event': 'groupAdd',
+                                                'group': {'name' : groupSaved.name},
+                                                'message': 'You were added to a new Group called '+ groupSaved.name +' by ' + user.username
+                                            }
+                                        );
+                                    }
+                                });
+                        });
                         /*** Reply with JSON to the requester ***/
                         res.json({'success': true});
                     }
                 });
-
-
             }
         }
     );
-
-    /*
-
-     */
 
 };

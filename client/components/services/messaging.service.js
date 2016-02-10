@@ -32,6 +32,7 @@ angular.module('chatApp')
                     updated : new Date().getTime()
                 });
             }
+            return true;
         }
 
         function clearChatByName(chatName){
