@@ -7,19 +7,20 @@
 var config = require('../environment'),
     socketioJwt = require('socketio-jwt'),
     User = require('../../api/user/user.model'),
-    Group = require('../../api/group/group.model');
+    Group = require('../../api/group/group.model'),
+    _ = require('lodash');
 
 /*************************************************
  * When user disconnects perform this action     *
  *************************************************/
-function onDisconnect(socket){
+function onDisconnect(socket) {
     socket.leave((socket.decoded_token._id).toString());
 }
 
 /**************************************************
  * When the user Connects perform this action     *
  **************************************************/
-function onConnect(socket){
+function onConnect(socket) {
     //Join the a new Room with the Specified User ID
     socket.join((socket.decoded_token._id).toString()); // Join a room with the user._id
     socket.leave(socket.id); // Leave the default room socket.id
@@ -28,104 +29,93 @@ function onConnect(socket){
     socket.connectedAt = new Date();
 
     //Call on Disconnect to subscribe in this event
-    socket.on('disconnect',function(){
+    socket.on('disconnect', function () {
         onDisconnect(socket);
-        console.log('DISCONNECTED: '+socket.id);
+        console.log('DISCONNECTED: ' + socket.id);
     });
 
-    socket.on('login',function(data){
+    socket.on('login', function (data) {
         console.log(data);
     });
 
-    socket.on('logout',function(data){
+    socket.on('logout', function (data) {
         console.log(data);
         onDisconnect(socket);
-        console.log('DISCONNECTED: '+socket.id);
+        console.log('DISCONNECTED: ' + socket.id);
     });
 
-    socket.on('messageSent',function(message){
+    socket.on('messageSent', function (message) {
 
-        User.findOne({'username': message.to  },    // ..:: Query to be Executed ::..
-                     '_id username')                // ..:: Restrictions to be returned ::..
-            .exec(function(error, contact){         // ..:: Procedure to be Executed ::..
-                if(error) throw error;
-                //If the username was valid and the contact was found
-                if(contact){
-                    //We verify that the active user has this contact in his contact list.
-                    User.findOne({'_id': socket.decoded_token._id, contacts: { _id : contact._id } },   // ..:: Query to be Executed ::..
-                                 '_id username')                                                        // ..:: Restrictions to be returned ::..
-                        .exec(function (error, user) {                                                  // ..:: Procedure to be Executed ::..
-                            if(error) throw error;
-                            //If the active user has this contact in his list, we send the message.
-                            if(user){
-                                message.event = 'messageReceived';
-                                /**/
-                                message.date = new Date();
-                                message.chat = contact.username;
-                                message.from = user.username;
-                                User.socket.notify(user._id, message);
-                                /**/
-                                message.chat = user.username;
-                                User.socket.notify(contact._id, message);
-                            }
-                        });
-
-                }
-            });
-
-        /**** Groups ****/
-
-        Group.findOne({'name': message.to  },   // ..:: Query to be Executed ::..
-            '-_id name admin members')              // ..:: Restrictions to be returned ::..
-            .populate({                         // ..:: Restriction on the returned properties ::..
-                path: 'members',
+        // Query to search for the active user
+        // sending the message through the application.
+        User.findOne(
+            {_id: socket.decoded_token._id},
+            '-__v -salt -hashedPassword -role -provider')
+            .populate({
+                path: 'contacts',
                 select: '_id username'
             })
-            .exec(function(error, group){
-                if(error) throw error;
-
-                if(group){
-                    User.findOne({'_id': socket.decoded_token._id},     // ..:: Query to be Executed ::..
-                        '_id username')                                 // ..:: Restrictions to be returned ::..
-                        .exec(function (error, user) {                  // ..:: Procedure to be Executed ::..
-                            if(error) throw error;
-                            //If the active user has this contact in his list, we send the message.
-                            if(user){
-
-                                group.members.forEach(function(member){
-                                    message.event = 'messageReceived';
-                                    /**************** *************************/
-                                    message.date = new Date();
-                                    message.chat = group.name;
-                                    message.from = user.username;
-                                    User.socket.notify(member._id, message);
-                                    /**************** *************************/
-                                });
-
+            .populate({
+                path: 'groups',
+                select: '_id name members'
+            }).exec(function (error, user) {
+                if (error) throw error;
+                if (user) {
+                    //Once we have the active user making the ws request
+                    /*** One to One Conversation ***/
+                    var contact = _.find(user.contacts, {'username':message.to});
+                    //If the contact is in the user's contact list.
+                    if (contact) {
+                            /*** Create the message ***/
+                            message.event = 'messageReceived';
+                            message.date = new Date();
+                            message.from = user.username;
+                                /*** ..:: Notify to the active User ::.. ***/
+                                message.chat = contact.username;
+                                User.socket.notify(user._id, message);
+                                /*** ..:: Notify the contact who will receive the message ::.. ***/
+                                message.chat = user.username;
+                                User.socket.notify(contact._id, message);
+                    }
+                    /*** Group Conversation ***/
+                    else {
+                        var group = _.find(user.groups, {'name':message.to});
+                        //If the group's name exist in the chat list for this user.
+                        if (group) {
+                            /*** Create the message ***/
+                                message.event = 'messageReceived';
+                                message.date = new Date();
+                                message.chat = group.name;
+                                message.from = user.username;
+                            /*** ..:: Notify to the group members ::.. ***/
+                                group.members.forEach(
+                                    function (id) {
+                                        User.socket.notify(id, message);
+                                    }
+                                );
                             }
-                        });
-                }
+                        }
+                    }
             });
-
     });
 
     //Reply from the backend to the client
-    socket.emit('authenticated',true);
+    socket.emit('authenticated', true);
 }
 
 
 /*** ..:: Export the Function to Setup the Socket Functionality ::.. ***/
-module.exports = function(socket_io){
+module.exports = function (socket_io) {
     // set authorization for socket.io
     socket_io.sockets
         .on('connection', socketioJwt.authorize({
             secret: config.secrets.session,
             timeout: 15000 // 15 seconds to send the authentication message
         }))
-        .on('authenticated', function(socket) {
+        .on('authenticated', function (socket) {
             /*** This socket is authenticated, we are good to handle more events from it. ***/
-            //Call onConnect to perform this action
+                //Call onConnect to perform this action
             onConnect(socket);
-            console.log(socket.decoded_token._id +' CONNECTED: '+socket.id);
+            console.log(socket.decoded_token._id + ' CONNECTED: ' + socket.id);
         });
 };
