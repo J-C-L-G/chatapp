@@ -57,6 +57,11 @@
         <md-tooltip md-direction="bottom">Hide Group Options</md-tooltip>
     </md-button>
 
+    <!-- Errors -->
+    <ul ng-show="error">
+        <li class="error" ng-repeat="err in error">{{err}}</li>
+    </ul>
+
     <md-content layout-padding>
         <form name="groupForm" novalidate>
             <md-input-container>

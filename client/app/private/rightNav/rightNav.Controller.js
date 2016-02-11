@@ -88,7 +88,7 @@ angular.module('chatApp')
              ****************************************************************/
 
             $scope.newGroup = {
-                name:'',
+                name:'Group',
                 members:[]
             };
 
@@ -100,9 +100,11 @@ angular.module('chatApp')
                 Group.createGroup({'newGroup':$scope.newGroup})
                     .$promise
                     .then(function(data){
-                        console.log(data);
+                        $scope.newGroup.name = 'Group';
+                        $scope.newGroup.members.length = 0;
+                        $scope.error.length = 0;
                     },function(error){
-                        console.log(error);
+                        $scope.error = error.data.errors;
                     });
             }
 
