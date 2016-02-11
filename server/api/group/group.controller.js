@@ -3,6 +3,20 @@
 var User = require('../user/user.model'),
     Group = require('./group.model');
 
+
+/**************************************
+ * Utility Function(s)                   *
+ **************************************/
+
+var validationError = function (res, error) {
+    var errorList = [];
+    for (var prop in error.errors) {
+        errorList.push(error.errors[prop].message)
+    }
+    return res.status(422).json({'errors': errorList});
+};
+
+
 exports.createGroup = function(req, res){
     var newGroup = req.body.newGroup;
     var user = req.user;
@@ -37,13 +51,15 @@ exports.createGroup = function(req, res){
                 }
 
                 var group = {
-                    'name' : newGroup.name,
+                    'name' : newGroup.name + ' - [' + user.username+']',
                     'members' : members,
                     'admin' : user._id
                 };
 
                 new Group(group).save(function (error, groupSaved) {
-                    if(error) throw error;
+                    if (error) {
+                        return validationError(res, error);
+                    }
 
                     if(groupSaved){
 
@@ -51,7 +67,7 @@ exports.createGroup = function(req, res){
 
                             User.findOneAndUpdate(
                                 {_id: groupmember},                             // ..:: Query to be Executed ::..
-                                {$addToSet: {groups: groupSaved._id}},    // ..:: Procedure to be Executed ::..
+                                {$addToSet: {groups: groupSaved._id}},          // ..:: Procedure to be Executed ::..
                                 {safe: true, upsert: true},                     // ..:: R/W Options to be Applied ::..
                                 function (error, groupmemberUpdated) {
                                     if(error) throw error;

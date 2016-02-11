@@ -62,7 +62,9 @@ exports.find = function (req, res) {
             pendingContacts: false,
             notifications: false,
             contacts: false,
+            groups:false,
             salt: false,
+            email:false,
             hashedPassword: false,
             __v: false
         },

@@ -11,7 +11,9 @@
             <md-tooltip md-direction="bottom">Contacts</md-tooltip>
         </md-button>
         <md-button class="md-icon-button" aria-label="Notifications" ng-click="toggleNotifications()">
-            <ng-md-icon icon="{{(user.notifications.length > 0) ? 'notifications':'notifications_none'}}" class="whiteIcon" size="32"></ng-md-icon>
+            <ng-md-icon icon="{{(user.notifications.length > 0) ? 'notifications':'notifications_none'}}"
+                        ng-class="(user.notifications.length > 0) ? 'yellowIcon' : 'whiteIcon' " size="32">
+            </ng-md-icon>
             <md-tooltip md-direction="bottom">Notifications</md-tooltip>
         </md-button>
         <md-button class="md-icon-button" aria-label="Exit" ng-click="logout()">
