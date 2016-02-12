@@ -6,9 +6,6 @@ angular.module('chatApp')
         var painting = false;
         var previousMouseX = null;
         var previousMouseY = null;
-        var lineWidth = 10;
-        var brush = 1;
-        var myColor = "#FF0000";
 
         function getMousePosition(canvas, evt) {
 
@@ -25,14 +22,15 @@ angular.module('chatApp')
         function stroke(mouseX, mouseY) {
             context.globalCompositeOperation = "source-over";
             context.lineJoin = context.lineCap = "round";
-            context.lineWidth = 10;
-            context.globalAlpha = "0.2";  //NOTE ALWAYS SET TO 'TRANSPARENT' needs variable if you want to switch to solid.
-            context.beginPath();
-            context.moveTo(previousMouseX, previousMouseY);
-            context.lineTo(mouseX, mouseY);
-            context.closePath();
-            context.stroke();
-
+            /*
+                context.lineWidth = 5;
+                context.globalAlpha = "0.2";  //NOTE ALWAYS SET TO 'TRANSPARENT' needs variable if you want to switch to solid.
+                context.beginPath();
+                context.moveTo(previousMouseX, previousMouseY);
+                context.lineTo(mouseX, mouseY);
+                context.closePath();
+                context.stroke();
+            */
             context.globalAlpha = "1";
             context.lineWidth = 6;
             context.beginPath();
@@ -40,6 +38,7 @@ angular.module('chatApp')
             context.lineTo(mouseX, mouseY);
             context.closePath();
             context.stroke();
+
             move(mouseX, mouseY);
         }
 
@@ -53,11 +52,6 @@ angular.module('chatApp')
             scope : {},
             templateUrl: 'components/directives/templates/canvas.html',
             link : function(scope, element, attrs){
-
-                console.log('ran');
-                //if(!canvas){
-                    console.log('initialized');
-
                     var jQcanvas = element.find('canvas');
                     canvas = jQcanvas[0];
                     context = canvas.getContext('2d');
@@ -81,12 +75,9 @@ angular.module('chatApp')
                         }
 
                     });
-
-                //}
             },
             controller: function($scope,$rootScope){
                  $scope.sendDraw = function(){
-                     console.log('sendImage');
                      $rootScope.$broadcast('SEND_MESSAGE',{
                          message: canvas.toDataURL("image/jpeg", 0.1)
                      });
