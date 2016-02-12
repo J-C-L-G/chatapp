@@ -82,3 +82,14 @@
 .circularBorder{
     border-bottom: 1px solid lightgrey;
 }
+
+.allConversations{
+    height: 700px;
+    overflow: auto;
+}
+
+.canvasCover{
+    border: 1px solid black;
+    width: 200px;
+    height: 200px;
+}

@@ -8,14 +8,21 @@
             <div layout="column" flex="100">
                 <div ng-repeat="message in messagesToDisplay" on-finish-render idvalue="latest">
                     <p class="md-whiteframe-8dp" ng-class="(username == message.from) ? 'myMessage' : 'contactMessage'" ng-if="!$last">
-                        <strong>{{(message.from == username) ? 'you' : message.from}}</strong> said: <br />{{message.message}}
+                        <strong>{{(message.from == username) ? 'you' : message.from}}</strong> said: <br /> {{ (!message.isImage) ? message.message : '' }}
+                        <img ng-if="message.isImage" src="{{message.message}}" />
                     </p>
                     <p class="md-whiteframe-8dp" ng-class="(username == message.from) ? 'myMessage' : 'contactMessage'" id="latest" ng-if="$last">
-                        <strong>{{(message.from == username) ? 'you' : message.from}}</strong> said: <br /> {{message.message}}
+                        <strong>{{(message.from == username) ? 'you' : message.from}}</strong> said: <br /> {{ (!message.isImage) ? message.message : '' }}
+                        <img ng-if="message.isImage" src="{{message.message}}" />
                     </p>
                 </div>
             </div>
         </div>
+
+    <div>
+        <md-button ng-click="testCanvas()">Test Canvas</md-button>
+        <canvas id="myCanvas" class="canvasCover" class="canvasCover"></canvas>
+    </div>
 
     <div layout="row">
         <div flex-offset="15" flex="70">

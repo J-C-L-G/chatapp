@@ -1,8 +1,6 @@
-<md-content flex layout-padding layout-fill ng-cloak layout="column">
-    <div layout="column" layout-fill layout-align="top center">
-        <md-content>
-            <md-list>
-                <md-list-item class="md-3-line" ng-repeat="item in messages | orderBy:'-updated'" ui-sref="main.inConversation({to:item.chat})" layout="row">
+<md-content class="allConversations" layout="row" layout-align="top center">
+            <md-list ng-cloak>
+                <md-list-item class="md-3-line" ng-repeat="item in messages | orderBy:'-updated'" ui-sref="main.inConversation({to:item.chat})" layout="row" flex>
                         <img ng-src="{{item.face}}" class="face" alt="{{item.chat}}" title="{{item.chat}}" />
                         <div class="md-list-item-text" flex="60">
                             <h4 ng-if="item.messages[item.messages.length - 1].from"><strong>{{(item.messages[item.messages.length - 1].from == username) ? 'you' : item.messages[item.messages.length - 1].from}}</strong> said:</h4>
@@ -18,6 +16,4 @@
                     <md-divider></md-divider>
                 </md-list-item>
             </md-list>
-        </md-content>
-    </div>
 </md-content>
