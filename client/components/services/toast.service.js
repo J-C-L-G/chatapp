@@ -16,7 +16,7 @@ angular.module('chatApp').
                     $mdToast.simple()
                         .textContent(message)
                         .position('top right')
-                        .hideDelay(3000)
+                        .hideDelay(1000)
                 );
             }
 

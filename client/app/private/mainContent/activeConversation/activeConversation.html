@@ -20,8 +20,8 @@
         </div>
 
     <div>
-        <md-button ng-click="testCanvas()">Test Canvas</md-button>
-        <canvas id="myCanvas" class="canvasCover" class="canvasCover"></canvas>
+        <!--<md-button ng-click="testCanvas()">Test Canvas</md-button>-->
+        <!--<canvas id="myCanvas" class="canvasCover" class="canvasCover"></canvas>-->
     </div>
 
     <div layout="row">
@@ -35,12 +35,36 @@
             </md-input-container>
         </div>
         <div flex="20">
-            <md-button class="md-icon-button" aria-label="Exit" ng-click="sendMessage()">
-                <ng-md-icon icon="send" size="32"></ng-md-icon>
-                <md-tooltip md-direction="bottom">Send</md-tooltip>
-            </md-button>
+            <div layout="column">
+                <md-button class="md-icon-button" aria-label="Exit" ng-click="sendMessage()">
+                    <ng-md-icon icon="send" size="32"></ng-md-icon>
+                    <md-tooltip md-direction="bottom">Send</md-tooltip>
+                </md-button>
+            </div>
+            <div layout="column">
+                <md-button class="md-icon-button" aria-label="Draw" ng-click="toggleDrawOptions()">
+                    <ng-md-icon icon="brush" size="32"></ng-md-icon>
+                    <md-tooltip md-direction="bottom">Draw Options</md-tooltip>
+                </md-button>
+            </div>
         </div>
     </div>
 
 </div>
 
+<!-- *********************************************************************************** -->
+<!-- >> Draw Options << -->
+<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="drawOptions">
+    <md-toolbar class="md-theme-light">
+        <h1 class="md-toolbar-tools">Draw Options</h1>
+    </md-toolbar>
+    <md-button class="md-icon-button" ng-click="toggleDrawOptions()" layout="row" aria-label="Hide Draw Options">
+        <ng-md-icon icon="visibility_off" class="blackIcon" size="25"></ng-md-icon>
+        <md-tooltip md-direction="bottom">Hide Draw Options</md-tooltip>
+    </md-button>
+
+    <!-- Custom Directive -->
+    <div chat-canvas></div>
+
+</md-sidenav>
+<!-- *********************************************************************************** -->

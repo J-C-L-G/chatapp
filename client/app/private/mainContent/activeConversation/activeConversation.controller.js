@@ -1,7 +1,7 @@
 angular.module('chatApp')
     .controller('activeConversation.Controller',
-    ['$scope', '$stateParams', 'Socket', 'Sync', 'Messaging','$window',
-        function ($scope, $stateParams, Socket, Sync, Messaging, $window) {
+    ['$scope', '$stateParams', 'Socket', 'Sync', 'Messaging','$window', 'UserInterface',
+        function ($scope, $stateParams, Socket, Sync, Messaging, $window, UserInterface) {
             $scope.message = '';
             $scope.username = Sync.getActiveUser().username;
 
@@ -28,24 +28,31 @@ angular.module('chatApp')
             });
             /*** ***/
 
-            $scope.sendMessage = function (image) {
+            $scope.$on('SEND_MESSAGE',function(event, imageData){
+                $scope.sendMessage(imageData)
+            });
+
+            $scope.sendMessage = function (imageData) {
                 var data = {
                     message : $scope.message,
                     to : $stateParams.to
                 };
-                if(image)
+                if(imageData){
+                    data.message = imageData.message;
                     data.isImage = true;
+                }
                 Socket.sendMessage(data);
                 $scope.message = '';
             };
 
-            $scope.testCanvas = function(){
-                $scope.canvas = $window.document.getElementById('myCanvas');
-                var ctx = $scope.canvas.getContext("2d");
-                ctx.fillStyle = "#FF0000";
-                ctx.fillRect(0,0,50,50);
-                $scope.message = $scope.canvas.toDataURL("image/jpeg", 0.1);
-                $scope.sendMessage(true);
-            }
+            /****************************************************************
+             * View Handlers for Panels in the Active Conversation Menu     *
+             ****************************************************************/
+            //Draw Options
+            $scope.toggleDrawOptions = UserInterface.buildToggler('drawOptions');
+
+            $scope.$on('TOGGLE_DRAWOPTIONS',function(){
+                $scope.toggleDrawOptions();
+            })
 
         }]);

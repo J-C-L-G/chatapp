@@ -101,8 +101,8 @@ angular.module('chatApp')
                     .$promise
                     .then(function(data){
                         $scope.newGroup.name = 'Group';
-                        $scope.newGroup.members.length = 0;
-                        $scope.error.length = 0;
+                        $scope.newGroup.members = [];
+                        $scope.error = [];
                     },function(error){
                         $scope.error = error.data.errors;
                     });
