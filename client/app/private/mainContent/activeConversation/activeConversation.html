@@ -9,11 +9,11 @@
                 <div ng-repeat="message in messagesToDisplay" on-finish-render idvalue="latest">
                     <p class="md-whiteframe-8dp" ng-class="(username == message.from) ? 'myMessage' : 'contactMessage'" ng-if="!$last">
                         <strong>{{(message.from == username) ? 'you' : message.from}}</strong> said: <br /> {{ (!message.isImage) ? message.message : '' }}
-                        <img ng-if="message.isImage" src="{{message.message}}" />
+                        <img class="imageInMessage" ng-if="message.isImage" src="{{message.message}}" />
                     </p>
                     <p class="md-whiteframe-8dp" ng-class="(username == message.from) ? 'myMessage' : 'contactMessage'" id="latest" ng-if="$last">
                         <strong>{{(message.from == username) ? 'you' : message.from}}</strong> said: <br /> {{ (!message.isImage) ? message.message : '' }}
-                        <img ng-if="message.isImage" src="{{message.message}}" />
+                        <img class="imageInMessage" ng-if="message.isImage" src="{{message.message}}" />
                     </p>
                 </div>
             </div>

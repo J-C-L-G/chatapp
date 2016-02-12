@@ -57,8 +57,9 @@
     border-radius: 10px;
     border-color: black;
     background-color: lightblue;
-    padding: 5px;
+    padding: 10px;
     float: left;
+    overflow: auto;
 }
 
 .contactMessage{
@@ -67,8 +68,9 @@
     border-radius: 10px;
     border-color: black;
     background-color: lightgreen;
-    padding: 5px;
+    padding: 10px;
     float: right !important;
+    overflow: auto;
 }
 
 .messageContainer{
@@ -84,10 +86,18 @@
 }
 
 .allConversations{
-    height: 700px;
+    height: 600px;
     overflow: auto;
 }
 
 .canvasCover{
     border: 1px solid black;
+}
+
+.imageInMessage{
+    display: block;
+    margin: auto;
+    border-radius: 10px;
+    width: 90%;
+    height: 80%;
 }
