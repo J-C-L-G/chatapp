@@ -395,8 +395,6 @@ exports.rejectContact = function (req, res) {
 
                                     if(contactUptated){
 
-                                        console.log(contactUptated);
-
                                         User.socket.notify(user._id,{
                                             'event' : 'contactReject',
                                             'message' : 'Notification from ' + notification.from_user + ' has been declined',
