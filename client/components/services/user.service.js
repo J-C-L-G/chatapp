@@ -36,6 +36,12 @@ angular.module('chatApp')
                             action : 'deleteContact'
                         }
 
+                    },
+                    rejectContact : {
+                        method : 'POST',
+                        params : {
+                            action : 'rejectContact'
+                        }
                     }
                     /*These are the default implementations*/
                     /*

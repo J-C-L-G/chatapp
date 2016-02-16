@@ -4,6 +4,7 @@ var User = require('./user.model'),
     Notification = require('../notification/notification.model'),
     Group = require('../group/group.model'),
     mongoose = require('mongoose'),
+    _ = require('lodash'),
     passport = require('passport'),
     config = require('../../config/environment'),
     jwt = require('jsonwebtoken');
@@ -41,6 +42,7 @@ exports.create = function (req, res) {
         }
     });
 };
+
 
 /**
  * ..:: Search for a Contact(s) ::..
@@ -80,6 +82,7 @@ exports.find = function (req, res) {
         }
     );
 };
+
 
 /**
  * ..:: Add a Contact to the User's List ::..
@@ -185,6 +188,7 @@ exports.addContact = function (req, res, next) {
             }
         });
 };
+
 
 /**
  * Confirm a contact request, the method should update the
@@ -301,6 +305,7 @@ exports.confirmContact = function (req, res) {
         });
 };
 
+
 /**
  * Remove a Contact from your contact list
  * If it was successful return the username
@@ -355,3 +360,67 @@ exports.deleteContact = function (req, res) {
             }
         });
 };
+
+
+/**
+ * Reject a Contact Request from your notifications list
+ * If it was successful return the notification_id
+ * so it can be removed from the front end.
+ *
+ * @return {String}
+ */
+exports.rejectContact = function (req, res) {
+    var user = req.user,                                // Active user in the application
+        notification_id = req.body.notification_id;     // Notification_id to be removed from the user queue
+
+        Notification.findById(notification_id,
+            function(error, notification){
+                if(error) throw error;
+
+                //If the notification was successfully found and its for the active user
+                if(notification && (String(notification.to) == String(user._id)) ){
+
+                    //We find the contact requesting and remove the active user
+                    // from his pending contacts array
+                    User.findById(notification.from, function(error, contact){
+                        if(error) throw error;
+                        //If the contact was found
+                        if(contact){
+                            var userIndex = _.findIndex(contact.pendingContacts, user._id);
+                            if(userIndex >= 0){
+                                contact.pendingContacts.splice(userIndex, 1);
+                                contact.save(function(error, contactUptated){
+                                    if (error)
+                                        return validationError(res, error);
+
+                                    if(contactUptated){
+
+                                        console.log(contactUptated);
+
+                                        User.socket.notify(user._id,{
+                                            'event' : 'contactReject',
+                                            'message' : 'Notification from ' + notification.from_user + ' has been declined',
+                                            'notification' : notification._id
+                                        });
+
+                                        notification.remove(function(error){
+                                            if (error)
+                                                return validationError(res, error);
+
+                                            //Respond via Json to te requester
+                                            res.json({'success':true});
+                                        })
+                                    }
+                                })
+                            }
+                        }
+                    });
+                }
+                else{
+                    //Respond via Json to te requester
+                    res.json({'success':false});
+                }
+            }
+        );
+};
+

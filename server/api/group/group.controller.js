@@ -18,6 +18,12 @@ var validationError = function (res, error) {
 };
 
 
+/**
+ * Create a Group Conversation and Notify
+ * the members about this new group.
+ *
+ * @return {JSON}
+ */
 exports.createGroup = function(req, res){
     var newGroup = req.body.newGroup;
     var user = req.user;
@@ -97,6 +103,13 @@ exports.createGroup = function(req, res){
 
 };
 
+
+/**
+ * Delete the active user from a group conversation
+ * and then delete this group from the group list.
+ *
+ * @return {JSON}
+ */
 exports.exitGroup = function(req, res){
 
     var user = req.user,

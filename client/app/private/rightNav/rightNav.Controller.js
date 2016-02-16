@@ -51,6 +51,17 @@ angular.module('chatApp')
                 );
             };
 
+            $scope.declineRequest = function(notification_id){
+                //If you decline a contact request
+                User.rejectContact({'notification_id':notification_id})
+                    .$promise
+                    .then(function(data){
+                        console.log(data);
+                    },function(error){
+                        console.log(error);
+                    });
+            };
+
             /****************************************************************
              * Utility Functions for the Group Actions in the View          *
              ****************************************************************/

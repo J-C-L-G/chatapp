@@ -171,6 +171,16 @@ angular.module('chatApp')
             return true;
         }
 
+        function removeNotification(notification_id){
+            for(var index in activeUser.notifications){
+                if(activeUser.notifications[index]._id == notification_id){
+                    activeUser.notifications.splice(index, 1);
+                    return true;
+                }
+            }
+            return false;
+        }
+
         function addGroup(data){
             if(data.group){
                 activeUser.groups.push(data.group);
@@ -206,6 +216,7 @@ angular.module('chatApp')
             updateNotifications : updateNotifications,
             updateUI : updateUI,
             addNotification : addNotification,
+            removeNotification : removeNotification,
             addGroup : addGroup,
             removeGroup : removeGroup
         }

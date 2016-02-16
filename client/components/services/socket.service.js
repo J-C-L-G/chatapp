@@ -47,6 +47,11 @@ angular.module('chatApp')
                                 Toast.notify(data.message);
                             }
                         })
+                        .on('contactReject',function(data){
+                            if(Sync.removeNotification(data.notification)){
+                                Toast.notify(data.message);
+                            }
+                        })
                         //Handler to manage when the user sends a message
                         .on('messageSent', function(){
                         })

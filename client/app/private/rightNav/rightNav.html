@@ -16,7 +16,8 @@
 
     <md-content class="notification md-subhead" layou="row" ng-repeat="notification in user.notifications" ng-show="panels.contactRequest">
         <span flex="70">{{notification.message}}</span>
-        <md-button aria-label="Notification Decline" class="md-icon-button iconToRight"  flex="15">
+        <md-button aria-label="Notification Decline" class="md-icon-button iconToRight"  flex="15"
+                   ng-click="declineRequest(notification._id)">
             <ng-md-icon icon="close" class="redIcon" size="25"></ng-md-icon>
             <md-tooltip md-direction="bottom">Decline</md-tooltip>
         </md-button>
