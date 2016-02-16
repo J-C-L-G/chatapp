@@ -5,6 +5,11 @@
 }
 */
 
+/*Override the default Angular Materials overflow:hidden*/
+.md-toast-animating{
+    overflow: auto !important;
+}
+
 .face {
     border-radius: 30px;
     border: 1px solid #ddd;
@@ -74,7 +79,7 @@
 }
 
 .messageContainer{
-    height: 350px;
+/*    height: 350px;*/
     overflow: auto;
 }
 .circularBorder:first-child{
@@ -83,11 +88,6 @@
 
 .circularBorder{
     border-bottom: 1px solid lightgrey;
-}
-
-.allConversations{
-    height: 600px;
-    overflow: auto;
 }
 
 .canvasCover{
@@ -100,4 +100,26 @@
     border-radius: 10px;
     width: 90%;
     height: 80%;
+}
+
+.inConversationMessages{
+    z-index: 0;
+    min-height: 300px;
+    max-height: 600px;
+    overflow: auto;
+    margin-bottom: 50px;
+}
+
+.controls{
+    background-color: white;
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left:0;
+    right: 0;
+    overflow: hidden;
+}
+
+.testing{
+    border: 5px solid red;
 }

@@ -1,6 +1,6 @@
-<md-content class="allConversations" layout="row" layout-align="top center">
-            <md-list layout="column"  flex="100" ng-cloak>
-                <md-list-item class="md-3-line" ng-repeat="item in messages | orderBy:'-updated'" ui-sref="main.inConversation({to:item.chat})" layout="row">
+<md-content  layout="column" layout-align="top center">
+            <md-list flex="100" ng-cloak>
+                <md-list-item class="md-3-line" ng-repeat="item in messages | orderBy:'-updated'" ui-sref="main.inConversation({to:item.chat})">
                         <img ng-src="{{item.face}}" class="face" alt="{{item.chat}}" title="{{item.chat}}" />
                         <div class="md-list-item-text" flex="60">
                             <h4 ng-if="item.messages[item.messages.length - 1].from"><strong>{{(item.messages[item.messages.length - 1].from == username) ? 'you' : item.messages[item.messages.length - 1].from}}</strong> said:</h4>

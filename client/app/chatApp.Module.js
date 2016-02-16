@@ -24,6 +24,7 @@ angular.module('chatApp',['ui.router',
         return {
             // Add authorization token to headers
             request: function (config) {
+
                 config.headers = config.headers || {};
                 if ($cookieStore.get('token')) {
                     config.headers.Authorization = 'Bearer ' + $cookieStore.get('token');
@@ -31,11 +32,13 @@ angular.module('chatApp',['ui.router',
                     if($location.path() != '/register')
                         $location.path('/');
                 }
+
                 return config;
             },
 
             // Intercept 401s and redirect you to login
             responseError: function(response) {
+
                 if(response.status === 401) {
                     $location.path('/');
                     //remove any stale tokens
@@ -45,6 +48,7 @@ angular.module('chatApp',['ui.router',
                 else {
                     return $q.reject(response);
                 }
+
             }
         };
     });

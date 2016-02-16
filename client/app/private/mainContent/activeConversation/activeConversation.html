@@ -1,56 +1,73 @@
-<md-button ui-sref="main" aria-label="main">
-    <ng-md-icon icon="reply" size="40"></ng-md-icon>
-</md-button>
+<!-- *********************************************************************************** -->
+<!-- >> Conversation Window << -->
+<!-- Contact Info -->
+<md-content layout-align="top center">
+    <!-- Contact  Panel -->
+    <h3 class="subHeading md-subhead" layou="row">
+        <md-button class="md-icon-button" aria-label="Return" ui-sref="main">
+            <ng-md-icon icon="home" class="whiteIcon" size="32"></ng-md-icon>
+            <md-tooltip md-direction="bottom">Return to Home</md-tooltip>
+        </md-button>
+        <span>{{chatingWith | uppercase}}</span>
+    </h3>
+</md-content>
 
-<div layout="column">
+<!-- Message Window -->
+<div layout="column" class="inConversationMessages">
+    <!-- Message Scroller -->
+    <div flex="100" layout-align="center center" class="inConversationMessages">
+        <div layout="column" flex="100">
+            <div ng-repeat="message in messagesToDisplay" on-finish-render idvalue="latest" flex="100">
+                <p class="md-whiteframe-8dp" ng-class="(username == message.from) ? 'myMessage' : 'contactMessage'"
+                   ng-if="!$last">
+                    <strong>{{(message.from == username) ? 'you' : message.from}}</strong> said: <br/> {{
+                    (!message.isImage) ? message.message : '' }}
+                    <img class="imageInMessage" ng-if="message.isImage" src="{{message.message}}"/>
+                </p>
 
-        <div layout="row" class="messageContainer" flex="100">
-            <div layout="column" flex="100">
-                <div ng-repeat="message in messagesToDisplay" on-finish-render idvalue="latest">
-                    <p class="md-whiteframe-8dp" ng-class="(username == message.from) ? 'myMessage' : 'contactMessage'" ng-if="!$last">
-                        <strong>{{(message.from == username) ? 'you' : message.from}}</strong> said: <br /> {{ (!message.isImage) ? message.message : '' }}
-                        <img class="imageInMessage" ng-if="message.isImage" src="{{message.message}}" />
-                    </p>
-                    <p class="md-whiteframe-8dp" ng-class="(username == message.from) ? 'myMessage' : 'contactMessage'" id="latest" ng-if="$last">
-                        <strong>{{(message.from == username) ? 'you' : message.from}}</strong> said: <br /> {{ (!message.isImage) ? message.message : '' }}
-                        <img class="imageInMessage" ng-if="message.isImage" src="{{message.message}}" />
-                    </p>
-                </div>
-            </div>
-        </div>
-
-    <div>
-        <!--<md-button ng-click="testCanvas()">Test Canvas</md-button>-->
-        <!--<canvas id="myCanvas" class="canvasCover" class="canvasCover"></canvas>-->
-    </div>
-
-    <div layout="row">
-        <div flex-offset="15" flex="70">
-            <md-input-container class="md-block">
-                <!-- Use floating placeholder instead of label -->
-                <md-icon>
-                    <ng-md-icon icon="sms" class="blackIcon" size="32"></ng-md-icon>
-                </md-icon>
-                <textarea ng-model="message" type="text" placeholder="Message"></textarea>
-            </md-input-container>
-        </div>
-        <div flex="20">
-            <div layout="column">
-                <md-button class="md-icon-button" aria-label="Exit" ng-click="sendMessage()">
-                    <ng-md-icon icon="send" size="32"></ng-md-icon>
-                    <md-tooltip md-direction="bottom">Send</md-tooltip>
-                </md-button>
-            </div>
-            <div layout="column">
-                <md-button class="md-icon-button" aria-label="Draw" ng-click="toggleDrawOptions()">
-                    <ng-md-icon icon="brush" size="32"></ng-md-icon>
-                    <md-tooltip md-direction="bottom">Draw Options</md-tooltip>
-                </md-button>
+                <p class="md-whiteframe-8dp" ng-class="(username == message.from) ? 'myMessage' : 'contactMessage'"
+                   id="latest" ng-if="$last">
+                    <strong>{{(message.from == username) ? 'you' : message.from}}</strong> said: <br/> {{
+                    (!message.isImage) ? message.message : '' }}
+                    <img class="imageInMessage" ng-if="message.isImage" src="{{message.message}}"/>
+                </p>
             </div>
         </div>
     </div>
-
+    <!-- Message Options Window -->
+    <div flex="100" layout-align="center end" class="controls">
+        <div flex="100" layout="row">
+            <!-- Message Options Window -->
+            <div flex-offset="5" flex="70">
+                <md-input-container class="md-block">
+                    <!-- Use floating placeholder instead of label -->
+                    <md-icon>
+                        <ng-md-icon icon="sms" class="blackIcon" size="32"></ng-md-icon>
+                    </md-icon>
+                    <textarea ng-model="message" type="text" placeholder="Message"></textarea>
+                </md-input-container>
+            </div>
+            <div flex="10">
+                <md-input-container class="md-block">
+                    <md-button class="md-icon-button" aria-label="Exit" ng-click="sendMessage()">
+                        <ng-md-icon icon="send" size="32"></ng-md-icon>
+                        <md-tooltip md-direction="bottom">Send</md-tooltip>
+                    </md-button>
+                </md-input-container>
+            </div>
+            <div flex-offset="5" flex="10">
+                <md-input-container class="md-block">
+                    <md-button class="md-icon-button" aria-label="Draw" ng-click="toggleDrawOptions()">
+                        <ng-md-icon icon="brush" size="32"></ng-md-icon>
+                        <md-tooltip md-direction="bottom">Draw Options</md-tooltip>
+                    </md-button>
+                </md-input-container>
+            </div>
+        </div>
+    </div>
 </div>
+<!-- *********************************************************************************** -->
+
 
 <!-- *********************************************************************************** -->
 <!-- >> Draw Options << -->

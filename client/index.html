@@ -18,23 +18,17 @@
 
 <body>
 
-<!-- >> Main Page Content << -->
-<div layout="column">
-    <div layout="row">
+    <!-- >> Main Page Content << -->
+    <div layout="column" flex="100">
         <div flex>
             <div ui-view="header"></div>
         </div>
-    </div>
-
-    <div layout="column">
-        <div layout="row">
-                <div ui-view="leftNav" flex="0"></div>
-                <div ui-view="mainContent" flex="100"></div>
-                <div ui-view="rightNav" flex="0"></div>
+        <div flex>
+            <div ui-view="leftNav" flex="0"></div>
+            <div ui-view="mainContent" flex="100"></div>
+            <div ui-view="rightNav" flex="0"></div>
         </div>
     </div>
-</div>
-
 <!-- Scripts -->
     <!-- >> Socket.io Library << -->
     <script src="static/scripts/socket.io.js"></script>
