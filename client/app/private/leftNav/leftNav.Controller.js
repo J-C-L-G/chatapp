@@ -1,6 +1,6 @@
 angular.module('chatApp')
-    .controller('leftNav.Controller', ['$rootScope','$scope','UserInterface','$http','User','Sync','Toast',
-        function($rootScope,$scope,UserInterface,$http,User,Sync,Toast){
+    .controller('leftNav.Controller', ['$rootScope','$scope','UserInterface','$http','User','Sync','Toast','Group',
+        function($rootScope,$scope,UserInterface,$http,User,Sync,Toast,Group){
 
             /**********************************************************************
              * Handler to Manipulate the Contacts Navigation Menu                 *
@@ -112,6 +112,27 @@ angular.module('chatApp')
                     });
             };
 
-            /** **/
+            //Function to be executed when the user want to exit from a group
+            $scope.exitGroup = function(group_name,$event) {
+                var options = {
+                    title : 'Exit from a Group',
+                    textContent : 'Are you sure you want to leave the group '+group_name+'.',
+                    ariaLabel : 'Exit a Group',
+                    targetEvent : $event,
+                    ok : 'Yes',
+                    cancel : 'No'
+                };
+
+                UserInterface.buildConfirmationDialog(options)
+                    .then(function() {
+                        Group.exitGroup({'group_name':group_name})
+                            .$promise
+                            .then(function(data){
+                                console.log(data);
+                            },function(error){
+                                console.log(error);
+                            });
+                    });
+            };
         }
     ]);

@@ -180,6 +180,19 @@ angular.module('chatApp')
             }
         }
 
+        function removeGroup(data){
+            if( data.group_name &&
+                isContained(data.group_name, activeUser.groups, 'name')){
+                for( var index in activeUser.groups ){
+                    if(activeUser.groups[index].name == data.group_name){
+                        activeUser.groups.splice(index,1);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         /*** API Exposed to the application ***/
         return {
             setActiveUser : setActiveUser,
@@ -193,6 +206,7 @@ angular.module('chatApp')
             updateNotifications : updateNotifications,
             updateUI : updateUI,
             addNotification : addNotification,
-            addGroup : addGroup
+            addGroup : addGroup,
+            removeGroup : removeGroup
         }
     }]);

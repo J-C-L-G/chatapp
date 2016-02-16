@@ -7,9 +7,15 @@ angular.module('chatApp')
                 {},
                 {
                     createGroup : {
-                        method:'POST',
-                        params:{
+                        method : 'POST',
+                        params : {
                             action:'createGroup'
+                        }
+                    },
+                    exitGroup : {
+                        method : 'POST',
+                        params : {
+                            action : 'exitGroup'
                         }
                     }
                 }

@@ -11,5 +11,6 @@ var router = express.Router();
 
 //Handler to create a Group
 router.post('/createGroup', auth.isAuthenticated() ,controller.createGroup);
+router.post('/exitGroup', auth.isAuthenticated() ,controller.exitGroup);
 
 module.exports = router;

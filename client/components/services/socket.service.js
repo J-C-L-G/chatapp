@@ -26,6 +26,9 @@ angular.module('chatApp')
                         .on('logout', function (data) {
                             Toast.notify(data.message);
                         })
+                        .on('info',function(data){
+                            Toast.notify(data.message);
+                        })
                         //Handler to manage when you add a contact
                         .on('contactRequest', function (data) {
                             if(Sync.addNotification(data.notification)){
@@ -56,6 +59,11 @@ angular.module('chatApp')
                         //Handler to manage when the user receives a message
                         .on('groupAdd', function(data) {
                             if(Sync.addGroup(data)){
+                                Toast.notify(data.message);
+                            }
+                        })
+                        .on('groupRemove', function(data){
+                            if(Sync.removeGroup(data)){
                                 Toast.notify(data.message);
                             }
                         })

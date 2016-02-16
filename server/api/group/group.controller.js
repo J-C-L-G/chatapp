@@ -1,7 +1,8 @@
 'use strict';
 
 var User = require('../user/user.model'),
-    Group = require('./group.model');
+    Group = require('./group.model'),
+    _ = require('lodash');
 
 
 /**************************************
@@ -94,4 +95,66 @@ exports.createGroup = function(req, res){
         }
     );
 
+};
+
+exports.exitGroup = function(req, res){
+
+    var user = req.user,
+        group_name = req.body.group_name;
+
+    Group.findOne(
+        {name: group_name},
+        '-__v -admin')
+        .exec(function (error, group) {
+            if (error) throw error;
+            if (group) {
+                //Verify if the user is a member
+                var isMember = _.findIndex(group.members, user._id);
+                if (isMember >= 0) {
+                    group.members.splice(isMember,1);
+                    group.save(function(error, groupModified){
+                        if (error)
+                            return validationError(res, error);
+                        //If the user was successfully removed from the group,
+                        if(groupModified){
+                        //We remove this group from his list
+                            var groupIndex = _.findIndex(user.groups, group._id);
+                            if(groupIndex >= 0){
+                                user.groups.splice(groupIndex,1);
+                                user.save(function(error, userUpdated){
+                                    if (error)
+                                        return validationError(res, error);
+                                    if(userUpdated){
+
+                                        var message = {
+                                            'event' : 'messageReceived',
+                                            'from' : 'Information',
+                                            'date' : new Date(),
+                                            'chat' : group.name,
+                                            'message' : user.username + ' has left the group.'
+                                        };
+
+                                        //Notify the members that this user has left
+                                        group.members.forEach(function(member_id){
+                                            User.socket.notify(member_id,message)
+                                        });
+
+                                        //Notify the user that the leave group was successful
+                                        User.socket.notify(user._id,
+                                            {
+                                                'event': 'groupRemove',
+                                                'group_name': group.name
+                                            }
+                                        );
+
+                                        //Respond via Json to te requester
+                                        res.json({'success':true});
+                                    }
+                                })
+                            }
+                        }
+                    });
+                }
+          }
+        });
 };
