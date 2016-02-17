@@ -20,7 +20,7 @@ function onDisconnect(socket) {
 /**************************************************
  * When the user Connects perform this action     *
  **************************************************/
-function onConnect(socket) {
+function onConnect(socket, socket_io) {
     //Join the a new Room with the Specified User ID
     socket.join((socket.decoded_token._id).toString()); // Join a room with the user._id
     socket.leave(socket.id); // Leave the default room socket.id
@@ -34,14 +34,54 @@ function onConnect(socket) {
         console.log('DISCONNECTED: ' + socket.id);
     });
 
-    socket.on('login', function (data) {
-        console.log(data);
+    socket.on('login', function() {
+        var numOfSessions = 1;
+        if(socket_io.sockets.adapter.rooms[socket.decoded_token._id]){
+            numOfSessions = socket_io.sockets.adapter.rooms[socket.decoded_token._id].length;
+        }
+        if(numOfSessions == 1){
+            User.findOne(
+                {_id: socket.decoded_token._id},
+                '-__v -salt -hashedPassword -role -provider -pendingContacts -notifications')
+                .exec(function (error, user) {
+                    var message = {
+                        'event' : 'login',
+                        'message' : user.username + ' is online.'
+                    };
+                    user.contacts.forEach(
+                        function(contact_id){
+                            User.socket.notify(contact_id, message);
+                        }
+                    );
+                });
+        }
     });
 
-    socket.on('logout', function (data) {
-        console.log(data);
+    socket.on('logout', function(){
         onDisconnect(socket);
         console.log('DISCONNECTED: ' + socket.id);
+
+        //Notify the user's contacts when this user is offline
+        var numOfSessions = 0;
+        if(socket_io.sockets.adapter.rooms[socket.decoded_token._id]){
+            numOfSessions = socket_io.sockets.adapter.rooms[socket.decoded_token._id].length;
+        }
+        if(numOfSessions == 0){
+            User.findOne(
+                {_id: socket.decoded_token._id},
+                '-__v -salt -hashedPassword -role -provider -pendingContacts -notifications')
+                .exec(function (error, user) {
+                    var message = {
+                        'event' : 'logout',
+                        'message' : user.username + ' is offline.'
+                    };
+                    user.contacts.forEach(
+                        function(contact_id){
+                            User.socket.notify(contact_id, message);
+                        }
+                    );
+                });
+        }
     });
 
     socket.on('messageSent', function (message) {
@@ -115,7 +155,7 @@ module.exports = function (socket_io) {
         .on('authenticated', function (socket) {
             /*** This socket is authenticated, we are good to handle more events from it. ***/
                 //Call onConnect to perform this action
-            onConnect(socket);
+            onConnect(socket, socket_io);
             console.log(socket.decoded_token._id + ' CONNECTED: ' + socket.id);
         });
 };

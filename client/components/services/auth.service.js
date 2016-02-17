@@ -32,8 +32,19 @@ angular.module('chatApp')
                  * Delete access token and user info
                  */
                 logout: function() {
-                    $cookieStore.remove('token');
-                    Sync.setActiveUser({});
+                    //Obtain deferred object
+                    var deferred = $q.defer();
+                        $http.post('/auth/local/logout',{})
+                        .success(function(data) {
+                            $cookieStore.remove('token');
+                            Sync.setActiveUser({});
+                            deferred.resolve(data);
+                        })
+                        .error(function(error){
+                            deferred.reject(error);
+                        });
+
+                    return deferred.promise;
                 },
 
                 /**

@@ -15,7 +15,7 @@ angular.module('chatApp')
                         //Handler to authenticate the socket
                         .on('authenticated', function (data) {
                             if (data) {
-                                //console.log(data); //Socket authenticated.
+                                login();
                             }
                         })
                         //Handler to notify when the user login
@@ -82,29 +82,14 @@ angular.module('chatApp')
                 });
             }
 
-            /*Event to be emitted to the Server*/
-            function login(){
-                /*
-                var data = {
-                    event : 'login',
-                    contactsToNotify : Sync.getActiveUser().contacts,
-                    username : Sync.getActiveUser().username
-                };
-                socket.emit(data.event, data);
-                */
+            function login() {
+                var data = {event : 'login'};
+                socket.emit(data.event);
             }
 
             function logout() {
-                var data = {
-                    event : 'logout',
-                    contactsToNotify : Sync.getActiveUser().contacts,
-                    username : Sync.getActiveUser().username
-                };
+                var data = {event : 'logout'};
                 socket.emit(data.event, data);
-            }
-
-            function disconnect(){
-                socket.emit('disconnect',{});
             }
 
             function sendMessage(data){
@@ -115,8 +100,6 @@ angular.module('chatApp')
             return {
                 initialize: initialize,
                 logout: logout,
-                login:login,
-                disconnect:disconnect,
                 sendMessage : sendMessage
             }
         }]);

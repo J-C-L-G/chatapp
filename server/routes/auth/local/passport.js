@@ -35,15 +35,6 @@ exports.setup = function(User, config){
                         })
                         .exec(function(error, userUpdatedWithRefs) {
                             if (error) throw error;
-                            /*** SOCKET EVENT - 'login' for user contacts ***/
-                            //Notify users about the online status
-                            for(var index in userUpdatedWithRefs.contacts){
-                                User.socket.notify(userUpdatedWithRefs.contacts[index]._id,
-                                                   { event: 'login',
-                                                     message: (userUpdatedWithRefs.username).toUpperCase() + ' is online!.'
-                                                   });
-                            }
-                            /*** *************************************** ***/
                             return done(null, userUpdatedWithRefs);
                         });
                 }
