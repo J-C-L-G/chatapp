@@ -21,7 +21,7 @@ mongoose.connection.on('error',function(error){
 
 
 /**** ..:: Populate DB with Sample Data ::.. ****/
-if(config.seedDB){ require('./config/seedDB/seed'); } //Needs to be completed
+//if(config.seedDB){ require('./config/seedDB/seed'); } //Needs to be completed
 
 
 /*** ..:: Setup HTTP/S Server ::.. ****/

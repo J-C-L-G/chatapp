@@ -105,7 +105,7 @@
 .inConversationMessages{
     z-index: 0;
     min-height: 300px;
-    max-height: 600px;
+    max-height: 500px;
     overflow: auto;
     margin-bottom: 50px;
 }
