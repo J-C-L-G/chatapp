@@ -3,9 +3,17 @@
         <canvas id="drawCanvas" class="canvasCover" layout="column"></canvas>
     </div>
     <div layout="row" flex="100">
+        <div md-color-picker ng-model="colorObject"></div>
+        <md-button class="md-icon-button" aria-label="draw" ng-click="clearCanvas()">
+            <ng-md-icon icon="clear" class="redIcon" size="32"></ng-md-icon>
+            <md-tooltip md-direction="bottom">Clear Draw</md-tooltip>
+        </md-button>
+    </div>
+
+    <div layout="row" flex="100">
         <md-button class="md-icon-button" aria-label="draw" ng-click="sendDraw()">
             <ng-md-icon icon="publish" class="blackIcon" size="32"></ng-md-icon>
-            <md-tooltip md-direction="bottom">Send Image</md-tooltip>
+            <md-tooltip md-direction="bottom">Send Draw</md-tooltip>
         </md-button>
     </div>
 </div>

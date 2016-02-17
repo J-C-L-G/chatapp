@@ -22,15 +22,6 @@ angular.module('chatApp')
         function stroke(mouseX, mouseY) {
             context.globalCompositeOperation = "source-over";
             context.lineJoin = context.lineCap = "round";
-            /*
-                context.lineWidth = 5;
-                context.globalAlpha = "0.2";  //NOTE ALWAYS SET TO 'TRANSPARENT' needs variable if you want to switch to solid.
-                context.beginPath();
-                context.moveTo(previousMouseX, previousMouseY);
-                context.lineTo(mouseX, mouseY);
-                context.closePath();
-                context.stroke();
-            */
             context.globalAlpha = "1";
             context.lineWidth = 6;
             context.beginPath();
@@ -47,6 +38,11 @@ angular.module('chatApp')
             previousMouseY = mouseY;
         }
 
+        function clearCanvas(){
+            context.fillStyle = "#FFFFFF";
+            context.fillRect(0, 0, 600, 600);
+        }
+
         return {
             restrict : "A",
             scope : {},
@@ -55,9 +51,9 @@ angular.module('chatApp')
                     var jQcanvas = element.find('canvas');
                     canvas = jQcanvas[0];
                     context = canvas.getContext('2d');
-                    context.fillStyle = "#FFFFFF";
-                    context.fillRect(0, 0, 600, 600);
+                    clearCanvas();
 
+                    /**** Attach handler to the Canvas ****/
                     jQcanvas.on('mousedown',function(e){
                         painting = true;
                         var pos = getMousePosition(canvas, e);
@@ -73,15 +69,19 @@ angular.module('chatApp')
                             var pos = getMousePosition(canvas, e);
                             stroke(pos.x, pos.y);
                         }
-
                     });
             },
             controller: function($scope,$rootScope){
-                 $scope.sendDraw = function(){
-                     $rootScope.$broadcast('SEND_MESSAGE',{
-                         message: canvas.toDataURL("image/jpeg", 0.1)
-                     });
-                 }
+                $scope.colorObject = '';
+                $scope.clearCanvas = clearCanvas;
+                $scope.$watch('colorObject',function(){
+                    context.strokeStyle = $scope.colorObject;
+                });
+                $scope.sendDraw = function(){
+                    $rootScope.$broadcast('SEND_MESSAGE',{
+                        message: canvas.toDataURL("image/jpeg", 0.1)
+                    });
+                };
             }
         }
     }]);
