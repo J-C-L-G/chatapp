@@ -47,13 +47,13 @@
 
 
 <!-- *********************************************************************************** -->
-<!-- >> Group Options << -->
-<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="groups">
+<!-- >> Create a Group<< -->
+<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="createGroup">
     <md-toolbar class="md-theme-light" layout="row">
-        <h1 class="md-toolbar-tools">Group Options</h1>
+        <h1 class="md-toolbar-tools">Create a Group</h1>
     </md-toolbar>
 
-    <md-button class="md-icon-button" ng-click="toggleGroups()" layout="row" aria-label="Hide Group Options">
+    <md-button class="md-icon-button" ng-click="toggleCreateGroup()" layout="row" aria-label="Hide Group Options">
         <ng-md-icon icon="visibility_off" class="blackIcon" size="25"></ng-md-icon>
         <md-tooltip md-direction="bottom">Hide Group Options</md-tooltip>
     </md-button>
@@ -110,5 +110,20 @@
 
         </form>
     </md-content>
+</md-sidenav>
+<!-- *********************************************************************************** -->
+
+
+<!-- *********************************************************************************** -->
+<!-- >> Group Options<< -->
+<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="groupOptions">
+    <md-toolbar class="md-theme-light" layout="row">
+        <h1 class="md-toolbar-tools">Group Options</h1>
+    </md-toolbar>
+
+    <md-button class="md-icon-button" ng-click="toggleGroupOptions()" layout="row" aria-label="Hide Group Options">
+        <ng-md-icon icon="visibility_off" class="blackIcon" size="25"></ng-md-icon>
+        <md-tooltip md-direction="bottom">Hide Group Options</md-tooltip>
+    </md-button>
 </md-sidenav>
 <!-- *********************************************************************************** -->

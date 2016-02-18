@@ -92,10 +92,16 @@
 
     <md-cotent layour="row" ng-show="panels.showGroups">
         <!-- Group Settings -->
-        <md-button class="md-icon-button" ng-click="toggleGroups()" layout="row" aria-label="Group Options">
-            <ng-md-icon icon="loupe" class="blackIcon" size="25"></ng-md-icon>
-            <md-tooltip md-direction="bottom">Create a New Group</md-tooltip>
-        </md-button>
+        <div layout="row">
+            <md-button class="md-icon-button" ng-click="toggleCreateGroup()" layout="row" aria-label="Create a Group">
+                <ng-md-icon icon="loupe" class="blackIcon" size="25"></ng-md-icon>
+                <md-tooltip md-direction="bottom">Create a New Group</md-tooltip>
+            </md-button>
+            <md-button class="md-icon-button" ng-click="toggleGroupOptions()" layout="row" aria-label="Group Options">
+                <ng-md-icon icon="settings" class="blackIcon" size="25"></ng-md-icon>
+                <md-tooltip md-direction="bottom">Group Options</md-tooltip>
+            </md-button>
+        </div>
         <!-- -->
         <md-list class="fixedRows">
             <md-list-item class="md-2-line contact-item circularBorder" ng-repeat="group in user.groups | orderBy:'name'" layout="row">

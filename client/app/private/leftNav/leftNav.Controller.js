@@ -16,10 +16,13 @@ angular.module('chatApp')
             /**********************************************************************
              * Broadcast a request to enable the ContactsInfo Navigation Menu     *
              **********************************************************************/
-            $scope.toggleGroups = function(){
-                $rootScope.$broadcast("TOGGLE_GROUPS");
+            $scope.toggleCreateGroup = function(){
+                $rootScope.$broadcast("TOGGLE_CREATEGROUP");
             };
 
+            $scope.toggleGroupOptions = function(){
+                $rootScope.$broadcast("TOGGLE_GROUPOPTIONS");
+            };
 
             /****************************************************************
              * View Handlers for Panels in the Contacts Navigation Menu     *

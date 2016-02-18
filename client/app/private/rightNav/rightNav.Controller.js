@@ -9,16 +9,22 @@ angular.module('chatApp')
              * Handler to Manipulate the ContactsInfo and Notifications Navigation Menu    *
              *******************************************************************************/
 
-            $scope.toggleGroups = UserInterface.buildToggler('groups');
+            $scope.toggleCreateGroup = UserInterface.buildToggler('createGroup');
 
-            $scope.$on("TOGGLE_GROUPS",function(){
-                $scope.toggleGroups();
+            $scope.$on("TOGGLE_CREATEGROUP",function(){
+                $scope.toggleCreateGroup();
+            });
+
+            $scope.toggleGroupOptions = UserInterface.buildToggler('groupOptions');
+
+            $scope.$on("TOGGLE_GROUPOPTIONS",function(){
+                    $scope.toggleGroupOptions();
             });
 
             $scope.toggleNotifications = UserInterface.buildToggler('notifications');
 
             $scope.$on("TOGGLE_NOTIFICATIONS",function(){
-                    $scope.toggleNotifications();
+                $scope.toggleNotifications();
             });
 
             /****************************************************************
@@ -63,7 +69,7 @@ angular.module('chatApp')
             };
 
             /****************************************************************
-             * Utility Functions for the Group Actions in the View          *
+             * Utility Functions for the Create Group Actions in the View   *
              ****************************************************************/
 
             /*************************
@@ -117,6 +123,11 @@ angular.module('chatApp')
                     },function(error){
                         $scope.error = error.data.errors;
                     });
-            }
+            };
+
+            /****************************************************************
+             * Utility Functions for the Group Options Action in the View   *
+             ****************************************************************/
+
 
         }]);
