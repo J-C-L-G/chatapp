@@ -32,6 +32,28 @@ function onConnect(socket, socket_io) {
     socket.on('disconnect', function () {
         onDisconnect(socket);
         console.log('DISCONNECTED: ' + socket.id);
+
+        //Notify the user's contacts when this user is offline
+        var numOfSessions = 0;
+        if(socket_io.sockets.adapter.rooms[socket.decoded_token._id]){
+            numOfSessions = socket_io.sockets.adapter.rooms[socket.decoded_token._id].length;
+        }
+        if(numOfSessions == 0){
+            User.findOne(
+                {_id: socket.decoded_token._id},
+                '-__v -salt -hashedPassword -role -provider -pendingContacts -notifications')
+                .exec(function (error, user) {
+                    var message = {
+                        'event' : 'logout',
+                        'message' : user.username + ' is offline.'
+                    };
+                    user.contacts.forEach(
+                        function(contact_id){
+                            User.socket.notify(contact_id, message);
+                        }
+                    );
+                });
+        }
     });
 
     socket.on('login', function() {
